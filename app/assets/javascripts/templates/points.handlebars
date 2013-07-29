@@ -1,0 +1,11 @@
+{{view Mycollecto.MapView}}
+
+<div class="point-list">
+  {{#each point in controller}}
+    {{#with point}}
+      <div>
+        <p>{{name_fr}} - {{address_fr}} - {{x}} - {{y}} - {{notes}}</p>
+      </div>
+    {{/with}}
+  {{/each}}
+</div>
