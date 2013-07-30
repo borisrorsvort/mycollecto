@@ -17,6 +17,8 @@ html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
 #map-canvas { height: 100% }
 .point-list {
+  /*display: none;*/
+
   position: absolute;
   width: 100%;
   bottom: 0;

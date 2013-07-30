@@ -11,6 +11,7 @@ gem 'ember-source', '1.0.0.rc6.3'
 gem 'sqlite3'
 gem 'haml'
 gem 'handlebars'
+gem 'thin'
 # gem 'handlebars_assets'
 
 
