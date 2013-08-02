@@ -1,3 +1,11 @@
+GIT
+  remote: git@github.com:yabawock/bootstrap-sass-rails.git
+  revision: f6bda34aa7e12873cdd335b29ed1cc80652b9e48
+  specs:
+    bootstrap-sass-rails (3.0.0.0.rc1)
+      railties (>= 3.1.0)
+      sass-rails (>= 3.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,6 +65,8 @@ GEM
       railties (>= 3.1)
     ember-source (1.0.0.rc6.3)
       handlebars-source (= 1.0.0.rc4)
+    entypo-rails (2.0.2)
+      railties (>= 3.1, <= 5)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (1.4.0)
@@ -107,7 +117,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
-    sass (3.2.9)
+    sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -139,9 +149,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass-rails!
   coffee-rails (~> 3.2.1)
   ember-rails
   ember-source (= 1.0.0.rc6.3)
+  entypo-rails
   haml
   handlebars
   jquery-rails

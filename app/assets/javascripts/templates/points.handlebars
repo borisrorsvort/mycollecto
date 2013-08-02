@@ -1,11 +1,18 @@
 {{view Mycollecto.MapView}}
 
-<div class="point-list">
-  {{#each point in controller}}
-    {{#with point}}
-      <div>
-        <p>{{name_fr}} - {{address_fr}} - {{x}} - {{y}} - {{notes}}</p>
-      </div>
-    {{/with}}
-  {{/each}}
+<div class="point-list-scroller">
+  <div class="point-list">
+    {{#each point in controller}}
+      {{#with point}}
+        <div class='media'>
+          <div class="pull-left">
+            <i class='icon-flag'></i>
+          </div>
+          <div class="media-body">
+            {{name_fr}} - {{address_fr}} - {{x}} - {{y}} - {{notes}}
+          </div>
+        </div>
+      {{/with}}
+    {{/each}}
+  </div>
 </div>
