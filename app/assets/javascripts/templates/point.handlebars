@@ -1,0 +1,37 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header media">
+        <div class="pull-right">
+          <button type="button" {{action closeModal}} class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="pull-left">
+          <span class="btn btn-info media-object">
+            {{id}}
+          </span>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading modal-title media">
+            {{name_fr}}
+          </h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="lead">{{address_fr}}</p>
+        {{#if notes}}
+          <h5 class="muted">Notes:</h5>
+          <p>{{notes}}</p>
+        {{/if}}
+        <hr>
+        <div class="point-actions">
+          <a {{action closeModal}} class='btn btn-default col-12'>Find Itinary</a>
+        </div>
+        <div class="point-actions">
+          <a {{action closeModal}} class='btn btn-primary col-12'>Call Now</a>
+        </div>
+      </div>
+      {{! <div class="modal-footer"></div> }}
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

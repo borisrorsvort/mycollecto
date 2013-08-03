@@ -1,7 +1,10 @@
+@import 'compass';
 @import 'twitter/bootstrap';
 @import 'entypo';
 @import 'entypo-fonts';
 @charset "UTF-8";
+@import 'animate';
+
 
 html {
   height: 100%;
@@ -15,8 +18,19 @@ body {
 
 #map-canvas {
   height: 50%;
+  @include transition(all 0.1s ease-in);
   @media screen and (max-width: 979px) and (orientation:landscape) {
     height: 100%;
+  }
+}
+
+.no-point-list {
+  #map-canvas {
+    height: 100%;
+  }
+  .point-list-scroller{
+    bottom: -50%;
+    position: fixed;
   }
 }
 
@@ -25,15 +39,13 @@ body {
   bottom: 0;
   left: 0;
   z-index: 1;
-  overflow: hidden;
   padding: 10px 10px 0;
   min-height: 40px;
   width: 100%;
   height: 50%;
-  background: #fff;
-  background: #fff;
+  background: #333;
   font-size: 13px;
-
+  @include transition(all 0.1s ease-in);
   @media screen and (max-width: 979px) and (orientation:landscape) {
     display: none;
   }
@@ -46,6 +58,7 @@ body {
   padding-top: 3px;
   overflow-y: scroll;
   height: 100%;
+  padding-bottom: 50%;
   -webkit-overflow-scrolling: touch;
 
   & > * {
@@ -57,6 +70,25 @@ body {
     padding: 10px;
     border-bottom: 1px solid #ccc;
     background: #efefef;
+  }
+}
+
+.handle {
+  $height: 15px;
+  $width: 40px;
+  width: $width;
+  background: lighten(#333, 20%);
+  border: 7px solid #333;
+  height: $height;
+  top: -$height/2;
+  position:  absolute;
+  left: 50%;
+  margin-left: -$width/2;
+  z-index: 999;
+  @include border-top-radius(3px);
+
+  .no-point-list & {
+    top: -$height;
   }
 }
 

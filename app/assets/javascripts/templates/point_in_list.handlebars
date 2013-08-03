@@ -1,0 +1,19 @@
+{{#with point}}
+  <div class="pull-left">
+    {{#linkTo 'point' point}}
+      <span class="btn btn-info media-object">
+        {{id}}
+      </span>
+    {{/linkTo}}
+  </div>
+  <div class="media-body">
+    <a class='center-map-trigger btn btn-default btn-link pull-right' {{action centerMap point}}>
+      <i class="icon-compass"></i>
+    </a>
+    {{#linkTo 'point' point}}
+      <h4>
+        {{name_fr}}
+      </h4>
+    {{/linkTo}}
+  </div>
+{{/with}}

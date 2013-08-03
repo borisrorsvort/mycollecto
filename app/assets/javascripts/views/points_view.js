@@ -13,6 +13,22 @@ Mycollecto.PointsView = Em.View.extend({
         offset: 0
       });
     }, 500);
+
+    $('.handle').on('click', function(event) {
+      if ($('body').hasClass('no-point-list')) {
+        $('body').removeClass('no-point-list');
+      } else {
+        $('body').addClass('no-point-list');
+      }
+    });
+    $$('.handle').swipeDown(function() {
+      $('body').addClass('no-point-list');
+    });
+
+    $$('.handle').swipeUp(function() {
+      $('body').removeClass('no-point-list');
+    });
+
   }
 
 });
