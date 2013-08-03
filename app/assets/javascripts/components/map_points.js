@@ -92,7 +92,6 @@ Mycollecto.MapPoints = {
         map: map
       });
 
-      // console.dir(marker);
     }, this);
   }
 

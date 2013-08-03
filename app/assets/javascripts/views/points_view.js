@@ -3,7 +3,14 @@ Mycollecto.PointsView = Em.View.extend({
   didInsertElement: function() {
 
     // Initialize scrolling events to center the map base on point location
+    this.initScrollEvents();
 
+    // Point list UX events
+    this.initListInteractions();
+
+  },
+
+  initScrollEvents: function() {
     setTimeout(function() {
       $('.point-list .point-list--item').waypoint( function(direction) {
         $(this).find('.center-map-trigger').click();
@@ -13,9 +20,9 @@ Mycollecto.PointsView = Em.View.extend({
         offset: 0
       });
     }, 500);
+  },
 
-    // Point list UX events
-
+  initListInteractions: function() {
     var handle = $('.handle');
     handle.on('click', function(event) {
       if ($('body').hasClass('no-point-list')) {
@@ -33,7 +40,6 @@ Mycollecto.PointsView = Em.View.extend({
     swipeHandle.swipeUp(function() {
       $('body').removeClass('no-point-list');
     });
-
   }
 
 });
