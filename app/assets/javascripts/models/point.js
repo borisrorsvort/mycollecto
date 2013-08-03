@@ -13,7 +13,7 @@ Mycollecto.Point  = DS.Model.extend({
 
 
 Mycollecto.Point.FIXTURES = [
-  { "id" : 4, "code": 2920, "name_fr": "Ambiorix", "name_nl": "Ambioris", "address_fr": "Sq Ambiorix 12-11\/Rue De Pavie", "address_nl": "Ambiorix sq 12-11\/ Paviastraat", "notes": "", "x": '50.801268', "y": '4.393162' },
+  { "id" : 4, "code": 2920, "name_fr": "Ambiorix", "name_nl": "Ambioris", "address_fr": "Sq Ambiorix 12-11\/Rue De Pavie", "address_nl": "Ambiorix sq 12-11\/ Paviastraat", "notes": "Attention au poteau", "x": '50.801268', "y": '4.393162' },
   { "id" : 6, "code": 1223, "name_fr": "Anneessens", "name_nl": "Anneessens", "address_fr": "Place Fontainas 9-11", "address_nl": "Fontainasplein 9-11", "notes": "", "x": '50.816241', "y": '4.290267' },
   { "id" : 10, "code": 1715, "name_fr": "Arsenal", "name_nl": "Arsenaal", "address_fr": "Ch de Wavre\/Bd Gnral Jacques", "address_nl": "Waversesteenweg\/Generaal Jacqueslaan", "notes": "", "x": '50.831550', "y": '4.404569' },
   { "id" : 16, "code": 6164, "name_fr": "Barrire", "name_nl": "Bareel", "address_fr": "Avenue du Parc 4-6", "address_nl": "Parklaan 4-6", "notes": "", "x": '50.796378', "y": '4.321132' },

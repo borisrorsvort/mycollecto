@@ -20,7 +20,8 @@ Mycollecto.MapPoints = {
     };
 
     // Map init
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    Mycollecto.MapPoints.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var map = Mycollecto.MapPoints.map;
 
     // Try HTML5 geolocation
     if(navigator.geolocation) {
@@ -91,7 +92,7 @@ Mycollecto.MapPoints = {
         map: map
       });
 
-      console.dir(marker);
+      // console.dir(marker);
     }, this);
   }
 
