@@ -43,6 +43,7 @@ body {
 // Point List
 
 .point-list {
+  padding-top: 3px;
   overflow-y: scroll;
   height: 100%;
   -webkit-overflow-scrolling: touch;
@@ -75,18 +76,22 @@ body {
 .modal-content {
   height: 100%;
 }
+
 .modal-header,
 .modal-footer {
   position: absolute;
   height: 70px;
   width: 100%;
 }
+
 .modal-title {
   line-height: 40px;
 }
+
 .modal-footer {
   bottom: 0;
 }
+
 .modal-header {
   top: 0;
   .close {
@@ -94,6 +99,7 @@ body {
     margin-right: 6px;
   }
 }
+
 .modal-body {
   overflow-y: scroll;
   height: 100%;
