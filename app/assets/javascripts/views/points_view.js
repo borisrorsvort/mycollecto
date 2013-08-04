@@ -1,13 +1,12 @@
 Mycollecto.PointsView = Em.View.extend({
 
-  didInsertElement: function() {
+  afterRenderEvent: function() {
 
     // Initialize scrolling events to center the map base on point location
     this.initScrollEvents();
 
     // Point list UX events
     this.initListInteractions();
-
   },
 
   initScrollEvents: function() {

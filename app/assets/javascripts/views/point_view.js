@@ -1,6 +1,6 @@
 Mycollecto.PointView = Em.View.extend({
 
-  didInsertElement: function() {
+  afterRenderEvent: function() {
     $('.modal').modal('show');
   },
 
