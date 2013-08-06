@@ -7,5 +7,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var y = model.get('y');
     var pos = new google.maps.LatLng(x,y);
     Mycollecto.MapPoints.map.panTo(pos);
+  },
+
+  showDetails: function(point) {
+    this.transitionToRoute('point', point);
   }
+
 });

@@ -1,0 +1,26 @@
+.handle {
+  $height: 16px;
+  $width: 50px;
+  width: $width;
+  background: $point-list-scroller-border-color;
+  height: $height;
+  top: ($height + $point-list-scroller-border-width) * -1;
+  position:  absolute;
+  left: 50%;
+  margin-left: -$width/2;
+  z-index: 999;
+  @include border-top-radius(3px);
+  @include box-sizing(border-box);
+  .no-point-list & {
+    top: -$height;
+  }
+}
+
+.handle--bar {
+  height: 2px;
+  background: lighten($point-list-scroller-border-color, 10%);
+  margin: 2px 10px 0;
+  &:first-child {
+    margin-top: 5px;
+  }
+}

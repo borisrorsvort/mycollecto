@@ -16,7 +16,7 @@ Mycollecto.PointsView = Em.View.extend({
   initScrollEvents: function() {
     setTimeout(function() {
       $('.point-list .point-list--item').waypoint( function(direction) {
-        $(this).find('.center-map-trigger').click();
+        $(this).find('.point-list--center-map').click();
       },{
         context: '.point-list'
       },{

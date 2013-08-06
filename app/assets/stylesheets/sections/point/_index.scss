@@ -1,0 +1,71 @@
+.no-point-list {
+  #map-canvas {
+    height: 100%;
+  }
+  .point-list-scroller{
+    bottom: -$point-list-scroller-height;
+    position: fixed;
+  }
+}
+
+.point-list-scroller {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  min-height: 40px;
+  width: 100%;
+  height: $point-list-scroller-height;
+  background: $point-list-item-background;
+  border-top: $point-list-scroller-border-width solid $point-list-scroller-border-color;
+  font-size: 13px;
+  @include transition(all 0.1s ease-in);
+
+  @media screen and (max-width: 979px) and (orientation:landscape) {
+    display: none;
+  }
+}
+
+// Point List
+
+.point-list {
+  padding-top: 3px;
+  overflow-y: scroll;
+  height: 100%;
+  padding-bottom: $point-list-scroller-height;
+  -webkit-overflow-scrolling: touch;
+
+  & > * {
+    -webkit-transform: translateZ(0px);
+  }
+}
+
+.point-list--item {
+  padding: 10px;
+  border-bottom: 1px solid darken($point-list-item-background, 5%);
+  border-top: 1px solid lighten($point-list-item-background, 5%);
+  background: $point-list-item-background;
+  position: relative;
+  &:first-of-type {
+    border-top: 0;
+  }
+  cursor: pointer;
+}
+
+.point-list--item--header {
+  color: $point-list-item-text-color;
+  h4 {
+    margin: 0 0 5px 0;
+  }
+}
+
+.point-list--item--header--distance {
+  @include opacity(0.7);
+}
+
+.point-list--center-map {
+  position: absolute;
+  right: 10px;
+  top: 11px;
+  color: $point-list-item-text-color;
+}

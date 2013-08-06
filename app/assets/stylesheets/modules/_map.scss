@@ -1,0 +1,8 @@
+#map-canvas {
+  height: 50%;
+  @include transition(all 0.1s ease-in);
+
+  @media screen and (max-width: 979px) and (orientation:landscape) {
+    height: 100%;
+  }
+}
