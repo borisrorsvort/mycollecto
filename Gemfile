@@ -8,7 +8,7 @@ gem 'rails', '3.2.13'
 gem 'ember-rails'
 gem 'ember-source'
 
-gem 'sqlite3'
+# gem 'sqlite3'
 gem 'haml'
 gem 'handlebars'
 gem 'thin'
