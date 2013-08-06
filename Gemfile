@@ -9,6 +9,7 @@ gem 'ember-rails'
 gem 'ember-source'
 
 # gem 'sqlite3'
+gem 'pg'
 gem 'haml'
 gem 'handlebars'
 gem 'thin'
