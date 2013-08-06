@@ -6,7 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ember-rails'
-gem 'ember-source', '1.0.0.rc6'
+gem 'ember-source'
 
 gem 'sqlite3'
 gem 'haml'
@@ -20,7 +20,8 @@ gem 'thin'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass-rails', git: 'git@github.com:yabawock/bootstrap-sass-rails.git'
+  # gem 'bootstrap-sass-rails', git: 'git@github.com:yabawock/bootstrap-sass-rails.git'
+  gem 'bootstrap-sass-rails'
   gem 'entypo-rails'
   gem "animate-rails"
   gem 'compass-rails'
