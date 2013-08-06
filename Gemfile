@@ -21,8 +21,7 @@ gem 'thin'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  # gem 'bootstrap-sass-rails', git: 'git@github.com:yabawock/bootstrap-sass-rails.git'
-  gem 'bootstrap-sass-rails'
+  gem 'bootstrap-sass-rails', git: 'git@github.com:yabawock/bootstrap-sass-rails.git'
   gem 'entypo-rails'
   gem "animate-rails"
   gem 'compass-rails'

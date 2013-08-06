@@ -1,3 +1,11 @@
+GIT
+  remote: git@github.com:yabawock/bootstrap-sass-rails.git
+  revision: f6bda34aa7e12873cdd335b29ed1cc80652b9e48
+  specs:
+    bootstrap-sass-rails (3.0.0.0.rc1)
+      railties (>= 3.1.0)
+      sass-rails (>= 3.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,9 +45,6 @@ GEM
       ember-source
       execjs
       handlebars-source
-    bootstrap-sass-rails (2.3.2.1)
-      railties (>= 3.1.0)
-      sass-rails (>= 3.1.0)
     builder (3.0.4)
     chunky_png (1.2.8)
     coffee-rails (3.2.2)
@@ -155,7 +160,7 @@ PLATFORMS
 
 DEPENDENCIES
   animate-rails
-  bootstrap-sass-rails
+  bootstrap-sass-rails!
   coffee-rails (~> 3.2.1)
   compass-rails
   ember-rails
