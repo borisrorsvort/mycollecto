@@ -7,6 +7,10 @@ Mycollecto.PointsView = Em.View.extend({
 
     // Point list UX events
     this.initListInteractions();
+
+    setTimeout(function() {
+      Mycollecto.MapPoints.loadMarkers(Mycollecto.MapPoints.map);
+    }, 1000);
   },
 
   initScrollEvents: function() {

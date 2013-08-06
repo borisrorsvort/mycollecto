@@ -28,4 +28,5 @@ Mycollecto = Ember.Application.create({
   LOG_VIEW_LOOKUPS: true
 });
 
+Mycollecto.deferReadiness();
 //= require_tree .

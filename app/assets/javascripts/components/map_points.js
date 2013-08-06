@@ -4,7 +4,7 @@ Mycollecto.MapPoints = {
       Mycollecto.MapPoints.mapSetup();
       console.log('GM V3 script Loaded');
     }
-    $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM&sensor=true&callback=map_callback');
+    $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM&libraries=geometry&sensor=true&callback=map_callback');
   },
 
   mapSetup: function() {
@@ -14,7 +14,7 @@ Mycollecto.MapPoints = {
   initMap: function() {
 
     var mapOptions = {
-      zoom: 15,
+      zoom: 16,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };
@@ -26,12 +26,12 @@ Mycollecto.MapPoints = {
     // Try HTML5 geolocation
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = new google.maps.LatLng(position.coords.latitude,
+        Mycollecto.MapPoints.currentUserPosition = new google.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
 
         // Adding Marker for your current Position
         var currentPosition = new google.maps.Marker({
-          position: pos,
+          position: Mycollecto.MapPoints.currentUserPosition,
           map: map,
           title: "you're here",
           icon: 'http://maps.google.com/mapfiles/marker_green.png',
@@ -40,9 +40,9 @@ Mycollecto.MapPoints = {
         });
 
         // Center the map
-        map.setCenter(pos);
+        map.setCenter(Mycollecto.MapPoints.currentUserPosition);
 
-        Mycollecto.MapPoints.loadMarkers(map);
+        Mycollecto.advanceReadiness();
 
       }, function() {
         Mycollecto.MapPoints.handleNoGeolocation(true);
@@ -52,6 +52,8 @@ Mycollecto.MapPoints = {
       // Browser doesn't support Geolocation
       Mycollecto.MapPoints.handleNoGeolocation(false);
     }
+
+
   },
 
   handleNoGeolocation: function(errorFlag) {
@@ -82,17 +84,20 @@ Mycollecto.MapPoints = {
     var points = Mycollecto.Point.find();
 
     points.forEach(function(point){
-      var pos   = new google.maps.LatLng(point.get('x'), point.get('y'));
-
+      var pos    = new google.maps.LatLng(point.get('x'), point.get('y'));
       var marker = new google.maps.Marker({
         position: pos,
         title: point.get('name'),
         animation: google.maps.Animation.DROP,
         icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
+        // icon: 'http://maps.google.com/mapfiles/marker_green.png',
         map: map
       });
 
     }, this);
   }
-
 }
+
+jQuery(document).ready(function($) {
+  Mycollecto.MapPoints.init();
+});
