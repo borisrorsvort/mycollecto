@@ -1,6 +1,7 @@
 GIT
-  remote: git@github.com:yabawock/bootstrap-sass-rails.git
+  remote: git://github.com/yabawock/bootstrap-sass-rails.git
   revision: f6bda34aa7e12873cdd335b29ed1cc80652b9e48
+  branch: master
   specs:
     bootstrap-sass-rails (3.0.0.0.rc1)
       railties (>= 3.1.0)
