@@ -15,7 +15,7 @@ gem 'handlebars'
 gem 'thin'
 # gem 'handlebars_assets'
 
-group :developent do
+group :development do
   gem 'sqlite3'
 end
 
