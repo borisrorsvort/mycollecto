@@ -6,12 +6,13 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ember-rails'
-gem 'ember-source'
+gem 'ember-source', '1.0.0.rc6' 
+gem 'handlebars-source', '1.0.0.rc4'
 
-# gem 'sqlite3'
+
+gem 'sqlite3'
 gem 'pg'
 gem 'haml'
-gem 'handlebars'
 gem 'thin'
 # gem 'handlebars_assets'
 

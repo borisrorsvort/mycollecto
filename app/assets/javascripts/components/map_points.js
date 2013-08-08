@@ -82,7 +82,7 @@ Mycollecto.MapPoints = {
 
   loadMarkers: function(map) {
     var points = Mycollecto.Point.find();
-
+    console.time("test");
     points.forEach(function(point){
       var pos    = new google.maps.LatLng(point.get('x'), point.get('y'));
       var marker = new google.maps.Marker({
@@ -95,6 +95,7 @@ Mycollecto.MapPoints = {
       });
 
     }, this);
+    console.timeEnd("test");
   }
 }
 
