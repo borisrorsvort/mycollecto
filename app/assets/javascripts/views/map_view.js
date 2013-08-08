@@ -1,7 +1,1 @@
-Mycollecto.MapView = Em.View.extend({
-
-  afterRenderEvent: function() {
-
-  }
-
-});
+Mycollecto.MapView = Em.View.extend({});
