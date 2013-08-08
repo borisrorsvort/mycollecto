@@ -1,7 +1,9 @@
 Mycollecto.PointsView = Em.View.extend({
 
-  afterRenderEvent: function() {
 
+  afterRenderEvent: function() {
+    $('.ember-application').spin(false);
+    $('.point-list').spin();
     // Initialize scrolling events to center the map base on point location
     this.initScrollEvents();
 

@@ -28,6 +28,8 @@ group :assets do
   gem 'entypo-rails'
   gem "animate-rails"
   gem 'compass-rails'
+  gem 'spinjs-rails'
+
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 

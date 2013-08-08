@@ -24,6 +24,10 @@
   @media screen and (max-width: 979px) and (orientation:landscape) {
     display: none;
   }
+
+  .spinner {
+    z-index: 0 !important;
+  }
 }
 
 // Point List
@@ -46,6 +50,7 @@
   border-top: 1px solid lighten($point-list-item-background, 5%);
   background: $point-list-item-background;
   position: relative;
+  z-index: 1;
   &:first-of-type {
     border-top: 0;
   }

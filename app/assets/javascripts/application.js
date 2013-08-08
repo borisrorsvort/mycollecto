@@ -5,6 +5,7 @@
 //= require ember-data
 
 //= require twitter/bootstrap
+//= require jquery.spin
 
 //= require_self
 //= require mycollecto

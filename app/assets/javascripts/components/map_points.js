@@ -19,7 +19,6 @@ Mycollecto.MapPoints = {
     };
 
     // Map init
-    // $('#map-canvas').show();
 
     Mycollecto.MapPoints.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     var map = Mycollecto.MapPoints.map;
