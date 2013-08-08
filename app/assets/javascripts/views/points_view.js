@@ -1,16 +1,17 @@
 Mycollecto.PointsView = Em.View.extend({
 
-  afterRenderEvent: function() {
 
+  afterRenderEvent: function() {
+    $('.ember-application').spin(false);
+    $('.point-list').spin();
     // Initialize scrolling events to center the map base on point location
     this.initScrollEvents();
 
     // Point list UX events
     this.initListInteractions();
 
-    setTimeout(function() {
-      Mycollecto.MapPoints.loadMarkers(Mycollecto.MapPoints.map);
-    }, 1000);
+    // Render Map
+    Mycollecto.MapPoints.initMap();
   },
 
   initScrollEvents: function() {

@@ -1,14 +1,13 @@
 Mycollecto.MapPoints = {
-  init: function() {
-    window.map_callback = function() {
-      Mycollecto.MapPoints.mapSetup();
-      console.log('GM V3 script Loaded');
-    }
-    $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM&libraries=geometry&sensor=true&callback=map_callback');
-  },
 
-  mapSetup: function() {
-    google.maps.event.addDomListener(window, 'load', Mycollecto.MapPoints.initMap());
+  setCurrentUserPosition:function() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      Mycollecto.MapPoints.currentUserPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      console.log('Get currentUserPosition: '+ position.coords.latitude + ' ' + position.coords.longitude)
+
+      // Realease Application init
+      Mycollecto.advanceReadiness();
+    });
   },
 
   initMap: function() {
@@ -20,64 +19,31 @@ Mycollecto.MapPoints = {
     };
 
     // Map init
+
     Mycollecto.MapPoints.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     var map = Mycollecto.MapPoints.map;
 
-    // Try HTML5 geolocation
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        Mycollecto.MapPoints.currentUserPosition = new google.maps.LatLng(position.coords.latitude,
-                                         position.coords.longitude);
-
-        // Adding Marker for your current Position
-        var currentPosition = new google.maps.Marker({
-          position: Mycollecto.MapPoints.currentUserPosition,
-          map: map,
-          title: "you're here",
-          icon: 'http://maps.google.com/mapfiles/marker_green.png',
-          // icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
-          clickable: true
-        });
-
-        // Center the map
-        map.setCenter(Mycollecto.MapPoints.currentUserPosition);
-
-        Mycollecto.advanceReadiness();
-
-      }, function() {
-        Mycollecto.MapPoints.handleNoGeolocation(true);
-      });
-
-    } else {
-      // Browser doesn't support Geolocation
-      Mycollecto.MapPoints.handleNoGeolocation(false);
-    }
-
-
-  },
-
-  handleNoGeolocation: function(errorFlag) {
-    if (errorFlag) {
-      var content = 'Error: The Geolocation service failed.';
-    } else {
-      var content = 'Error: Your browser doesn\'t support geolocation.';
-    }
-
-    var options = {
-      map: map,
-      position: new google.maps.LatLng(60, 105),
-      content: content
-    };
-
+    // Adding Marker for your current Position
     var currentPosition = new google.maps.Marker({
-      position: pos,
+      position: Mycollecto.MapPoints.currentUserPosition,
       map: map,
-      title: "You're here",
-      // icon: 'http://maps.google.com/mapfiles/marker_green.png',
-      icon: 'http://google-maps-icons.googlecode.com/files/expert.png',
+      title: "you're here",
+      icon: 'http://maps.google.com/mapfiles/marker_green.png',
+      // icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
       clickable: true
     });
-    map.setCenter(options.position);
+
+    // Center the map
+    if ($('#map-canvas:visible').length === 0) {
+      $('#map-canvas').show();
+    }
+    google.maps.event.trigger(Mycollecto.MapPoints.map, 'resize');
+    Mycollecto.MapPoints.map.setZoom( Mycollecto.MapPoints.map.getZoom() );
+    Mycollecto.MapPoints.map.setCenter(Mycollecto.MapPoints.currentUserPosition);
+
+    setTimeout(function() {
+      Mycollecto.MapPoints.loadMarkers(map);
+    }, 200);
   },
 
   loadMarkers: function(map) {
@@ -97,7 +63,3 @@ Mycollecto.MapPoints = {
     }, this);
   }
 }
-
-jQuery(document).ready(function($) {
-  Mycollecto.MapPoints.init();
-});

@@ -1,15 +1,3 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
-//
-// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
-// GO AFTER THE REQUIRES BELOW.
-//
 //= require jquery
 //= require jquery_ujs
 //= require handlebars
@@ -17,16 +5,26 @@
 //= require ember-data
 
 //= require twitter/bootstrap
-
+//= require jquery.spin
 
 //= require_self
 //= require mycollecto
 
-// for more details see: http://emberjs.com/guides/application/
+//= require_tree .
+
+
 Mycollecto = Ember.Application.create({
   LOG_ACTIVE_GENERATION: true,
   LOG_VIEW_LOOKUPS: true
 });
 
-Mycollecto.deferReadiness();
-//= require_tree .
+Mycollecto.deferReadiness(); // Released when We got userCurrentPostion from Mycollecto.MapPoints.setCurrentUserPosition();
+
+jQuery(document).ready(function($) {
+  window.map_callback = function() {
+    console.log('GM V3 script Loaded');
+
+    Mycollecto.MapPoints.setCurrentUserPosition();
+  }
+  $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM&libraries=geometry&sensor=true&callback=map_callback');
+});
