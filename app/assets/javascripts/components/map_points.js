@@ -14,42 +14,53 @@ Mycollecto.MapPoints = {
 
     var mapOptions = {
       zoom: 16,
-      // mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };
 
     // Map init
+    // $('#map-canvas').show();
+
     Mycollecto.MapPoints.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    // var map = Mycollecto.MapPoints.map;
+    var map = Mycollecto.MapPoints.map;
 
     // Adding Marker for your current Position
-    // var currentPosition = new google.maps.Marker({
-    //   position: Mycollecto.MapPoints.currentUserPosition,
-    //   map: map,
-    //   title: "you're here",
-    //   icon: 'http://maps.google.com/mapfiles/marker_green.png',
-    //   // icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
-    //   clickable: true
-    // });
+    var currentPosition = new google.maps.Marker({
+      position: Mycollecto.MapPoints.currentUserPosition,
+      map: map,
+      title: "you're here",
+      icon: 'http://maps.google.com/mapfiles/marker_green.png',
+      // icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
+      clickable: true
+    });
 
     // Center the map
-    // map.setCenter(Mycollecto.MapPoints.currentUserPosition);
+    if ($('#map-canvas:visible').length === 0) {
+      $('#map-canvas').show();
+    }
+    google.maps.event.trigger(Mycollecto.MapPoints.map, 'resize');
+    Mycollecto.MapPoints.map.setZoom( Mycollecto.MapPoints.map.getZoom() );
+    Mycollecto.MapPoints.map.setCenter(Mycollecto.MapPoints.currentUserPosition);
+
+    setTimeout(function() {
+      Mycollecto.MapPoints.loadMarkers(map);
+    }, 200);
+  },
+
+  loadMarkers: function(map) {
+    var points = Mycollecto.Point.find();
+
+    points.forEach(function(point){
+      var pos    = new google.maps.LatLng(point.get('x'), point.get('y'));
+      var marker = new google.maps.Marker({
+        position: pos,
+        title: point.get('name'),
+        animation: google.maps.Animation.DROP,
+        icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
+        // icon: 'http://maps.google.com/mapfiles/marker_green.png',
+        map: map
+      });
+
+    }, this);
   }
-
-  // loadMarkers: function(map) {
-  //   var points = Mycollecto.Point.find();
-
-  //   points.forEach(function(point){
-  //     var pos    = new google.maps.LatLng(point.get('x'), point.get('y'));
-  //     var marker = new google.maps.Marker({
-  //       position: pos,
-  //       title: point.get('name'),
-  //       animation: google.maps.Animation.DROP,
-  //       icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
-  //       // icon: 'http://maps.google.com/mapfiles/marker_green.png',
-  //       map: map
-  //     });
-
-  //   }, this);
-  // }
 }

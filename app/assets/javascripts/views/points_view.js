@@ -8,6 +8,8 @@ Mycollecto.PointsView = Em.View.extend({
     // Point list UX events
     this.initListInteractions();
 
+    // Render Map
+    Mycollecto.MapPoints.initMap();
   },
 
   initScrollEvents: function() {
