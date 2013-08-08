@@ -14,6 +14,7 @@ Mycollecto.MapPoints = {
 
     var mapOptions = {
       zoom: 16,
+      minZoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };

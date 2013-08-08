@@ -11,7 +11,11 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var x = model.get('x');
     var y = model.get('y');
     var pos = new google.maps.LatLng(x,y);
+    bounds = new google.maps.LatLngBounds(pos, Mycollecto.MapPoints.currentUserPosition)
+
     Mycollecto.MapPoints.map.panTo(pos);
+    // Mycollecto.MapPoints.map.panToBounds(bounds);
+    // Mycollecto.MapPoints.map.fitBounds(bounds);
   },
 
   showDetails: function(point) {
