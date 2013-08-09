@@ -19,9 +19,9 @@ Mycollecto.PointsView = Em.View.extend({
       $('.point-list .point-list--item').waypoint( function(direction) {
         $(this).find('.point-list--center-map').click();
       },{
-        context: '.point-list'
-      },{
-        offset: 0
+        context: '.point-list',
+        continuous: false,
+        offset: 2
       });
     }, 500);
   },

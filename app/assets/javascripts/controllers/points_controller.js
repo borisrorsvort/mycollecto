@@ -4,7 +4,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   limitedContent: function() {
     // in this case '2' is the limit parameter
-    return this.get('content').slice(0, 10);
+    return this.get('content');
   }.property('content'),
 
   centerMap: function(model) {
@@ -13,9 +13,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var pos = new google.maps.LatLng(x,y);
     bounds = new google.maps.LatLngBounds(pos, Mycollecto.MapPoints.currentUserPosition)
 
+    Mycollecto.MapPoints.map.fitBounds(bounds);
     Mycollecto.MapPoints.map.panTo(pos);
+    Mycollecto.MapPoints.animateMarker(model.get('id'));
     // Mycollecto.MapPoints.map.panToBounds(bounds);
-    // Mycollecto.MapPoints.map.fitBounds(bounds);
   },
 
   showDetails: function(point) {

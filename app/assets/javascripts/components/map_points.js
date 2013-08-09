@@ -50,17 +50,28 @@ Mycollecto.MapPoints = {
   loadMarkers: function(map) {
     var points = Mycollecto.Point.find();
 
+    Mycollecto.markers = [];
     points.forEach(function(point){
       var pos    = new google.maps.LatLng(point.get('x'), point.get('y'));
       var marker = new google.maps.Marker({
         position: pos,
         title: point.get('name'),
-        animation: google.maps.Animation.DROP,
+        // animation: google.maps.Animation.DROP,
         icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
         // icon: 'http://maps.google.com/mapfiles/marker_green.png',
-        map: map
+        map: map,
+        id: point.get('id')
       });
-
+      Mycollecto.markers.push(marker);
     }, this);
+  },
+
+  animateMarker: function(id) {
+    markers = $.grep(Mycollecto.markers, function(n, i){
+      return n.id == id;
+    });
+    $.each(markers, function(index, val) {
+      this.setAnimation(google.maps.Animation.DROP);
+    });
   }
 }
