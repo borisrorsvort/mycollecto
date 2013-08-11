@@ -3,7 +3,6 @@ Mycollecto.MapPoints = {
   setCurrentUserPosition:function() {
     navigator.geolocation.getCurrentPosition(function(position) {
       Mycollecto.MapPoints.currentUserPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      console.log('Get currentUserPosition: '+ position.coords.latitude + ' ' + position.coords.longitude)
 
       // Realease Application init
       Mycollecto.advanceReadiness();
@@ -70,8 +69,14 @@ Mycollecto.MapPoints = {
     markers = $.grep(Mycollecto.markers, function(n, i){
       return n.id == id;
     });
+    // Reset all icons
+    // TODO add promises
+    $.each(Mycollecto.markers, function(index, val) {
+      this.setIcon('http://google-maps-icons.googlecode.com/files/taxi.png');
+    });
+    // Set Current current point new icon
     $.each(markers, function(index, val) {
-      this.setAnimation(google.maps.Animation.DROP);
+      this.setIcon('http://google-maps-icons.googlecode.com/files/walking-tour.png');
     });
   }
 }
