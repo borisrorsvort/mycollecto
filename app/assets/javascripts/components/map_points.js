@@ -61,8 +61,16 @@ Mycollecto.MapPoints = {
         map: map,
         id: point.get('id')
       });
+
       Mycollecto.markers.push(marker);
+
+      // Qdding click action to marker
+      google.maps.event.addListener(marker, 'click', function() {
+        window.location = '/#/points/' + marker.id;
+      });
+
     }, this);
+
   },
 
   animateMarker: function(id) {
