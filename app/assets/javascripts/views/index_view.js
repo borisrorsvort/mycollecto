@@ -1,5 +1,5 @@
 Mycollecto.IndexView = Em.View.extend({
-  classNames  : ['row homepage'],
+  classNames  : ['row page-homepage'],
 
   afterRenderEvent: function() {
     $('#map-canvas').hide();

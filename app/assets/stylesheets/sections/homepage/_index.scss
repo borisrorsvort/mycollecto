@@ -3,10 +3,52 @@
   height: 100%;
 }
 
-.homepage {
+.page-homepage {
   padding: 10%;
 }
 
 .location-form {
   margin-top:  20px;
+}
+
+.bg-stretch {
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  background-color: $point-list-item-background;
+  background-position: 50%;
+  background-size: cover;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+
+.about-bg {
+  background-image: url('/assets/backgrounds/points-bg.jpg');
+  min-height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.about--title {
+  color: #fff;
+  margin-top: 8%;
+  h2 {
+    font-size: 21px;
+    opacity: 0.6;
+  }
+}
+
+.about--iphone {
+  img {
+    max-width: 100%;
+  }
 }
