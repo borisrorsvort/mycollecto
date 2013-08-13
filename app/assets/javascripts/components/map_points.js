@@ -12,8 +12,8 @@ Mycollecto.MapPoints = {
   initMap: function() {
 
     var mapOptions = {
-      zoom: 16,
-      minZoom: 14,
+      zoom: 15,
+      minZoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };
@@ -55,7 +55,6 @@ Mycollecto.MapPoints = {
       var marker = new google.maps.Marker({
         position: pos,
         title: point.get('name'),
-        // animation: google.maps.Animation.DROP,
         icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
         // icon: 'http://maps.google.com/mapfiles/marker_green.png',
         map: map,
@@ -64,7 +63,7 @@ Mycollecto.MapPoints = {
 
       Mycollecto.markers.push(marker);
 
-      // Qdding click action to marker
+      // Adding click action to marker
       google.maps.event.addListener(marker, 'click', function() {
         window.location = '/#/points/' + marker.id;
       });

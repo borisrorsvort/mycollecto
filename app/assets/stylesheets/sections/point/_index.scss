@@ -21,10 +21,6 @@
   font-size: 13px;
   @include transition(all 0.1s ease-in);
 
-  @media screen and (max-width: 979px) and (orientation:landscape) {
-    display: none;
-  }
-
   .spinner {
     z-index: 0 !important;
   }
@@ -73,4 +69,19 @@
   right: 10px;
   top: 11px;
   color: $point-list-item-text-color;
+}
+
+.btn-back {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+// resetting row default style for big screens
+@media (min-width: 768px) {
+  /* line 11, ../../../../.rvm/gems/ruby-1.9.3-p429/bundler/gems/bootstrap-sass-rails-f6bda34aa7e1/app/assets/stylesheets/twitter/bootstrap/_grid.scss */
+  .point-list > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

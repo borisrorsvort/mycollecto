@@ -11,9 +11,6 @@
   z-index: 999;
   @include border-top-radius(3px);
   @include box-sizing(border-box);
-  .no-point-list & {
-    top: -$height;
-  }
 }
 
 .handle--bar {

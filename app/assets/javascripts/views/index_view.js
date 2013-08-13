@@ -3,5 +3,11 @@ Mycollecto.IndexView = Em.View.extend({
 
   afterRenderEvent: function() {
     $('#map-canvas').hide();
+    $('.btn-warning').spin(false);
+    $('.btn-warning').on('click', function(){
+      $(this).spin();
+    });
+
   }
+
 });

@@ -1,10 +1,14 @@
+{{#linkTo 'index' class='btn btn-default btn-back'}}
+  <i class="icon-search"></i>
+{{/linkTo}}
+
 <div class="point-list-scroller">
   <div class="handle">
     <div class="handle--bar"></div>
     <div class="handle--bar"></div>
     <div class="handle--bar"></div>
   </div>
-  <div class="point-list container-fluid">
+  <div class="point-list">
     {{#each point in controller}}
       {{view Mycollecto.PointInListView contentBinding='point'}}
     {{/each}}
