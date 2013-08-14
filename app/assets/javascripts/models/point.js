@@ -16,7 +16,7 @@ Mycollecto.Point  = DS.Model.extend({
     if (name_fr === name_nl) {
       return name_fr;
     } else {
-      return (name_fr + '-' + name_nl).htmlSafe();
+      return (name_fr + ' — ' + name_nl).htmlSafe();
     }
   }.property("name_fr","name_nl"),
 
