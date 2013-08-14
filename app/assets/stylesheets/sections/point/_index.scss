@@ -41,7 +41,7 @@
 }
 
 .point-list--item {
-  padding: 10px;
+  padding: 10px 40px 10px 10px;
   border-bottom: 1px solid darken($point-list-item-background, 5%);
   border-top: 1px solid lighten($point-list-item-background, 5%);
   background: $point-list-item-background;
@@ -57,6 +57,8 @@
   color: $point-list-item-text-color;
   h4 {
     margin: 0 0 5px 0;
+    font-size: 14px;
+    line-height: 1.4em;
   }
 }
 
