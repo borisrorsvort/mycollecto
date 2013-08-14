@@ -26,16 +26,14 @@
 }
 
 
-.about-bg {
+.about--content {
   background-image: url('/assets/backgrounds/points-bg.jpg');
   min-height: 300px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
+  padding-bottom: 20px;
+
+  @media (min-width: 768px) {
+   padding-bottom: 0;
+  }
 }
 
 .about--title {
@@ -50,5 +48,16 @@
 .about--iphone {
   img {
     max-width: 100%;
+  }
+}
+
+.footer {
+  text-align: center;
+  min-height: 200px;
+  background: $point-list-item-background;
+  color: #666;
+  padding: 20px;
+  a {
+    color: $brand-warning;
   }
 }
