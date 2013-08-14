@@ -9,6 +9,17 @@ Mycollecto.Point  = DS.Model.extend({
   notes            : DS.attr('string'),
   x                : DS.attr('float'),
   y                : DS.attr('float'),
+
+  fullName: function() {
+    var name_fr = this.get("name_fr");
+    var name_nl = this.get("name_nl");
+    if (name_fr === name_nl) {
+      return name_fr;
+    } else {
+      return (name_fr + '-' + name_nl).htmlSafe();
+    }
+  }.property("name_fr","name_nl"),
+
   distanceFromUser : function () {
 
     var userPos      = Mycollecto.MapPoints.currentUserPosition;
