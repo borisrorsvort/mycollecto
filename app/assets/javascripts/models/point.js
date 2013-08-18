@@ -20,17 +20,15 @@ Mycollecto.Point  = DS.Model.extend({
     }
   }.property("name_fr","name_nl"),
 
-  distanceFromUser : function () {
+  distanceFromUser : DS.attr('float'),
+  recalculateDistanceFromUser : function (userPos) {
 
-    var userPos      = Mycollecto.MapPoints.currentUserPosition;
     var locationLat  = this.get('x');
     var locationLong = this.get('y');
     var modelPos     = new google.maps.LatLng(locationLat, locationLong);
-    var distance     = google.maps.geometry.spherical.computeDistanceBetween(userPos, modelPos);
-
-    return Math.round(distance);
-
-  }.property('@each.x', '@each.y')
+    var distance     = google.maps.geometry.spherical.computeDistanceBetween(userPos.get("latLng"), modelPos);
+    this.set("distanceFromUser", Math.round(distance));
+  }
 
 });
 

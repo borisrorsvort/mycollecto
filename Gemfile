@@ -6,7 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ember-rails'
-gem 'ember-source', '1.0.0.rc6'
+gem 'ember-source', '1.0.0.rc7'
 
 # gem 'sqlite3'
 gem 'pg'

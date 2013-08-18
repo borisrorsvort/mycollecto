@@ -1,6 +1,6 @@
 Mycollecto::Application.routes.draw do
 
   root :to => 'application#homepage'
-  match '/*path' => 'application#index'
+  get '/*path' => 'application#index'
 
 end

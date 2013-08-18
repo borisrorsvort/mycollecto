@@ -6,8 +6,9 @@ Mycollecto::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.eager_load = false
   # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  #config.whiny_nils = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -34,6 +35,25 @@ Mycollecto::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+ # Compress JavaScripts and CSS
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+ # config.serve_static_assets = true
+ # config.eager_load = true
+
+  # Compress JavaScripts and CSS
+  #config.assets.compress = true
+
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  #config.assets.compile = false
+
+  # Generate digests for assets URLs
+  #config.assets.digest = false
+  #config.cache_classes = true
+
+  # Full error reports are disabled and caching is turned on
+  #config.consider_all_requests_local       = false
+  #config.action_controller.perform_caching = true
 
   config.ember.variant = :development
 end
