@@ -38,6 +38,9 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       // Create Markers
       controller.createMarkers(map);
 
+      google.maps.event.trigger(controller.map, 'resize');
+      controller.map.setZoom(controller.map.getZoom());
+
     });
   },
 
@@ -52,6 +55,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         map: map,
         id: point.get('id')
       });
+
+      // Adding click action to marker
+      google.maps.event.addListener(marker, 'click', function() {
+        window.location = '/#/points/' + marker.id;
+      });
+
       controller.mapMarkers.push(marker);
       point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
     });
