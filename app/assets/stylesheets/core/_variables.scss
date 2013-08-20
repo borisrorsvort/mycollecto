@@ -12,3 +12,7 @@ $point-list-scroller-border-color: darken($point-list-item-background, 10%);
 $btn-default-color: #ccc;
 $btn-default-bg : #333;
 $btn-default-border: #333;
+
+.btn-default {
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+}

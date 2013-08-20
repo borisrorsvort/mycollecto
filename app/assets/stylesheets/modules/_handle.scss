@@ -1,16 +1,23 @@
-.handle {
-  $height: 16px;
-  $width: 50px;
+$handle-height: 16px;
+$handle-width: 50px;
+
+@mixin handle($width:$handle-width, $height:$handle-height) {
   width: $width;
   background: $point-list-scroller-border-color;
   height: $height;
   top: ($height + $point-list-scroller-border-width) * -1;
+  margin-left: -$width/2;
+}
+
+
+.handle {
+  @include handle();
   position:  absolute;
   left: 50%;
-  margin-left: -$width/2;
   z-index: 999;
   @include border-top-radius(3px);
   @include box-sizing(border-box);
+  cursor: pointer;
 }
 
 .handle--bar {
@@ -21,3 +28,4 @@
     margin-top: 5px;
   }
 }
+

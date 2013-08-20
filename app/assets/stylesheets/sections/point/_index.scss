@@ -2,9 +2,13 @@
   #map-canvas {
     height: 100%;
   }
-  .point-list-scroller{
+  .point-list-scroller {
     bottom: -$point-list-scroller-height;
+    margin-top: -$point-list-scroller-border-width;
     position: fixed;
+  }
+  .handle {
+    @include handle(50px, 30px);
   }
 }
 
@@ -19,7 +23,7 @@
   background: $point-list-item-background;
   border-top: $point-list-scroller-border-width solid $point-list-scroller-border-color;
   font-size: 13px;
-  @include transition(all 0.1s ease-in);
+  @include transition(all 0.5s);
 
   .spinner {
     z-index: 0 !important;

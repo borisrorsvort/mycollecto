@@ -5,6 +5,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   currentUserPosition: Ember.Object.create(),
   map: null,
   mapMarkers: [],
+  panelVisible: true,
 
   init: function(){
     this._super();
@@ -34,14 +35,22 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latLng', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       currentUserPosition.set('x', position.coords.latitude);
       currentUserPosition.set('y', position.coords.longitude);
-
-      // Create Markers
-      controller.createMarkers(map);
-
-      google.maps.event.trigger(controller.map, 'resize');
-      controller.map.setZoom(controller.map.getZoom());
-
     });
+
+    var mapLoaded = false;
+    google.maps.event.addListener(controller.map, 'idle', function(){
+      if(!mapLoaded){
+        $('#google_map').trigger('mapLoaded');
+        mapLoaded = true;
+
+        // Create Markers
+        controller.createMarkers(map);
+      }
+    });
+
+    // Refresh on resize
+    google.maps.event.trigger(controller.map, 'resize');
+    controller.map.setZoom(controller.map.getZoom());
   },
 
   createMarkers: function(map) {
@@ -115,6 +124,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     $.each(markers, function(index, val) {
       this.setIcon('http://google-maps-icons.googlecode.com/files/walking-tour.png');
     });
-  }
+  },
+
+  togglePanel: function() {
+    this.toggleProperty('panelVisible');
+  },
 
 });
