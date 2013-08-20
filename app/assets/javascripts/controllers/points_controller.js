@@ -40,7 +40,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var mapLoaded = false;
     google.maps.event.addListener(controller.map, 'idle', function(){
       if(!mapLoaded){
-        $('#google_map').trigger('mapLoaded');
         mapLoaded = true;
 
         // Create Markers
