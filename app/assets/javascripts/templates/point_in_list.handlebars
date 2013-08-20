@@ -1,18 +1,20 @@
 {{#with point}}
-  <div {{action showDetails point}} class='col-12'>
+  <div {{action showDetails point}} class='col-xs-12'>
     <div class='row'>
-      <div class="col-3 col-sm-1">
+      <div class="col-xs-3 col-sm-1">
           <div class="row">
-            <span class="btn btn-warning col-12">
+            <span class="btn btn-warning col-xs-12">
               {{id}}
             </span>
           </div>
         </div>
-        <div class="col-9 col-sm-10 point-list--item--header">
+        <div class="col-xs-9 col-sm-10 point-list--item--header">
           <h4>
             {{fullName}}
           </h4>
-          <span class="point-list--item--header--distance">{{distanceFromUser}} m</span>
+          {{#if distanceFromUser}}
+            <span class="point-list--item--header--distance">{{distanceFromUser}} m</span>
+          {{/if}}
         </div>
       </div>
     </div>
