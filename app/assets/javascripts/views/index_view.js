@@ -7,7 +7,5 @@ Mycollecto.IndexView = Em.View.extend({
     $('.btn-warning').on('click', function(){
       $(this).spin();
     });
-
   }
-
 });

@@ -9,6 +9,7 @@ Mycollecto.Point  = DS.Model.extend({
   notes            : DS.attr('string'),
   x                : DS.attr('float'),
   y                : DS.attr('float'),
+  distanceFromUser : DS.attr('float'),
 
   fullName: function() {
     var name_fr = this.get("name_fr");
@@ -20,7 +21,6 @@ Mycollecto.Point  = DS.Model.extend({
     }
   }.property("name_fr","name_nl"),
 
-  distanceFromUser : DS.attr('float'),
   recalculateDistanceFromUser : function (userPos) {
     var locationLat  = this.get('x');
     var locationLong = this.get('y');

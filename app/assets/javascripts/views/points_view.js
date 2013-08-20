@@ -2,26 +2,9 @@ Mycollecto.PointsView = Em.View.extend({
   afterRenderEvent: function() {
     $('.ember-application').spin(false);
     $('.point-list').spin();
-    // Initialize scrolling events to center the map base on point location
-  //  this.initScrollEvents();
 
     // Point list UX events
-  //  this.initListInteractions();
-
-    // Render Map
- //   Mycollecto.MapPoints.initMap();
-  },
-
-  initScrollEvents: function() {
-    setTimeout(function() {
-      $('.point-list .point-list--item').waypoint( function(direction) {
-        $(this).find('.point-list--center-map').click();
-      },{
-        context: '.point-list',
-        continuous: false,
-        offset: 2
-      });
-    }, 500);
+    this.initListInteractions();
   },
 
   initListInteractions: function() {
@@ -43,5 +26,4 @@ Mycollecto.PointsView = Em.View.extend({
       $('body').removeClass('no-point-list');
     });
   }
-
 });

@@ -9,5 +9,4 @@ Ember.View.reopen({
   }
 });
 
-
 Mycollecto.ApplicationView = Em.View.extend({});
