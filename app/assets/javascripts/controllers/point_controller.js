@@ -1,19 +1,34 @@
 Mycollecto.PointController = Em.ObjectController.extend({
+  needs: ['points'],
+
   closeModal: function() {
     var self  = this;
     var modal = $('.modal');
     modal.modal('hide');
   },
 
-  findItinirary: function(point) {
-    // 1. Reverse geocode current User LatLng to get the address
-    // 2. set variables
-    var pointAddress,
-        pointPos,
-        userAddress,
-        userPos;
+  findItinirary: function() {
+    var controller = this;
+    // Reverse geocode current User LatLng to get the address
+    var geocoder     = new google.maps.Geocoder();
+    var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
+    // debugger
+    // var userLatLng   = currentPos.get('x')+','+currentPos.get('x');
+    var pointAddress = controller.get('x')+','+controller.get('y');
 
-    // 3. Build Link params for maps https://developer.apple.com/library/ios/#featuredarticles/iPhoneURLScheme_Reference/Articles/MapLinks.html
-    // 4. Forrward to that url
+    geocoder.geocode({'latLng': currentPos}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          var userLatLng = results[1].formatted_address;
+          window.location = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+userLatLng;
+
+        } else {
+          alert('No results found');
+        }
+      } else {
+        alert('Geocoder failed due to: ' + status);
+      }
+    });
+
   }
 });
