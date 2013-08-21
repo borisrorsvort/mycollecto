@@ -35,16 +35,25 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latLng', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       currentUserPosition.set('x', position.coords.latitude);
       currentUserPosition.set('y', position.coords.longitude);
-      var mapLoaded = false;
-      google.maps.event.addListener(controller.map, 'idle', function(){
-      if(!mapLoaded){
-          mapLoaded = true;
-          // Create Markers
-          controller.createMarkers(map);
-        }
+
+
+      // create User Marker once Geoloc finished
+      var userMarker = new google.maps.Marker({
+        position:  controller.currentUserPosition.latLng,
+        icon: 'http://maps.google.com/mapfiles/marker_green.png',
+        map: map
       });
     });
 
+    var mapLoaded = false;
+    google.maps.event.addListener(controller.map, 'idle', function(){
+      if(!mapLoaded){
+        mapLoaded = true;
+
+        // Create Markers
+        controller.createMarkers(map);
+      }
+    });
 
 
     // Refresh on resize
@@ -71,12 +80,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
       controller.mapMarkers.push(marker);
       point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
-    });
-
-    var userMarker = new google.maps.Marker({
-      position:  controller.currentUserPosition.latLng,
-      icon: 'http://maps.google.com/mapfiles/marker_green.png',
-      map: map
     });
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
