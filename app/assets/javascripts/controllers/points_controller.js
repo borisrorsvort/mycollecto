@@ -35,17 +35,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latLng', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       currentUserPosition.set('x', position.coords.latitude);
       currentUserPosition.set('y', position.coords.longitude);
+      controller.createMarkers(map);
+
     });
 
-    var mapLoaded = false;
-    google.maps.event.addListener(controller.map, 'idle', function(){
-      if(!mapLoaded){
-        mapLoaded = true;
-
-        // Create Markers
-        controller.createMarkers(map);
-      }
-    });
 
     // Refresh on resize
     google.maps.event.trigger(controller.map, 'resize');
