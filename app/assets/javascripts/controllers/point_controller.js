@@ -8,20 +8,17 @@ Mycollecto.PointController = Em.ObjectController.extend({
   },
 
   findItinirary: function() {
-    var controller = this;
-    // Reverse geocode current User LatLng to get the address
+    var controller   = this;
     var geocoder     = new google.maps.Geocoder();
     var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
-    // debugger
-    // var userLatLng   = currentPos.get('x')+','+currentPos.get('x');
-    var pointAddress = controller.get('x')+','+controller.get('y');
+    var pointLatLng  = new google.maps.LatLng(controller.get('x'), controller.get('y'));
 
-    geocoder.geocode({'latLng': currentPos}, function(results, status) {
+    geocoder.geocode({'latLng': pointLatLng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
-          var userLatLng = results[1].formatted_address;
-          window.location = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+userLatLng;
-
+        if (results[0]) {
+          debugger
+          var pointAddress = results[0].formatted_address;
+          window.location  = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+currentPos.mb+','+currentPos.nb;
         } else {
           alert('No results found');
         }
