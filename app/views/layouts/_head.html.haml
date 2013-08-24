@@ -62,6 +62,8 @@
   = yield :stylesheets
   = yield :head
 
+  = render partial: 'layouts/mixpanel'
+
   -# # = javascript_include_tag "polyfills"
   /[if lt IE 9]
     %script{:src => "http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"}

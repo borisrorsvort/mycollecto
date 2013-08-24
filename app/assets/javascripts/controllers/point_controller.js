@@ -26,6 +26,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
         alert('Geocoder failed due to: ' + status);
       }
     });
-
+    mixpanel.track("Find Itinerary");
   }
 });

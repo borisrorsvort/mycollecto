@@ -68,6 +68,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       // Adding click action to marker
       google.maps.event.addListener(marker, 'click', function() {
         window.location = '/#/points/' + marker.id;
+        mixpanel.track("View point details", {'via' : 'map'});
       });
 
       controller.mapMarkers.push(marker);
@@ -86,6 +87,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   },
 
   showDetails: function(point) {
+    mixpanel.track("View point details", {'via' : 'list'});
     this.transitionToRoute('point', point);
   },
 

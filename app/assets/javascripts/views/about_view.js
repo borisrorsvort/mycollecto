@@ -3,5 +3,6 @@ Mycollecto.AboutView = Em.View.extend({
 
   afterRenderEvent: function() {
     $('#map-canvas').hide();
+    mixpanel.track("View about page");
   }
 });

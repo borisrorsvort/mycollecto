@@ -7,5 +7,6 @@ Mycollecto.PointView = Em.View.extend({
       $('.modal-backdrop').fadeOut();
       self.get('controller').transitionToRoute('points');
     });
+
   }
 });
