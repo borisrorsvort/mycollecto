@@ -14,7 +14,7 @@ $handle-width: 50px;
   @include handle();
   position:  absolute;
   left: 50%;
-  z-index: 999;
+  z-index: 999999;
   @include border-top-radius(3px);
   @include box-sizing(border-box);
   cursor: pointer;
