@@ -90,7 +90,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       controller.mapMarkers.push(marker);
-      point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
+      // point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
     });
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
