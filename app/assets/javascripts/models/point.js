@@ -24,8 +24,8 @@ Mycollecto.Point  = DS.Model.extend({
   recalculateDistanceFromUser : function (userPos) {
     var locationLat  = this.get('x');
     var locationLong = this.get('y');
-    var modelPos     = new google.maps.LatLng(locationLat, locationLong);
-    var distance     = google.maps.geometry.spherical.computeDistanceBetween(userPos.get("latLng"), modelPos);
+    var modelPos     = new L.LatLng(locationLat, locationLong);
+    var distance     = modelPos.distanceTo(userPos.get("latLng"));
     this.set("distanceFromUser", Math.round(distance));
   }
 

@@ -29,7 +29,7 @@ group :assets do
   gem "animate-rails"
   gem 'compass-rails'
   gem 'spinjs-rails'
-
+  gem 'leaflet-rails'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 

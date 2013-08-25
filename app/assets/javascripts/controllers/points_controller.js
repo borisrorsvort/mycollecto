@@ -15,71 +15,74 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     // Map init
     var mapOptions = {
-      zoom: 15,
-      minZoom: 12,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: true
+      zoom    : 16,
+      maxZoom : 16
     };
 
     // Create map object
-    controller.set("map", new google.maps.Map(document.getElementById('map-canvas'), mapOptions));
-    var map = controller.get("map");
-
-    navigator.geolocation.getCurrentPosition(function(position) {
-
-      // Populate currentUserposition Object with Location data
-      currentUserPosition.addObserver('latLng', function(){
-        map.panTo(this.get('latLng'));
-      });
-
-      currentUserPosition.set('latLng', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-      currentUserPosition.set('x', position.coords.latitude);
-      currentUserPosition.set('y', position.coords.longitude);
-
-      var mapLoaded = false;
-      google.maps.event.addListener(controller.map, 'idle', function(){
-        if(!mapLoaded){
-          mapLoaded = true;
-
-          // Create Markers
-          controller.createMarkers(map);
-        }
-      });
-
+    controller.set("map", L.map('map', mapOptions));
+    var map        = controller.get("map");
+    var osmUrl     = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib  = 'Map data © openstreetmap contributors';
+    var osm        = new L.TileLayer(osmUrl,{
+      maxZoom      : 16,
+      zoom         : 16,
+      attribution  : osmAttrib,
+      detectRetina : true,
+      reuseTiles   : true
     });
+    map.addLayer(osm);
 
-    // Refresh on resize
-    google.maps.event.trigger(controller.map, 'resize');
-    controller.map.setZoom(controller.map.getZoom());
+
+    function onLocationFound(e) {
+
+      L.marker(e.latlng).addTo(map);
+
+      currentUserPosition.set('latLng', e.latlng);
+      currentUserPosition.set('x', e.latlng.latitude);
+      currentUserPosition.set('y', e.latlng.longitude);
+
+      // Create Markers
+      controller.createMarkers(map);
+    }
+
+    function onLocationError(e) {
+      alert(e.message);
+
+      // Create Markers
+      controller.createMarkers(map);
+    }
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+
+    map.locate({setView: true, zoom: 16, maximumAge: 2000}).invalidateSize();
   },
 
   createMarkers: function(map) {
     var controller = this;
 
-    this.get("model").forEach(function(point){
-      var marker = new google.maps.Marker({
-        position:  new google.maps.LatLng(point.get("x"), point.get("y")),
-        title: point.get('name'),
-        icon: 'http://google-maps-icons.googlecode.com/files/taxi.png',
-        map: map,
-        id: point.get('id')
+    controller.get("model").forEach(function(point){
+      var pointId = point.get('id');
+
+      var myIcon = L.divIcon({
+        html: pointId,
+        className: 'marker-custom'
       });
 
+      var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
+        id: pointId,
+        icon: myIcon
+      }).bindPopup(point.get("name_fr"), {closeButton: false}).addTo(map);
+
       // Adding click action to marker
-      google.maps.event.addListener(marker, 'click', function() {
-        window.location = '/#/points/' + marker.id;
+      marker.on('click', function() {
+        window.location = '/#/points/' + pointId;
         mixpanel.track("View point details", {'via' : 'map'});
       });
 
       controller.mapMarkers.push(marker);
       point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
-    });
-
-    // create User Marker once Geoloc finished
-    var userMarker = new google.maps.Marker({
-      position:  controller.currentUserPosition.latLng,
-      icon: 'http://maps.google.com/mapfiles/marker_green.png',
-      map: map
     });
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
@@ -94,7 +97,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   centerMap: function(model) {
     var x = model.get('x');
     var y = model.get('y');
-    var pos = new google.maps.LatLng(x,y);
+    var pos = new L.LatLng(x,y);
     this.map.panTo(pos);
     this.animateMarker(model.get('id'));
   },
@@ -103,7 +106,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     setTimeout(function() {
       $('.point-list .point-list--item').waypoint( function(direction) {
         $(this).find('.point-list--center-map').click();
-        console.log('test');
       },{
         context: '.point-list',
         continuous: false,
@@ -116,16 +118,17 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var controller = this;
 
     markers = $.grep(controller.mapMarkers, function(n, i){
-      return n.id == id;
+      return n.options.id == id;
     });
+
     // Reset all icons
     // TODO add promises
     $.each(controller.mapMarkers, function(index, val) {
-      this.setIcon('http://google-maps-icons.googlecode.com/files/taxi.png');
+      this.closePopup();
     });
     // Set Current current point new icon
     $.each(markers, function(index, val) {
-      this.setIcon('http://google-maps-icons.googlecode.com/files/walking-tour.png');
+      this.openPopup();
     });
   },
 
