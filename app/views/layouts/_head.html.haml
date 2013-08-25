@@ -57,10 +57,11 @@
   -# = wiselinks_meta_tag
   = stylesheet_link_tag "application"
   = javascript_include_tag "application"
-  %script{:src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM&libraries=geometry&sensor=true"}
 
   = yield :stylesheets
   = yield :head
+
+  = render partial: 'layouts/mixpanel'
 
   -# # = javascript_include_tag "polyfills"
   /[if lt IE 9]
