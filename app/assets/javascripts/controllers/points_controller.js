@@ -47,6 +47,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       map.setView( e.latlng, 16, {animate: true} );
       // Create Markers
       // debugger
+      //#TODO invert again when Oli fix the server
       controller.set('content', Mycollecto.Point.find({x: e.latlng.lng, y: e.latlng.lat}));
     }
 
@@ -99,8 +100,9 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   centerMap: function(model) {
     var controller = this;
-    var x          = model.get('x');
-    var y          = model.get('y');
+    //#TODO invert again when Oli fix the server
+    var x          = model.get('y');
+    var y          = model.get('x');
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
