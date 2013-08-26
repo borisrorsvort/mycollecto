@@ -81,7 +81,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
         id: pointId,
         icon: myIcon
-      }).bindPopup(point.get("name_fr"), {closeButton: false}).addTo(map);
+      }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
 
       // Adding click action to marker
       marker.on('click', function() {
