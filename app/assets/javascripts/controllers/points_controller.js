@@ -31,6 +31,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }).addTo(map);
 
     function onLocationFound(e) {
+
       var myIcon = L.divIcon({
         html: '<i class="icon-user"/>',
         className: 'marker-custom marker-custom-user'
@@ -90,6 +91,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
+
   }.observes('content.isLoaded'),
 
   showDetails: function(point) {
@@ -99,8 +101,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   centerMap: function(model) {
     var controller = this;
-    var x          = model.get('x');
-    var y          = model.get('y');
+    var x          = model.get('y');
+    var y          = model.get('x');
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
