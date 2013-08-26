@@ -64,7 +64,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     var controller = this;
     var map = controller.get('map');
-
+    console.log('create markers');
     controller.get("model").forEach(function(point){
       var pointId = point.get('id');
 
@@ -90,7 +90,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
-  }.observes('controller.content'),
+  }.observes('content.isLoaded'),
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
@@ -98,11 +98,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   },
 
   centerMap: function(model) {
-    var x = model.get('x');
-    var y = model.get('y');
-    var pos = new L.LatLng(x,y);
-    this.map.panTo(pos);
-    this.animateMarker(model.get('id'));
+    var controller = this;
+    var x          = model.get('x');
+    var y          = model.get('y');
+    var pos        = new L.LatLng(x,y);
+    controller.map.panTo(pos);
+    controller.animateMarker(model.get('id'));
   },
 
   initScrollEvents: function() {
