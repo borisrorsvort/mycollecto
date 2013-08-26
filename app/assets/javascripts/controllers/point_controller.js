@@ -1,10 +1,6 @@
 Mycollecto.PointController = Em.ObjectController.extend({
   needs: ['points'],
 
-  init: function() {
-    this._super();
-  },
-
   closeModal: function() {
     var self  = this;
     var modal = $('.modal');
@@ -12,21 +8,20 @@ Mycollecto.PointController = Em.ObjectController.extend({
   },
 
   findItinirary: function() {
-    // 1. Reverse geocode current User LatLng to get the address
+    var controller = this;
+    // Reverse geocode current User LatLng to get the address
     var geocoder     = new google.maps.Geocoder();
-    var userLatLng   = this.get('controllers.points').currentUserPosition.get('latLng');
-    var userAddress  = null;
-    var x            = this.get('x');
-    var y            = this.get('y');
-    var pointAddress = this.get('address_fr');
-    var pointPos     = x + ',' + y;
+    var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
+    // debugger
+    // var userLatLng   = currentPos.get('x')+','+currentPos.get('x');
+    var pointAddress = controller.get('x')+','+controller.get('y');
 
-    console.dir(userLatLng);
-
-    geocoder.geocode({'latLng': userLatLng}, function(results, status) {
+    geocoder.geocode({'latLng': currentPos}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-          userAddress = results[1].formatted_address
+          var userLatLng = results[1].formatted_address;
+          window.location = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+userLatLng;
+
         } else {
           alert('No results found');
         }
@@ -35,10 +30,5 @@ Mycollecto.PointController = Em.ObjectController.extend({
       }
     });
 
-    // 3. Build Link params for maps https://developer.apple.com/library/ios/#featuredarticles/iPhoneURLScheme_Reference/Articles/MapLinks.html
-    // The source address, which is used when generating driving directions
-
-    var linkUrl = 'http://maps.apple.com/?daddr='+userAddress+'&saddr='+pointAddress
-    return linkUrl;
-  }.property()
+  }
 });
