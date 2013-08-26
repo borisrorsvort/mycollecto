@@ -6,18 +6,11 @@ Mycollecto.HandleView = Em.View.extend({
     var body = $('body');
     if (body.hasClass('no-point-list')) {
       body.removeClass('no-point-list');
+      mixpanel.track("Clicked on list handle", {'action': 'show panel' });
     } else {
       body.addClass('no-point-list');
+      mixpanel.track("Clicked on list handle", {'action': 'remove panel' });
     }
-
-    // var swipeHandle = $$('.handle'); // cant use the same selector because QuOJs has its own
-    // swipeHandle.swipeDown(function() {
-    //   $('body').addClass('no-point-list');
-    // });
-
-    // swipeHandle.swipeUp(function() {
-    //   $('body').removeClass('no-point-list');
-    // });
   },
 
   swipeOptions: {

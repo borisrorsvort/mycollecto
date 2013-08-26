@@ -6,7 +6,7 @@
           <button type="button" {{action closeModal}} class="btn btn-default" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="pull-left">
-          <span class="btn btn-info media-object">
+          <span class="btn btn-warning media-object">
             {{id}}
           </span>
         </div>
@@ -17,21 +17,24 @@
         </div>
       </div>
       <div class="modal-body">
-        <p class="lead">{{address_fr}}</p>
-        <p class="lead">{{address_nl}}</p>
+        <p class="lead">{{address_fr}} -- {{address_nl}}</p>
         {{#if notes}}
           <h5 class="muted">Notes:</h5>
           <p>{{notes}}</p>
         {{/if}}
-        <hr>
-        <div class="point-actions">
-          <a {{action findItinirary}} class='btn btn-default col-12'>Find Itinary</a>
-        </div>
-        <div class="point-actions">
-          <a href="tel: 0032 2 800 36 36" class='btn btn-primary col-12'>Call Now</a>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group btn-group-justified">
+          <a href="tel: 0032 2 800 36 36" class='btn btn-warning hidden-lg'>
+            <i class="icon-phone"></i>
+            Call Now
+          </a>
+          <a {{action findItinirary}} class='btn btn-default'>
+            Find Itinary
+            <i class="icon-circled-right"></i>
+          </a>
         </div>
       </div>
-      {{! <div class="modal-footer"></div> }}
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
