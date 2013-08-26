@@ -73,7 +73,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         className: 'marker-custom'
       });
 
-      var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
+      var marker = L.marker(new L.LatLng(point.get("y"), point.get("x")), {
         id: pointId,
         icon: myIcon
       }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
