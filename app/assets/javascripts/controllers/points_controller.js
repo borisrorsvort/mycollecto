@@ -8,26 +8,22 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   panelVisible: true,
 
   init: function(){
-    this._super();
-
-    var controller          = this;
-    var currentUserPosition = controller.get('currentUserPosition');
-
-    // Map init
-    var mapOptions = {
-      zoom    : 12
-    };
-
     // Create map object
-    controller.set("map", L.map('map', mapOptions));
-    var map        = controller.get("map");
+    var map        =  L.map('map',{zoom: 12});
     var osmUrl     = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osm        = new L.TileLayer(osmUrl,{
       zoom         : 12,
       detectRetina : true,
       reuseTiles   : true
     });
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
     map.addLayer(osm);
+
+    var controller          = this;
+    var currentUserPosition = controller.get('currentUserPosition');
+
+    controller.set("map", map);
 
     var attrib = new L.Control.Attribution({
       prefix: 'Map data © openstreetmap',
@@ -35,7 +31,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }).addTo(map);
 
     function onLocationFound(e) {
-
       var myIcon = L.divIcon({
         html: '<i class="icon-user"/>',
         className: 'marker-custom marker-custom-user'
@@ -61,10 +56,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       controller.createMarkers(map);
     }
 
-    map.on('locationfound', onLocationFound);
-    map.on('locationerror', onLocationError);
 
     map.locate({maximumAge: 2000});
+    this._super();
+
   },
 
   createMarkers: function(map) {
