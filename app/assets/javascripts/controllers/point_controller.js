@@ -10,7 +10,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
   findItinirary: function() {
     var controller   = this;
     var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
-    var pointAddress = controller.get('content.address_nl');
+    var pointAddress = controller.get('content.addressNl');
     window.location  = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+currentPos.lat+','+currentPos.lng;
     mixpanel.track("Find Itinerary");
   }

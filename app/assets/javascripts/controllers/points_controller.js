@@ -8,26 +8,22 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   panelVisible: true,
 
   init: function(){
-    this._super();
-
-    var controller          = this;
-    var currentUserPosition = controller.get('currentUserPosition');
-
-    // Map init
-    var mapOptions = {
-      zoom    : 12
-    };
-
     // Create map object
-    controller.set("map", L.map('map', mapOptions));
-    var map        = controller.get("map");
+    var map        =  L.map('map',{zoom: 12});
     var osmUrl     = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osm        = new L.TileLayer(osmUrl,{
       zoom         : 12,
       detectRetina : true,
       reuseTiles   : true
     });
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
     map.addLayer(osm);
+
+    var controller          = this;
+    var currentUserPosition = controller.get('currentUserPosition');
+
+    controller.set("map", map);
 
     var attrib = new L.Control.Attribution({
       prefix: 'Map data © openstreetmap',
@@ -35,7 +31,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }).addTo(map);
 
     function onLocationFound(e) {
-
       var myIcon = L.divIcon({
         html: '<i class="icon-user"/>',
         className: 'marker-custom marker-custom-user'
@@ -46,30 +41,30 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       }).addTo(map);
 
       currentUserPosition.set('latLng', e.latlng);
-      currentUserPosition.set('x', e.latlng.latitude);
-      currentUserPosition.set('y', e.latlng.longitude);
+      currentUserPosition.set('x', e.latlng.lat);
+      currentUserPosition.set('y', e.latlng.lng);
 
       map.setView( e.latlng, 16, {animate: true} );
       // Create Markers
-      controller.createMarkers(map);
+      // debugger
+      controller.set('content', Mycollecto.Point.find({x: e.latlng.lng, y: e.latlng.lat}));
     }
 
     function onLocationError(e) {
-      alert(e.message);
-
-      // Create Markers
-      controller.createMarkers(map);
+      console.log(e.message);
+      controller.set('content', Mycollecto.Point.find());
     }
 
-    map.on('locationfound', onLocationFound);
-    map.on('locationerror', onLocationError);
-
     map.locate({maximumAge: 2000});
+    this._super();
+
   },
 
-  createMarkers: function(map) {
-    var controller = this;
+  createMarkers: function() {
 
+    var controller = this;
+    var map = controller.get('map');
+    console.log('create markers');
     controller.get("model").forEach(function(point){
       var pointId = point.get('id');
 
@@ -78,10 +73,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         className: 'marker-custom'
       });
 
-      var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
+      var marker = L.marker(new L.LatLng(point.get("y"), point.get("x")), {
         id: pointId,
         icon: myIcon
-      }).bindPopup(point.get("name_fr"), {closeButton: false}).addTo(map);
+      }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
 
       // Adding click action to marker
       marker.on('click', function() {
@@ -90,12 +85,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       controller.mapMarkers.push(marker);
-      point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
+      // point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
     });
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
-  },
+  }.observes('content.isLoaded'),
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
@@ -103,11 +98,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   },
 
   centerMap: function(model) {
-    var x = model.get('x');
-    var y = model.get('y');
-    var pos = new L.LatLng(x,y);
-    this.map.panTo(pos);
-    this.animateMarker(model.get('id'));
+    var controller = this;
+    var x          = model.get('x');
+    var y          = model.get('y');
+    var pos        = new L.LatLng(x,y);
+    controller.map.panTo(pos);
+    controller.animateMarker(model.get('id'));
   },
 
   initScrollEvents: function() {

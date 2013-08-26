@@ -12,8 +12,16 @@
 //= require mycollecto
 
 
-
-Mycollecto = Ember.Application.create({
+<% if Rails.env.development? %>
+ var options = {
   LOG_ACTIVE_GENERATION: true,
   LOG_VIEW_LOOKUPS: true
-});
+}
+<% else %>
+ var options = {}
+<% end %>
+
+
+Mycollecto = Ember.Application.create();
+
+
