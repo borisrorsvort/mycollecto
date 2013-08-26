@@ -12,7 +12,7 @@
 //= require mycollecto
 
 
-<% if Rails.env == 'development' %>
+<% if Rails.env.development? %>
  var options = {
   LOG_ACTIVE_GENERATION: true,
   LOG_VIEW_LOOKUPS: true

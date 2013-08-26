@@ -41,29 +41,29 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       }).addTo(map);
 
       currentUserPosition.set('latLng', e.latlng);
-      currentUserPosition.set('x', e.latlng.latitude);
-      currentUserPosition.set('y', e.latlng.longitude);
+      currentUserPosition.set('x', e.latlng.lat);
+      currentUserPosition.set('y', e.latlng.lng);
 
       map.setView( e.latlng, 16, {animate: true} );
       // Create Markers
-      controller.createMarkers(map);
+      // debugger
+      controller.set('content', Mycollecto.Point.find({x: e.latlng.lng, y: e.latlng.lat}));
     }
 
     function onLocationError(e) {
-      alert(e.message);
-
-      // Create Markers
-      controller.createMarkers(map);
+      console.log(e.message);
+      controller.set('content', Mycollecto.Point.find());
     }
-
 
     map.locate({maximumAge: 2000});
     this._super();
 
   },
 
-  createMarkers: function(map) {
+  createMarkers: function() {
+
     var controller = this;
+    var map = controller.get('map');
 
     controller.get("model").forEach(function(point){
       var pointId = point.get('id');
@@ -90,7 +90,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
-  },
+  }.observes('controller.content'),
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
