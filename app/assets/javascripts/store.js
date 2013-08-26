@@ -6,8 +6,3 @@ Mycollecto.Store = DS.Store.extend({
     url: "http://api-mycollecto.rhcloud.com"
   })
 });
-
-DS.RESTAdapter.map('Mycollecto.Point', {
-  distanceFromUser : { key: 'distanceFromUser' }
-});
-
