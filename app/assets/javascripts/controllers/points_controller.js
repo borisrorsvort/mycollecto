@@ -41,12 +41,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       }).addTo(map);
 
       currentUserPosition.set('latLng', e.latlng);
-      currentUserPosition.set('x', e.latlng.lat);
-      currentUserPosition.set('y', e.latlng.lng);
+      currentUserPosition.set('latitude', e.latlng.lat);
+      currentUserPosition.set('longitude', e.latlng.lng);
 
       map.setView( e.latlng, 16, {animate: true} );
 
-      controller.set('content', Mycollecto.Point.find({x: e.latlng.lat, y: e.latlng.lng, size: 40}));
+      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
     }
 
     function onLocationError(e) {
@@ -71,7 +71,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         className: 'marker-custom'
       });
 
-      var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
+      var marker = L.marker(new L.LatLng(point.get("latitude"), point.get("longitude")), {
         id: pointId,
         icon: myIcon
       }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
@@ -100,8 +100,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   centerMap: function(model) {
     var controller = this;
     //#TODO invert again when Oli fix the server
-    var x          = model.get('x');
-    var y          = model.get('y');
+    var x          = model.get('latitude');
+    var y          = model.get('longitude');
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
