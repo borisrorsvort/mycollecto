@@ -1,17 +1,17 @@
 Mycollecto.Point  = DS.Model.extend({
   name             : DS.attr('string'),
   addressFR        : DS.attr('string'),
-  code             : DS.attr('float'),
+  code             : DS.attr('number'),
   nameFr           : DS.attr('string'),
   nameNl           : DS.attr('string'),
   addressFr        : DS.attr('string'),
   addressNl        : DS.attr('string'),
   notes            : DS.attr('string'),
-  x                : DS.attr('float'),
-  y                : DS.attr('float'),
+  x                : DS.attr('number'),
+  y                : DS.attr('number'),
 
   fullName: function() {
-    var name_fr = this.get("nameFr");
+    var nameFr = this.get("nameFr");
     var nameNl = this.get("nameNl");
     if (nameFr === nameNl) {
       return nameFr;
