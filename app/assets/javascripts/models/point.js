@@ -8,6 +8,7 @@ Mycollecto.Point  = DS.Model.extend({
   latitude         : DS.attr('number'),
   longitude        : DS.attr('number'),
   distanceFromUser : DS.attr('number'),
+  formatted_address: DS.attr('string'),
 
   fullName: function() {
     var nameFr = this.get("nameFr");
