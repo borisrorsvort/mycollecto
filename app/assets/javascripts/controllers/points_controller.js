@@ -16,9 +16,9 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       detectRetina : true,
       reuseTiles   : true
     });
+    map.addLayer(osm);
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
-    map.addLayer(osm);
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
@@ -45,14 +45,11 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('y', e.latlng.lng);
 
       map.setView( e.latlng, 16, {animate: true} );
-      // Create Markers
-      // debugger
-      //#TODO invert again when Oli fix the server
-      controller.set('content', Mycollecto.Point.find({x: e.latlng.lng, y: e.latlng.lat}));
+
+      controller.set('content', Mycollecto.Point.find({x: e.latlng.lat, y: e.latlng.lng, size: 40}));
     }
 
     function onLocationError(e) {
-      console.log(e.message);
       controller.set('content', Mycollecto.Point.find());
     }
 
@@ -65,7 +62,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     var controller = this;
     var map = controller.get('map');
-    console.log('create markers');
+
     controller.get("model").forEach(function(point){
       var pointId = point.get('id');
 
@@ -74,7 +71,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         className: 'marker-custom'
       });
 
-      var marker = L.marker(new L.LatLng(point.get("y"), point.get("x")), {
+      var marker = L.marker(new L.LatLng(point.get("x"), point.get("y")), {
         id: pointId,
         icon: myIcon
       }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
@@ -83,6 +80,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       marker.on('click', function() {
         window.location = '/#/points/' + pointId;
         mixpanel.track("View point details", {'via' : 'map'});
+        mixpanel.people.increment("point lookup", 1);
       });
 
       controller.mapMarkers.push(marker);
@@ -95,14 +93,15 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
+    mixpanel.people.increment("point lookup", 1);
     this.transitionToRoute('point', point);
   },
 
   centerMap: function(model) {
     var controller = this;
     //#TODO invert again when Oli fix the server
-    var x          = model.get('y');
-    var y          = model.get('x');
+    var x          = model.get('x');
+    var y          = model.get('y');
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
