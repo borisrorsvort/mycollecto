@@ -40,6 +40,8 @@
   }
 }
 
+$tooltip-color: #4c3a1f;
+
 .leaflet-popup {
   bottom: 0 !important;
 }
@@ -47,5 +49,29 @@
 .leaflet-popup-content-wrapper {
   @include border-radius(3px);
   text-transform: capitalize;
+  background: $tooltip-color;
+  @include box-shadow(lighten($point-list-item-background, 30%) 0 1px 1px inset);
+  border: 1px solid $tooltip-color;
+  border-bottom: 0px;
+  a,i {
+    color: lighten($point-list-item-background, 70%);
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
 }
 
+.leaflet-popup-content i {
+  margin-left: 10px;
+}
+.leaflet-popup-content {
+  margin: 5px;
+}
+.leaflet-popup-tip {
+  background: $tooltip-color;
+  width: 7px;
+  height: 7px;
+  padding: 1px;
+  margin: -3px auto 0;
+}

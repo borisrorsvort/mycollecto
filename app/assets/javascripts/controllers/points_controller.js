@@ -16,9 +16,9 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       detectRetina : true,
       reuseTiles   : true
     });
+    map.addLayer(osm);
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
-    map.addLayer(osm);
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
@@ -42,18 +42,15 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       }).addTo(map);
 
       currentUserPosition.set('latLng', e.latlng);
-      currentUserPosition.set('x', e.latlng.lat);
-      currentUserPosition.set('y', e.latlng.lng);
+      currentUserPosition.set('latitude', e.latlng.lat);
+      currentUserPosition.set('longitude', e.latlng.lng);
 
       map.setView( e.latlng, 16, {animate: true} );
-      // Create Markers
-      // debugger
-      //#TODO invert again when Oli fix the server
-      controller.set('content', Mycollecto.Point.find({x: e.latlng.lng, y: e.latlng.lat}));
+
+      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
     }
 
     function onLocationError(e) {
-      console.log(e.message);
       controller.set('content', Mycollecto.Point.find());
     }
 
@@ -66,7 +63,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     var controller = this;
     var map = controller.get('map');
-    console.log('create markers');
+
     controller.get("model").forEach(function(point){
       var pointId = point.get('id');
 
@@ -75,15 +72,20 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         className: 'marker-custom'
       });
 
-      var marker = L.marker(new L.LatLng(point.get("y"), point.get("x")), {
+      var marker = L.marker(new L.LatLng(point.get("latitude"), point.get("longitude")), {
         id: pointId,
         icon: myIcon
-      }).bindPopup(point.get("nameFr"), {closeButton: false}).addTo(map);
+      });
 
+      var name = point.get("nameFr")
+      popupHtml = "<a href='/#/points/"+pointId+"'>"+name+"</a><a href='/#/points/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
+
+      marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
       // Adding click action to marker
       marker.on('click', function() {
         window.location = '/#/points/' + pointId;
         mixpanel.track("View point details", {'via' : 'map'});
+        mixpanel.people.increment("point lookup", 1);
       });
 
       controller.mapMarkers.push(marker);
@@ -97,6 +99,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
+    mixpanel.people.increment("point lookup", 1);
     this.transitionToRoute('point', point);
   },
 
@@ -104,8 +107,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var controller = this;
 
     //#TODO invert again when Oli fix the server
-    var x          = model.get('y');
-    var y          = model.get('x');
+    var x          = model.get('latitude');
+    var y          = model.get('longitude');
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
