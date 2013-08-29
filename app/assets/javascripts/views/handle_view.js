@@ -1,9 +1,14 @@
+Mycollecto.HandleController = Em.ObjectController.extend({
+  needs: ['points']
+});
+
 Mycollecto.HandleView = Em.View.extend({
   templateName: 'handle',
   classNames: ['handle'],
 
   click: function() {
     var body = $('body');
+    var view = this;
     if (body.hasClass('no-point-list')) {
       body.removeClass('no-point-list');
       mixpanel.track("Clicked on list handle", {'action': 'show panel' });
@@ -11,6 +16,7 @@ Mycollecto.HandleView = Em.View.extend({
       body.addClass('no-point-list');
       mixpanel.track("Clicked on list handle", {'action': 'remove panel' });
     }
+    view.get('controller').toggleProperty('handleOpen');
   },
 
   swipeOptions: {
