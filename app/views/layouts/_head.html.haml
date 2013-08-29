@@ -1,19 +1,14 @@
 !!! 5
 = html_tag :class => "no-js", :lang => "#{I18n.locale}"
 %head
-  - if content_for?(:title)
-    %title
-      = yield(:title)
-      = " - Emuzikos"
-  - if content_for?(:description)
-    %meta{ name: 'description', content: yield(:description) }
-  - if content_for?(:keywords)
-    %meta{ name: 'keywords', content: yield(:keywords) }
-  - if content_for?(:canonical)
-    %meta{ rel: 'canonical', href: yield(:canonical) }
+  %title
+    = "Mycollecto - An unofficial application for Collecto taxi in Brussels"
+  %meta{ name: 'description', content: "The quickest way to find nearby collecto taxi points in Brussels" }
+  %meta{ name: 'keywords', content: 'collecto, collecto taxi, brussels, bruxelles, carte points collectos, points collecto, collecto punts'}
+  %meta{ rel: 'canonical', href: "http://www.mycollecto.be" }
 
   %meta{:charset => "utf-8"}/
-  %meta{ :name => "google-site-verification", :content => "U84a4JsWjHvENwEbAWcsSTecF326rTo9L_5oDKJKA5c"}
+  %meta{ :name => "google-site-verification", :content => "He-IZgvGomVoNNlv4ufr1tEARLvKeyCAies2To0DQVQ"}
   %meta{:content => "Boris Rorsvort", :name => "author"}
   %meta{:content => "True", :name => "HandheldFriendly"}
   %meta{:content => "Mycollecto", :name => "apple-mobile-web-app-title"}/

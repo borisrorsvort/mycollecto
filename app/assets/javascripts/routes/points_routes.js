@@ -1,5 +1,1 @@
-Mycollecto.PointsRoute = Ember.Route.extend({
-  // model: function() {
-
-  // }
-});
+Mycollecto.PointsRoute = Ember.Route.extend({});

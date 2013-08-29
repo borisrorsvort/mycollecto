@@ -32,11 +32,12 @@
   }
 }
 
+
 .marker-custom-user {
-  color: #fff;
-  background: lighten($point-list-item-background, 10%);
+  color: $point-list-item-background;
+  background: $brand-warning;
   &:after {
-    border-top-color: lighten($point-list-item-background, 10%);
+    border-top-color: $brand-warning;
   }
 }
 

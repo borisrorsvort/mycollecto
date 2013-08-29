@@ -123,7 +123,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
         continuous: false,
         offset: 2
       });
-    }, 0);
+    }, 10);
   },
 
   animateMarker: function(id) {
