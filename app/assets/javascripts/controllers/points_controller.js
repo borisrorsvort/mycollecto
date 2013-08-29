@@ -85,7 +85,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     controller.initScrollEvents();
 
-  },
+  }.observes('content.isLoaded'),
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
