@@ -8,13 +8,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   panelVisible: true,
   handleOpen: false,
 
-  invalidateMapSize: function() {
-    var controller = this;
-    setTimeout(function() {
-      controller.map.invalidateSize(true);
-    }, 150);
-  }.observes('handleOpen'),
-
   init: function(){
     // Create map object
     var map =  L.mapbox.map('map', 'borisrorsvort.map-frkowyyy', {
@@ -56,6 +49,15 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     this._super();
 
   },
+
+
+  invalidateMapSize: function() {
+    var controller = this;
+    setTimeout(function() {
+      controller.map.invalidateSize(true);
+    }, 150);
+  }.observes('handleOpen'),
+
 
   createMarkers: function() {
 

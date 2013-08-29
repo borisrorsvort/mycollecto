@@ -1,7 +1,3 @@
-Mycollecto.HandleController = Em.ObjectController.extend({
-  needs: ['points']
-});
-
 Mycollecto.HandleView = Em.View.extend({
   templateName: 'handle',
   classNames: ['handle'],
@@ -42,3 +38,4 @@ Mycollecto.HandleView = Em.View.extend({
     }
   }
 });
+
