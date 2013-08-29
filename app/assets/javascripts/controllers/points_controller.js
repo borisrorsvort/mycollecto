@@ -9,14 +9,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   init: function(){
     // Create map object
-    var map        =  L.map('map',{zoom: 12});
-    var osmUrl     = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osm        = new L.TileLayer(osmUrl,{
-      zoom         : 12,
-      detectRetina : true,
-      reuseTiles   : true
+    var map        =  L.mapbox.map('map', 'borisrorsvort.map-frkowyyy', {
+      detectRetina: true
     });
-    map.addLayer(osm);
+
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
 
@@ -24,11 +20,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var currentUserPosition = controller.get('currentUserPosition');
 
     controller.set("map", map);
-
-    var attrib = new L.Control.Attribution({
-      prefix: 'Map data © openstreetmap',
-      position: 'topright'
-    }).addTo(map);
 
     function onLocationFound(e) {
       var myIcon = L.divIcon({
@@ -80,20 +71,21 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       popupHtml = "<a href='/#/points/"+pointId+"'>"+name+"</a><a href='/#/points/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
 
       marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
+
       // Adding click action to marker
       marker.on('click', function() {
-        window.location = '/#/points/' + pointId;
+        window.location = '/#/' + pointId;
         mixpanel.track("View point details", {'via' : 'map'});
         mixpanel.people.increment("point lookup", 1);
       });
 
       controller.mapMarkers.push(marker);
-      // point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
+
     });
 
-    // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
-  }.observes('content.isLoaded'),
+
+  },
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
