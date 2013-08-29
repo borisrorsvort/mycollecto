@@ -8,11 +8,23 @@ Mycollecto.HandleView = Em.View.extend({
     if (body.hasClass('no-point-list')) {
       body.removeClass('no-point-list');
       mixpanel.track("Clicked on list handle", {'action': 'show panel' });
+      this.toggleIcon('down');
+
     } else {
       body.addClass('no-point-list');
       mixpanel.track("Clicked on list handle", {'action': 'remove panel' });
+      this.toggleIcon('up');
     }
     view.get('controller').toggleProperty('handleOpen');
+  },
+
+  toggleIcon: function(direction) {
+    var icon = $('.handle i');
+    if (direction === 'up') {
+      icon.removeClass('icon-chevron-down').addClass('icon-chevron-up');
+    } else {
+      icon.removeClass('icon-chevron-up').addClass('icon-chevron-down');
+    }
   },
 
   swipeOptions: {
