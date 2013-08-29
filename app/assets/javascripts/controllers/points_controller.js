@@ -120,7 +120,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       },{
         context: '.point-list',
         continuous: false,
-        offset: 2
+        offset: 1
       });
     }, 10);
   },
