@@ -68,7 +68,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       var name = point.get("nameFr")
-      popupHtml = "<a href='/#/points/"+pointId+"'>"+name+"</a><a href='/#/points/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
+      popupHtml = "<a href='/#/"+pointId+"'>"+name+"</a><a href='/#/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
 
       marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
 
