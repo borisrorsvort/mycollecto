@@ -36,7 +36,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latitude', e.latlng.lat);
       currentUserPosition.set('longitude', e.latlng.lng);
 
-      map.setView( e.latlng, 16, {animate: true} );
+      map.setView( e.latlng, 17, {animate: true} );
 
       controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
     }

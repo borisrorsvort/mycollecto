@@ -13,6 +13,9 @@ $btn-default-color: #ccc;
 $btn-default-bg : #333;
 $btn-default-border: #333;
 
+$marker-bg-color: lighten($point-list-item-background, 5%);
+$tooltip-color: $marker-bg-color;
+
 .btn-default {
   @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
 }
