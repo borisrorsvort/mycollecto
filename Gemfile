@@ -14,6 +14,7 @@ gem 'haml'
 gem 'handlebars'
 gem 'thin'
 # gem 'handlebars_assets'
+gem 'newrelic_rpm'
 
 group :development do
   gem 'sqlite3'
