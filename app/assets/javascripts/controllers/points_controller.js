@@ -9,16 +9,16 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   handleOpen: false,
 
   init: function(){
-    // Create map object
-    var map =  L.mapbox.map('map', 'borisrorsvort.map-frkowyyy', {
-      detectRetina: true
-    });
-
-    map.on('locationfound', onLocationFound);
-    map.on('locationerror', onLocationError);
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
+    var map                 = L.mapbox.map('map');
+    var mapTiles            = 'borisrorsvort.map-yz4prbd9';
+    var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
+    var layer               = L.mapbox.tileLayer(mapTiles, { detectRetina: true, retinaVersion: mapRetinaTiles }).addTo(map);
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
 
     controller.set("map", map);
 
