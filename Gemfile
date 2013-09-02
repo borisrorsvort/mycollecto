@@ -6,8 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ember-rails'
-gem 'ember-source', '1.0.0.rc6' 
-gem 'handlebars-source', '1.0.0.rc4'
+gem 'ember-source', '1.0.0.rc7'
 
 
 gem 'sqlite3'
@@ -16,6 +15,9 @@ gem 'haml'
 gem 'thin'
 # gem 'handlebars_assets'
 
+group :development do
+  gem 'sqlite3'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -26,6 +28,9 @@ group :assets do
   gem 'entypo-rails'
   gem "animate-rails"
   gem 'compass-rails'
+  gem 'spinjs-rails'
+  gem 'leaflet-rails'
+  gem 'mapbox-rails'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 

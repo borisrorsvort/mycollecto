@@ -1,2 +1,3 @@
-Mycollecto.ApplicationController = Em.Controller.extend({});
+Mycollecto.ApplicationController = Em.Controller.extend({
+});
 

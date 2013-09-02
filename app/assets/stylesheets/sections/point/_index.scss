@@ -1,10 +1,14 @@
 .no-point-list {
-  #map-canvas {
+  #map {
     height: 100%;
   }
-  .point-list-scroller{
+  .point-list-scroller {
     bottom: -$point-list-scroller-height;
+    margin-top: -$point-list-scroller-border-width;
     position: fixed;
+  }
+  .handle {
+    @include handle(50px, 30px);
   }
 }
 
@@ -19,20 +23,19 @@
   background: $point-list-item-background;
   border-top: $point-list-scroller-border-width solid $point-list-scroller-border-color;
   font-size: 13px;
-  @include transition(all 0.1s ease-in);
+  @include transition(all 0.5s);
 
-  @media screen and (max-width: 979px) and (orientation:landscape) {
-    display: none;
+  .spinner {
+    z-index: 0 !important;
   }
 }
 
 // Point List
 
 .point-list {
-  padding-top: 3px;
+  padding-top: 2px;
   overflow-y: scroll;
   height: 100%;
-  padding-bottom: $point-list-scroller-height;
   -webkit-overflow-scrolling: touch;
 
   & > * {
@@ -41,11 +44,12 @@
 }
 
 .point-list--item {
-  padding: 10px;
+  padding: 10px 40px 10px 10px;
   border-bottom: 1px solid darken($point-list-item-background, 5%);
   border-top: 1px solid lighten($point-list-item-background, 5%);
   background: $point-list-item-background;
   position: relative;
+  z-index: 1;
   &:first-of-type {
     border-top: 0;
   }
@@ -56,6 +60,8 @@
   color: $point-list-item-text-color;
   h4 {
     margin: 0 0 5px 0;
+    font-size: 14px;
+    line-height: 1.4em;
   }
 }
 
@@ -68,4 +74,19 @@
   right: 10px;
   top: 11px;
   color: $point-list-item-text-color;
+}
+
+.btn-back {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+// resetting row default style for big screens
+@media (min-width: 768px) {
+  /* line 11, ../../../../.rvm/gems/ruby-1.9.3-p429/bundler/gems/bootstrap-sass-rails-f6bda34aa7e1/app/assets/stylesheets/twitter/bootstrap/_grid.scss */
+  .point-list > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

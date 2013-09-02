@@ -1,5 +1,6 @@
 html {
   height: 100%;
+  @include transition(all 0.2s ease-in);
 }
 
 body {

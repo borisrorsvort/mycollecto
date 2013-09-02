@@ -1,0 +1,63 @@
+.ember-application {
+  background: $point-list-item-background;
+  height: 100%;
+}
+
+.page-homepage {
+  padding: 10%;
+}
+
+.location-form {
+  margin-top:  20px;
+}
+
+.bg-stretch {
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  background-color: $point-list-item-background;
+  background-position: 50%;
+  background-size: cover;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+
+.about--content {
+  background-image: url('/assets/backgrounds/points-bg.jpg');
+  min-height: 300px;
+  padding-bottom: 20px;
+
+  @media (min-width: 768px) {
+   padding-bottom: 0;
+  }
+}
+
+.about--title {
+  color: #fff;
+  margin-top: 8%;
+  h2 {
+    font-size: 21px;
+    opacity: 0.6;
+  }
+}
+
+.about--iphone {
+  img {
+    max-width: 100%;
+  }
+}
+
+.footer {
+  text-align: center;
+  min-height: 200px;
+  background: $point-list-item-background;
+  color: #666;
+  padding: 20px;
+  a {
+    color: $brand-warning;
+  }
+}

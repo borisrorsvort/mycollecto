@@ -6,6 +6,7 @@ Ember.View.reopen({
     Ember.run.scheduleOnce('afterRender', this, this.afterRenderEvent);
   },
   afterRenderEvent : function(){
-    // implement this hook in your own subclasses and run your jQuery logic there
   }
 });
+
+Mycollecto.ApplicationView = Em.View.extend({});

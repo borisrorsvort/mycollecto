@@ -1,4 +1,2376 @@
-/* QuoJS v2.3.6 - 2013/5/13
-   http://quojs.tapquo.com
-   Copyright (c) 2013 Javi Jimenez Villar (@soyjavi) - Licensed MIT */
-(function(){var e;e=function(){var e,t,n;t=[];e=function(t,r){var i;if(!t){return n()}else if(e.toType(t)==="function"){return e(document).ready(t)}else{i=e.getDOMObject(t,r);return n(i,t)}};n=function(e,r){e=e||t;e.__proto__=n.prototype;e.selector=r||"";return e};e.extend=function(e){Array.prototype.slice.call(arguments,1).forEach(function(t){var n,r;r=[];for(n in t){r.push(e[n]=t[n])}return r});return e};n.prototype=e.fn={};return e}();window.Quo=e;"$$"in window||(window.$$=e)}).call(this);(function(){(function(e){var t,n,r,i,u,a,o,s,c,f,l;t={TYPE:"GET",MIME:"json"};r={script:"text/javascript, application/javascript",json:"application/json",xml:"application/xml, text/xml",html:"text/html",text:"text/plain"};n=0;e.ajaxSettings={type:t.TYPE,async:true,success:{},error:{},context:null,dataType:t.MIME,headers:{},xhr:function(){return new window.XMLHttpRequest},crossDomain:false,timeout:0};e.ajax=function(n){var r,o,f,h;f=e.mix(e.ajaxSettings,n);if(f.type===t.TYPE){f.url+=e.serializeParameters(f.data,"?")}else{f.data=e.serializeParameters(f.data)}if(i(f.url)){return e.jsonp(f)}h=f.xhr();h.onreadystatechange=function(){if(h.readyState===4){clearTimeout(r);return c(h,f)}};h.open(f.type,f.url,f.async);s(h,f);if(f.timeout>0){r=setTimeout(function(){return l(h,f)},f.timeout)}try{h.send(f.data)}catch(d){o=d;h=o;a("Resource not found",h,f)}if(f.async){return h}else{return u(h,f)}};e.jsonp=function(t){var r,i,u,a;if(t.async){i="jsonp"+ ++n;u=document.createElement("script");a={abort:function(){e(u).remove();if(i in window){return window[i]={}}}};r=void 0;window[i]=function(n){clearTimeout(r);e(u).remove();delete window[i];return f(n,a,t)};u.src=t.url.replace(RegExp("=\\?"),"="+i);e("head").append(u);if(t.timeout>0){r=setTimeout(function(){return l(a,t)},t.timeout)}return a}else{return console.error("QuoJS.ajax: Unable to make jsonp synchronous call.")}};e.get=function(t,n,r,i){return e.ajax({url:t,data:n,success:r,dataType:i})};e.post=function(e,t,n,r){return o("POST",e,t,n,r)};e.put=function(e,t,n,r){return o("PUT",e,t,n,r)};e["delete"]=function(e,t,n,r){return o("DELETE",e,t,n,r)};e.json=function(n,r,i){return e.ajax({url:n,data:r,success:i,dataType:t.MIME})};e.serializeParameters=function(e,t){var n,r;if(t==null){t=""}r=t;for(n in e){if(e.hasOwnProperty(n)){if(r!==t){r+="&"}r+=""+encodeURIComponent(n)+"="+encodeURIComponent(e[n])}}if(r===t){return""}else{return r}};c=function(e,t){if(e.status>=200&&e.status<300||e.status===0){if(t.async){f(u(e,t),e,t)}}else{a("QuoJS.ajax: Unsuccesful request",e,t)}};f=function(e,t,n){n.success.call(n.context,e,t)};a=function(e,t,n){n.error.call(n.context,e,t,n)};s=function(e,t){var n;if(t.contentType){t.headers["Content-Type"]=t.contentType}if(t.dataType){t.headers["Accept"]=r[t.dataType]}for(n in t.headers){e.setRequestHeader(n,t.headers[n])}};l=function(e,t){e.onreadystatechange={};e.abort();a("QuoJS.ajax: Timeout exceeded",e,t)};o=function(t,n,r,i,u){return e.ajax({type:t,url:n,data:r,success:i,dataType:u,contentType:"application/x-www-form-urlencoded"})};u=function(e,n){var r,i;i=e.responseText;if(i){if(n.dataType===t.MIME){try{i=JSON.parse(i)}catch(u){r=u;i=r;a("QuoJS.ajax: Parse Error",e,n)}}else{if(n.dataType==="xml"){i=e.responseXML}}}return i};return i=function(e){return RegExp("=\\?").test(e)}})(Quo)}).call(this);(function(){(function(e){var t,n,r,i,u,a,o,s;t=[];i=Object.prototype;r=/^\s*<(\w+|!)[^>]*>/;u=document.createElement("table");a=document.createElement("tr");n={tr:document.createElement("tbody"),tbody:u,thead:u,tfoot:u,td:a,th:a,"*":document.createElement("div")};e.toType=function(e){return i.toString.call(e).match(/\s([a-z|A-Z]+)/)[1].toLowerCase()};e.isOwnProperty=function(e,t){return i.hasOwnProperty.call(e,t)};e.getDOMObject=function(t,n){var i,u,a;i=null;u=[1,9,11];a=e.toType(t);if(a==="array"){i=o(t)}else if(a==="string"&&r.test(t)){i=e.fragment(t.trim(),RegExp.$1);t=null}else if(a==="string"){i=e.query(document,t);if(n){if(i.length===1){i=e.query(i[0],n)}else{i=e.map(function(){return e.query(i,n)})}}}else if(u.indexOf(t.nodeType)>=0||t===window){i=[t];t=null}return i};e.map=function(t,n){var r,i,u,a;a=[];r=void 0;i=void 0;if(e.toType(t)==="array"){r=0;while(r<t.length){u=n(t[r],r);if(u!=null){a.push(u)}r++}}else{for(i in t){u=n(t[i],i);if(u!=null){a.push(u)}}}return s(a)};e.each=function(t,n){var r,i;r=void 0;i=void 0;if(e.toType(t)==="array"){r=0;while(r<t.length){if(n.call(t[r],r,t[r])===false){return t}r++}}else{for(i in t){if(n.call(t[i],i,t[i])===false){return t}}}return t};e.mix=function(){var t,n,r,i,u;r={};t=0;i=arguments.length;while(t<i){n=arguments[t];for(u in n){if(e.isOwnProperty(n,u)&&n[u]!==undefined){r[u]=n[u]}}t++}return r};e.fragment=function(t,r){var i;if(r==null){r="*"}if(!(r in n)){r="*"}i=n[r];i.innerHTML=""+t;return e.each(Array.prototype.slice.call(i.childNodes),function(){return i.removeChild(this)})};e.fn.map=function(t){return e.map(this,function(e,n){return t.call(e,n,e)})};e.fn.instance=function(e){return this.map(function(){return this[e]})};e.fn.filter=function(t){return e([].filter.call(this,function(n){return n.parentNode&&e.query(n.parentNode,t).indexOf(n)>=0}))};e.fn.forEach=t.forEach;e.fn.indexOf=t.indexOf;o=function(e){return e.filter(function(e){return e!==void 0&&e!==null})};return s=function(e){if(e.length>0){return[].concat.apply([],e)}else{return e}}})(Quo)}).call(this);(function(){(function(e){e.fn.attr=function(t,n){if(this.length===0){null}if(e.toType(t)==="string"&&n===void 0){return this[0].getAttribute(t)}else{return this.each(function(){return this.setAttribute(t,n)})}};e.fn.removeAttr=function(e){return this.each(function(){return this.removeAttribute(e)})};e.fn.data=function(e,t){return this.attr("data-"+e,t)};e.fn.removeData=function(e){return this.removeAttr("data-"+e)};e.fn.val=function(t){if(e.toType(t)==="string"){return this.each(function(){return this.value=t})}else{if(this.length>0){return this[0].value}else{return null}}};e.fn.show=function(){return this.style("display","block")};e.fn.hide=function(){return this.style("display","none")};e.fn.height=function(){var e;e=this.offset();return e.height};e.fn.width=function(){var e;e=this.offset();return e.width};e.fn.offset=function(){var e;e=this[0].getBoundingClientRect();return{left:e.left+window.pageXOffset,top:e.top+window.pageYOffset,width:e.width,height:e.height}};return e.fn.remove=function(){return this.each(function(){if(this.parentNode!=null){return this.parentNode.removeChild(this)}})}})(Quo)}).call(this);(function(){(function(e){var t,n,r,i,u,a,o;r=null;t=/WebKit\/([\d.]+)/;n={Android:/(Android)\s+([\d.]+)/,ipad:/(iPad).*OS\s([\d_]+)/,iphone:/(iPhone\sOS)\s([\d_]+)/,Blackberry:/(BlackBerry|BB10|Playbook).*Version\/([\d.]+)/,FirefoxOS:/(Mozilla).*Mobile[^\/]*\/([\d\.]*)/,webOS:/(webOS|hpwOS)[\s\/]([\d.]+)/};e.isMobile=function(){r=r||u();return r.isMobile&&r.os.name!=="firefoxOS"};e.environment=function(){r=r||u();return r};e.isOnline=function(){return navigator.onLine};u=function(){var e,t;t=navigator.userAgent;e={};e.browser=i(t);e.os=a(t);e.isMobile=!!e.os;e.screen=o();return e};i=function(e){var n;n=e.match(t);if(n){return n[0]}else{return e}};a=function(e){var t,r,i;t=null;for(r in n){i=e.match(n[r]);if(i){t={name:r==="iphone"||r==="ipad"?"ios":r,version:i[2].replace("_",".")};break}}return t};return o=function(){return{width:window.innerWidth,height:window.innerHeight}}})(Quo)}).call(this);(function(){(function(e){var t,n,r,i,u,a,o,s,c,f,l,h;t=1;i={};r={preventDefault:"isDefaultPrevented",stopImmediatePropagation:"isImmediatePropagationStopped",stopPropagation:"isPropagationStopped"};n={touchstart:"mousedown",touchmove:"mousemove",touchend:"mouseup",touch:"click",doubletap:"dblclick",orientationchange:"resize"};u=/complete|loaded|interactive/;e.fn.on=function(t,n,r){if(n==="undefined"||e.toType(n)==="function"){return this.bind(t,n)}else{return this.delegate(n,t,r)}};e.fn.off=function(t,n,r){if(n==="undefined"||e.toType(n)==="function"){return this.unbind(t,n)}else{return this.undelegate(n,t,r)}};e.fn.ready=function(t){if(u.test(document.readyState)){return t(e)}else{return e.fn.addEvent(document,"DOMContentLoaded",function(){return t(e)})}};e.Event=function(e,t){var n,r;n=document.createEvent("Events");n.initEvent(e,true,true,null,null,null,null,null,null,null,null,null,null,null,null);if(t){for(r in t){n[r]=t[r]}}return n};e.fn.bind=function(e,t){return this.each(function(){l(this,e,t)})};e.fn.unbind=function(e,t){return this.each(function(){h(this,e,t)})};e.fn.delegate=function(t,n,r){return this.each(function(i,u){l(u,n,r,t,function(n){return function(r){var i,o;o=e(r.target).closest(t,u).get(0);if(o){i=e.extend(a(r),{currentTarget:o,liveFired:u});return n.apply(o,[i].concat([].slice.call(arguments,1)))}}})})};e.fn.undelegate=function(e,t,n){return this.each(function(){h(this,t,n,e)})};e.fn.trigger=function(t,n,r){if(e.toType(t)==="string"){t=e.Event(t,n)}if(r!=null){t.originalEvent=r}return this.each(function(){this.dispatchEvent(t)})};e.fn.addEvent=function(e,t,n){if(e.addEventListener){return e.addEventListener(t,n,false)}else if(e.attachEvent){return e.attachEvent("on"+t,n)}else{return e["on"+t]=n}};e.fn.removeEvent=function(e,t,n){if(e.removeEventListener){return e.removeEventListener(t,n,false)}else if(e.detachEvent){return e.detachEvent("on"+t,n)}else{return e["on"+t]=null}};l=function(t,n,r,u,a){var c,l,h,d;n=s(n);h=f(t);l=i[h]||(i[h]=[]);c=a&&a(r,n);d={event:n,callback:r,selector:u,proxy:o(c,r,t),delegate:c,index:l.length};l.push(d);return e.fn.addEvent(t,d.event,d.proxy)};h=function(t,n,r,u){var a;n=s(n);a=f(t);return c(a,n,r,u).forEach(function(n){delete i[a][n.index];return e.fn.removeEvent(t,n.event,n.proxy)})};f=function(e){return e._id||(e._id=t++)};s=function(t){var r;r=e.isMobile()?t:n[t];return r||t};o=function(e,t,n){var r;t=e||t;r=function(e){var r;r=t.apply(n,[e].concat(e.data));if(r===false){e.preventDefault()}return r};return r};c=function(e,t,n,r){return(i[e]||[]).filter(function(e){return e&&(!t||e.event===t)&&(!n||e.callback===n)&&(!r||e.selector===r)})};return a=function(t){var n;n=e.extend({originalEvent:t},t);e.each(r,function(e,r){n[e]=function(){this[r]=function(){return true};return t[e].apply(t,arguments)};return n[r]=function(){return false}});return n}})(Quo)}).call(this);(function(){(function($$){var CURRENT_TOUCH,EVENT,FIRST_TOUCH,GESTURE,GESTURES,HOLD_DELAY,TAPS,TOUCH_TIMEOUT,_angle,_capturePinch,_captureRotation,_cleanGesture,_distance,_fingersPosition,_getTouches,_hold,_isSwipe,_listenTouches,_onTouchEnd,_onTouchMove,_onTouchStart,_parentIfText,_swipeDirection,_trigger;TAPS=null;EVENT=void 0;GESTURE={};FIRST_TOUCH=[];CURRENT_TOUCH=[];TOUCH_TIMEOUT=void 0;HOLD_DELAY=650;GESTURES=["touch","tap","singleTap","doubleTap","hold","swipe","swiping","swipeLeft","swipeRight","swipeUp","swipeDown","rotate","rotating","rotateLeft","rotateRight","pinch","pinching","pinchIn","pinchOut","drag","dragLeft","dragRight","dragUp","dragDown"];GESTURES.forEach(function(e){$$.fn[e]=function(t){var n;n=e==="touch"?"touchend":e;return $$(document.body).delegate(this.selector,n,t)};return this});$$(document).ready(function(){return _listenTouches()});_listenTouches=function(){var e;e=$$(document.body);e.bind("touchstart",_onTouchStart);e.bind("touchmove",_onTouchMove);e.bind("touchend",_onTouchEnd);return e.bind("touchcancel",_cleanGesture)};_onTouchStart=function(e){var t,n,r,i;EVENT=e;r=Date.now();t=r-(GESTURE.last||r);TOUCH_TIMEOUT&&clearTimeout(TOUCH_TIMEOUT);i=_getTouches(e);n=i.length;FIRST_TOUCH=_fingersPosition(i,n);GESTURE.el=$$(_parentIfText(i[0].target));GESTURE.fingers=n;GESTURE.last=r;if(!GESTURE.taps){GESTURE.taps=0}GESTURE.taps++;if(n===1){if(n>=1){GESTURE.gap=t>0&&t<=250}return setTimeout(_hold,HOLD_DELAY)}else if(n===2){GESTURE.initial_angle=parseInt(_angle(FIRST_TOUCH),10);GESTURE.initial_distance=parseInt(_distance(FIRST_TOUCH),10);GESTURE.angle_difference=0;return GESTURE.distance_difference=0}};_onTouchMove=function(e){var t,n,r;EVENT=e;if(GESTURE.el){r=_getTouches(e);t=r.length;if(t===GESTURE.fingers){CURRENT_TOUCH=_fingersPosition(r,t);n=_isSwipe(e);if(n){GESTURE.prevSwipe=true}if(n||GESTURE.prevSwipe===true){_trigger("swiping")}if(t===2){_captureRotation();_capturePinch();e.preventDefault()}}else{_cleanGesture()}}return true};_isSwipe=function(e){var t,n,r;t=false;if(CURRENT_TOUCH[0]){n=Math.abs(FIRST_TOUCH[0].x-CURRENT_TOUCH[0].x)>30;r=Math.abs(FIRST_TOUCH[0].y-CURRENT_TOUCH[0].y)>30;t=GESTURE.el&&(n||r)}return t};_onTouchEnd=function(e){var t,n,r,i,u;EVENT=e;_trigger("touch");if(GESTURE.fingers===1){if(GESTURE.taps===2&&GESTURE.gap){_trigger("doubleTap");_cleanGesture()}else if(_isSwipe()||GESTURE.prevSwipe){_trigger("swipe");u=_swipeDirection(FIRST_TOUCH[0].x,CURRENT_TOUCH[0].x,FIRST_TOUCH[0].y,CURRENT_TOUCH[0].y);_trigger("swipe"+u);_cleanGesture()}else{_trigger("tap");if(GESTURE.taps===1){TOUCH_TIMEOUT=setTimeout(function(){_trigger("singleTap");return _cleanGesture()},100)}}}else{t=false;if(GESTURE.angle_difference!==0){_trigger("rotate",{angle:GESTURE.angle_difference});i=GESTURE.angle_difference>0?"rotateRight":"rotateLeft";_trigger(i,{angle:GESTURE.angle_difference});t=true}if(GESTURE.distance_difference!==0){_trigger("pinch",{angle:GESTURE.distance_difference});r=GESTURE.distance_difference>0?"pinchOut":"pinchIn";_trigger(r,{distance:GESTURE.distance_difference});t=true}if(!t&&CURRENT_TOUCH[0]){if(Math.abs(FIRST_TOUCH[0].x-CURRENT_TOUCH[0].x)>10||Math.abs(FIRST_TOUCH[0].y-CURRENT_TOUCH[0].y)>10){_trigger("drag");n=_swipeDirection(FIRST_TOUCH[0].x,CURRENT_TOUCH[0].x,FIRST_TOUCH[0].y,CURRENT_TOUCH[0].y);_trigger("drag"+n)}}_cleanGesture()}return EVENT=void 0};_fingersPosition=function(e,t){var n,r;r=[];n=0;e=e[0].targetTouches?e[0].targetTouches:e;while(n<t){r.push({x:e[n].pageX,y:e[n].pageY});n++}return r};_captureRotation=function(){var angle,diff,i,symbol;angle=parseInt(_angle(CURRENT_TOUCH),10);diff=parseInt(GESTURE.initial_angle-angle,10);if(Math.abs(diff)>20||GESTURE.angle_difference!==0){i=0;symbol=GESTURE.angle_difference<0?"-":"+";while(Math.abs(diff-GESTURE.angle_difference)>90&&i++<10){eval("diff "+symbol+"= 180;")}GESTURE.angle_difference=parseInt(diff,10);return _trigger("rotating",{angle:GESTURE.angle_difference})}};_capturePinch=function(){var e,t;t=parseInt(_distance(CURRENT_TOUCH),10);e=GESTURE.initial_distance-t;if(Math.abs(e)>10){GESTURE.distance_difference=e;return _trigger("pinching",{distance:e})}};_trigger=function(e,t){if(GESTURE.el){t=t||{};if(CURRENT_TOUCH[0]){t.iniTouch=GESTURE.fingers>1?FIRST_TOUCH:FIRST_TOUCH[0];t.currentTouch=GESTURE.fingers>1?CURRENT_TOUCH:CURRENT_TOUCH[0]}return GESTURE.el.trigger(e,t,EVENT)}};_cleanGesture=function(e){FIRST_TOUCH=[];CURRENT_TOUCH=[];GESTURE={};return clearTimeout(TOUCH_TIMEOUT)};_angle=function(e){var t,n,r;t=e[0];n=e[1];r=Math.atan((n.y-t.y)*-1/(n.x-t.x))*(180/Math.PI);if(r<0){return r+180}else{return r}};_distance=function(e){var t,n;t=e[0];n=e[1];return Math.sqrt((n.x-t.x)*(n.x-t.x)+(n.y-t.y)*(n.y-t.y))*-1};_getTouches=function(e){if($$.isMobile()){return e.touches}else{return[e]}};_parentIfText=function(e){if("tagName"in e){return e}else{return e.parentNode}};_swipeDirection=function(e,t,n,r){var i,u;i=Math.abs(e-t);u=Math.abs(n-r);if(i>=u){if(e-t>0){return"Left"}else{return"Right"}}else{if(n-r>0){return"Up"}else{return"Down"}}};return _hold=function(){if(GESTURE.last&&Date.now()-GESTURE.last>=HOLD_DELAY){_trigger("hold");return GESTURE.taps=0}}})(Quo)}).call(this);(function(){(function(e){e.fn.text=function(t){if(t||e.toType(t)==="number"){return this.each(function(){return this.textContent=t})}else{return this[0].textContent}};e.fn.html=function(t){var n;n=e.toType(t);if(t||n==="number"||n==="string"){return this.each(function(){var e,r,i,u;if(n==="string"||n==="number"){return this.innerHTML=t}else{this.innerHTML=null;if(n==="array"){u=[];for(r=0,i=t.length;r<i;r++){e=t[r];u.push(this.appendChild(e))}return u}else{return this.appendChild(t)}}})}else{return this[0].innerHTML}};e.fn.append=function(t){var n;n=e.toType(t);return this.each(function(){var e=this;if(n==="string"){return this.insertAdjacentHTML("beforeend",t)}else if(n==="array"){return t.each(function(t,n){return e.appendChild(n)})}else{return this.appendChild(t)}})};e.fn.prepend=function(t){var n;n=e.toType(t);return this.each(function(){var e=this;if(n==="string"){return this.insertAdjacentHTML("afterbegin",t)}else if(n==="array"){return t.each(function(t,n){return e.insertBefore(n,e.firstChild)})}else{return this.insertBefore(t,this.firstChild)}})};e.fn.replaceWith=function(t){var n;n=e.toType(t);this.each(function(){var e=this;if(this.parentNode){if(n==="string"){return this.insertAdjacentHTML("beforeBegin",t)}else if(n==="array"){return t.each(function(t,n){return e.parentNode.insertBefore(n,e)})}else{return this.parentNode.insertBefore(t,this)}}});return this.remove()};return e.fn.empty=function(){return this.each(function(){return this.innerHTML=null})}})(Quo)}).call(this);(function(){(function(e){var t,n,r,i,u,a;r="parentNode";t=/^\.([\w-]+)$/;n=/^#[\w\d-]+$/;i=/^[\w-]+$/;e.query=function(e,r){var u;r=r.trim();if(t.test(r)){u=e.getElementsByClassName(r.replace(".",""))}else if(i.test(r)){u=e.getElementsByTagName(r)}else if(n.test(r)&&e===document){u=e.getElementById(r.replace("#",""));if(!u){u=[]}}else{u=e.querySelectorAll(r)}if(u.nodeType){return[u]}else{return Array.prototype.slice.call(u)}};e.fn.find=function(t){var n;if(this.length===1){n=Quo.query(this[0],t)}else{n=this.map(function(){return Quo.query(this,t)})}return e(n)};e.fn.parent=function(e){var t;t=e?a(this):this.instance(r);return u(t,e)};e.fn.siblings=function(e){var t;t=this.map(function(e,t){return Array.prototype.slice.call(t.parentNode.children).filter(function(e){return e!==t})});return u(t,e)};e.fn.children=function(e){var t;t=this.map(function(){return Array.prototype.slice.call(this.children)});return u(t,e)};e.fn.get=function(e){if(e===undefined){return this}else{return this[e]}};e.fn.first=function(){return e(this[0])};e.fn.last=function(){return e(this[this.length-1])};e.fn.closest=function(t,n){var r,i;i=this[0];r=e(t);if(!r.length){i=null}while(i&&r.indexOf(i)<0){i=i!==n&&i!==document&&i.parentNode}return e(i)};e.fn.each=function(e){this.forEach(function(t,n){return e.call(t,n,t)});return this};a=function(t){var n;n=[];while(t.length>0){t=e.map(t,function(e){if((e=e.parentNode)&&e!==document&&n.indexOf(e)<0){n.push(e);return e}})}return n};return u=function(t,n){if(n===undefined){return e(t)}else{return e(t).filter(n)}}})(Quo)}).call(this);(function(){(function(e){var t,n,r;t=["-webkit-","-moz-","-ms-","-o-",""];e.fn.addClass=function(e){return this.each(function(){if(!r(e,this.className)){this.className+=" "+e;return this.className=this.className.trim()}})};e.fn.removeClass=function(e){return this.each(function(){if(!e){return this.className=""}else{if(r(e,this.className)){return this.className=this.className.replace(e," ").replace(/\s+/g," ").trim()}}})};e.fn.toggleClass=function(e){return this.each(function(){if(r(e,this.className)){return this.className=this.className.replace(e," ")}else{this.className+=" "+e;return this.className=this.className.trim()}})};e.fn.hasClass=function(e){return r(e,this[0].className)};e.fn.style=function(e,t){if(t){return this.each(function(){return this.style[e]=t})}else{return this[0].style[e]||n(this[0],e)}};e.fn.css=function(e,t){return this.style(e,t)};e.fn.vendor=function(e,n){var r,i,u,a;a=[];for(i=0,u=t.length;i<u;i++){r=t[i];a.push(this.style(""+r+e,n))}return a};r=function(e,t){var n;n=t.split(/\s+/g);return n.indexOf(e)>=0};return n=function(e,t){return document.defaultView.getComputedStyle(e,"")[t]}})(Quo)}).call(this);
+// ==========================================================================
+// Project:   Ember Touch - Touch and Gesture Library For Ember
+// Copyright: ©2011-2012 Pepe Cano and contributors
+//            Portions ©2006-2011 Strobe Inc.
+// License:   Licensed under MIT license
+//            See https://raw.github.com/emberjs-addons/ember-touch/master/LICENSE
+// ==========================================================================
+
+
+(function() {
+Em.TimeoutTouchEventType = {
+  Cancel: 'cancel',
+  End: 'end'
+};
+
+/**
+Based on custom  gestures implementation. A `TimeoutTouchEvent` event is
+normally created to fire automatically after a given period of time.
+A view [gesture]Event which must be executed without being generated
+by an user touch event.
+
+@class TimeoutTouchEvent
+@namespace Ember
+*/
+Em.TimeoutTouchEvent = function(options){
+  this.type = options.type;
+};
+
+})();
+
+
+
+(function() {
+var get = Em.get; var set = Em.set;
+
+/**
+@module ember
+@submodule ember-touch
+*/
+/**
+  This component manages and maintains a list of active touches related
+  to a gesture recognizer.
+
+  @class TouchList
+  @namespace Ember
+  @extends Ember.Object
+  @private
+*/
+Em.TouchList = Em.Object.extend({
+
+  /**
+    @property touches
+    @type Array
+  */
+  touches: null,
+
+  /**
+    @property timestamp
+  */
+  timestamp: null,
+
+  init: function() {
+    this._super();
+
+    set(this, 'touches', []);
+  },
+
+  /**
+    Add a touch event to the list.
+    This method is called only in the initialization of
+    the touch session adding touchstart events.
+
+    @method addTouch
+  */
+  addTouch: function(touch) {
+    var touches = get(this, 'touches');
+    touches.push(touch);
+    this.notifyPropertyChange('touches');
+  },
+
+  /**
+    Update a touch event from the list.
+    Given a touch event, it will iterate the current
+    list to replace with the event the item whose
+    identifier is equal to the event identifier.
+    @method updateTouch
+  */
+  updateTouch: function(touch) {
+    var touches = get(this, 'touches');
+
+    for (var i=0, l=touches.length; i<l; i++) {
+      var _t = touches[i];
+
+      if (_t.identifier === touch.identifier) {
+        touches[i] = touch;
+        this.notifyPropertyChange('touches');
+        break;
+      }
+    }
+  },
+
+  /**
+    Reset the touch list.
+    @method removeAllTouches
+  */
+  removeAllTouches: function() {
+    set(this, 'touches', []);
+  },
+
+  /**
+    Given a touch identifier, it returns the touch event
+    with the same identifier in the list.
+
+    @method touchWithId
+  */
+  touchWithId: function(id) {
+    var ret = null,
+        touches = get(this, 'touches');
+
+    for (var i=0, l=touches.length; i<l; i++) {
+      var _t = touches[i];
+
+      if (_t.identifier === id) {
+        ret = _t;
+        break;
+      }
+    }
+
+    return ret;
+  },
+
+
+  /**
+    Length of the touch list.
+    @property length
+  */
+  length: Ember.computed(function() {
+    var touches = get(this, 'touches');
+    return touches.length;
+  }).property('touches').cacheable()
+
+});
+
+})();
+
+
+
+(function() {
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+@module ember
+@submodule ember-touch
+*/
+
+/**
+  An ApplicationGestureManager instance is registered into the container
+  to inform `GestureManager` instances if touch events can
+  be dispatched and it stores application gestures and delegates.
+
+  `GestureManager` instances deny dispatching events whenever the `isAllBlocked`
+  property is true or `isBlocked` is true and the `shouldReceiveTouch` response
+  is false.
+
+  @class ApplicationGestureManager
+  @namespace Ember
+  @extends Em.Object
+*/
+Em.ApplicationGestureManager = Em.Object.extend({
+
+
+  /**
+    Access the list of application delegates registered.
+
+    @type GestureDelegates
+    @property _gestures
+  */
+  _delegates: null,
+
+
+  /**
+    Block application gesture recognition when true.
+    @property isAllBlocked
+    @default false
+  */
+  isAllBlocked: false,
+
+  /**
+    Access the registered gestures in the application.
+
+    @property _gestures
+  */
+  _gestures: null,
+
+  /**
+    View which has blocked the recognizer. This is the
+    only view which can unblock the gesture recognition.
+
+    @private
+    @property _blockerView
+  */
+  _blockerView: null,
+
+  /**
+    @private
+    @property _isBlocked
+  */
+  _isBlocked: false,
+
+  /**
+    Whenever the `isBlocked` property is true, this function
+    property decides if a touch event can be dispatched.
+    @private
+    @property _shouldReceiveTouchFn
+  */
+  _shouldReceiveTouchFn:null,
+
+
+  init: function() {
+    this._super();
+    this._gestures = {};
+    this._delegates = {};
+
+  },
+
+  /**
+    Register a new gesture in the application
+
+    @method registerGesture
+  */
+  registerGesture: function(name, recognizer) {
+
+    if (this._gestures[name] !== undefined) {
+      throw new Ember.Error(name+" already exists as a registered gesture recognizer. Gesture recognizers must have globally unique names.");
+    }
+
+    this._gestures[name] = recognizer;
+
+  },
+
+  /**
+    @method unregisterGesture
+  */
+  unregisterGesture: function(name) {
+
+    if ( this._gestures[name] ) {
+      delete this._gestures[name];
+    }
+
+  },
+
+  /**
+    Get the list of the application gestures
+
+    @method knownGestures
+  */
+  knownGestures: function() {
+    return this._gestures || {};
+  },
+
+  /**
+    @method registerDelegate
+  */
+  registerDelegate: function(delegate) {
+    this._delegates[ delegate.get('name') ] = delegate;
+  },
+
+  /**
+    @method findDelegate
+  */
+  findDelegate: function( name ) {
+    return this._delegates[name];
+  },
+
+
+  /**
+    @property isBlocked
+  */
+  isBlocked: Ember.computed(function(){
+
+    return this.get('_isBlocked');
+
+  }).property('_isBlocked'),
+
+
+  /**
+    Whenever the `isBlocked` property is true, the function output is provided
+    to `GestureManager` instances to allow or deny dispatching touch events.
+
+    @method shouldReceiveTouch
+  */
+  shouldReceiveTouch: function(view) {
+
+    return this.get('_shouldReceiveTouchFn')(view);
+
+  },
+
+  /**
+    Blocks gesture recognition at the application level and setups
+    which events can be dispatched based on the `shouldReceiveTouchFn` parameter.
+
+    @method block
+  */
+  block: function( view, shouldReceiveTouchFn ) {
+
+    if ( this.get('isBlocked') ) {
+      throw new Error('manager has already blocked the gesture recognizer');
+    }
+
+    set(this, '_shouldReceiveTouchFn', shouldReceiveTouchFn);
+    set(this, '_isBlocked', true);
+    set(this, '_blockerView', view);
+
+  },
+
+  /**
+    Unblock current gesture blocking state.
+    @method unblock
+  */
+  unblock: function( view ) {
+
+    if ( !this.get('isBlocked') ) {
+      throw new Error('unblock, the gesture recognizer when the recognizer was not blocked. Did you unblock after Start? ');
+    }
+
+    var blockerView = this.get('_blockerView');
+
+    if ( view !== blockerView ) {
+      throw new Error('unblock a view which was not the one which blocked the gesture recognizer');
+    }
+
+    this.set('_isBlocked', false);
+    this.set('_blockerView', null);
+    this.set('_shouldReceiveTouchFn', null);
+
+  }
+
+});
+
+})();
+
+
+
+(function() {
+/**
+@module ember
+@submodule ember-touch
+*/
+/**
+  Defines a rule on its `shouldReceiveTouch` method
+  to be used by a `GestureDelegate` instance.
+
+  @class GestureDelegateRule
+  @namespace Ember
+  @extends Ember.Object
+*/
+Em.GestureDelegateRule = Em.Object.extend({
+
+  /**
+    @method shouldReceiveTouch
+  */
+  shouldReceiveTouch: function(gesture, view, event) {
+
+  }
+
+});
+
+})();
+
+
+
+(function() {
+
+/**
+@module ember
+@submodule ember-touch
+*/
+/**
+GestureDelegate allows `GestureManager` instances decide
+if a touch event can be dispatched to a view gesture.
+
+Gestures can be set up using a `GestureDelegate` to coordinate
+the gesture recognition based on application logic.
+
+@class GestureDelegate
+@namespace Ember
+@extends Ember.Object
+*/
+Em.GestureDelegate = Em.Object.extend({
+
+  /**
+    Name of the gestureDelegate.
+    This optional property can be used on gestureOptions
+    to assign a gestureDelegate to a specific gesture.
+
+    @property name
+    @type Array
+  */
+  name: null,
+
+  /**
+    Array of `GestureDelegateRule` which can be setup
+    with string path, extended classes or instances.
+    In runtime, they are intented to be checked before
+    `GestureDelegate.shouldReceiveTouch` call.
+
+    @property rules
+    @type Array
+   */
+  rules: null,
+
+  init: function(){
+
+    this._super();
+
+    var rules = this.rules,
+        current = [],
+        rule;
+
+    if ( !!rules ) {
+
+      var i,
+          max;
+
+      for ( i=0, max=rules.length; i<max; i++ ) {
+
+        rule = rules[i];
+
+        if ( Em.typeOf(rule) === "string" ) {
+          rule = Em.get(rule);
+        }
+
+        if ( !rule.isInstance ) {
+          rule = rule.create();
+        }
+
+        current.push( rule );
+      }
+
+    }
+
+    this.rules = current;
+
+  },
+
+  /**
+    Respond if a gesture recognizer should receive a touch event.
+
+    @method shouldReceiveTouch
+    @return Boolen
+  */
+  shouldReceiveTouch: function(gesture, view, event) {
+    return true;
+  }
+
+});
+
+})();
+
+
+
+(function() {
+var get = Em.get; var set = Em.set;
+
+/**
+  @module ember
+  @submodule ember-touch
+*/
+
+/**
+`Em.GestureManager` mainly acts as a composite for the multiple gesture
+recognizers associated with a view.
+
+This class is instantiated automatically by Em.View and it shouldn't be
+directly accessed.
+
+Whenever it gets a touch event, it relays it to the gestures when
+coordination conditions are satisfied.
+
+The other main resposibility of `Em.GestureManager` is to manage
+event bubbling.
+
+@class GestureManager
+@namespace Ember
+@extends Ember.Object
+*/
+Em.GestureManager = Em.Object.extend({
+
+  /**
+    An array containing all the gesture recognizers associated with a
+    view. This is set automatically by `Em.View`.
+
+
+    @property gestures
+    @default null
+    @type Array
+  */
+  gestures: null,
+
+  /**
+    @type Em.ApplicationGestureManager
+    @property applicationGestureManager
+  */
+  //applicationGestureManager: null,
+
+  applicationGestureManager: Ember.computed(function() {
+    return this.view.get('container').lookup('gesture:application');
+  }),
+
+  container: null,
+
+  /**
+    The Em.View which belongs this `GestureManager` instance.
+
+    @property view
+    @type Em.View
+  */
+  view: null,
+
+  /**
+    Relays touchStart events to all the gesture recognizers to the
+    specified view when coordination conditions are satisfied.
+
+    @method touchStart
+    @return Boolen
+  */
+  touchStart: function(evt, view) {
+    return this._invokeEvent('touchStart',evt);
+  },
+
+  /**
+    Relays touchMove events to all the gesture recognizers to the
+    specified view when coordination conditions are satisfied.
+
+    @method touchMove
+    @return Boolen
+  */
+  touchMove: function(evt, view) {
+    return this._invokeEvent('touchMove',evt);
+  },
+
+  /**
+    Relays touchEnd events to all the gesture recognizers to the
+    specified view when coordination conditions are satisfied.
+
+    @method touchEnd
+    @return Boolen
+  */
+  touchEnd: function(evt, view) {
+    return this._invokeEvent('touchEnd',evt);
+  },
+
+  /**
+    Relays touchCancel events to all the gesture recognizers to the
+    specified view when coordination conditions are satisfied.
+
+    @method touchCancel
+    @return Boolen
+  */
+  touchCancel: function(evt, view) {
+    return this._invokeEvent('touchCancel',evt);
+  },
+
+  /**
+    Relays an event to the gesture recognizers. Used internally
+    by the touch event listeners. Propagates the event to the parentViews.
+
+    @private
+    @method _invokeEvent
+    @return Boolean
+  */
+  _invokeEvent: function(eventName, eventObject) {
+
+    var gestures = this.get('gestures'),
+        l =  gestures.length,
+        handler,
+        result = true;
+
+    // view can response directly to touch events
+    handler = this.view[eventName];
+    if (Em.typeOf(handler) === 'function') {
+      handler.call(this.view, eventObject);
+    }
+
+
+    var agm = this.get('applicationGestureManager');
+
+    if ( !agm.get('isAllBlocked') ) {
+
+      if ( l > 0 ) {
+
+        //appGestureManager allow to pass touchEvents at the App Level
+        var gesturesCanReceiveTouchEvent = agm.get('isBlocked')? agm.shouldReceiveTouch(this.view) : true;
+        if ( gesturesCanReceiveTouchEvent ) {
+
+          var gesture,
+              gestureDelegate,
+              isValid,
+              i;
+
+          for (i=0; i < l; i++) {
+            gesture = gestures[i];
+            handler = gesture[eventName];
+
+            if (Em.typeOf(handler) === 'function') {
+
+              gestureDelegate = gesture.get('delegate');
+
+              if ( !gesture.get('isEnabled') ) {
+                isValid = false;
+              //gestureDelegate allow to pass touchEvents depending on gesture state
+              } else if ( !gestureDelegate ) {
+                isValid = true;
+              } else {
+
+                isValid = this._applyDelegateRules( gestureDelegate,  gesture, this.view, eventObject );
+                if ( isValid === undefined ) {
+                  isValid = gestureDelegate.shouldReceiveTouch( gesture, this.view, eventObject );
+                }
+
+              }
+
+              if ( isValid ) {
+                result = handler.call(gesture, eventObject);
+              }
+
+            }
+          }
+
+        }
+
+      }
+
+      // browser delivers the event to the DOM element
+      // bubble the event to the parentView
+      var parentView = this.view.get('parentView');
+      if ( parentView ) {
+        var manager = parentView.get('eventManager');
+        if ( manager ) { manager._invokeEvent(eventName, eventObject); }
+      }
+
+    }
+
+    return result;
+
+  },
+
+  /**
+    Iterates all `GestureDelegateRule` instances of the gestureDelegate parameter
+    executing its shouldReceiveTouch method and return the value whenever
+    a rule respond with a defined value.
+
+    @private
+    @method _applyDelegateRules
+    @return Boolean
+  */
+  _applyDelegateRules: function(gestureDelegate, gesture, view, event) {
+
+    var rules = gestureDelegate.rules,
+        length = rules.length;
+
+    if ( length > 0 ) {
+
+      var i,
+          result;
+
+      for (i=0;i<length;i++) {
+        result = rules[i].shouldReceiveTouch(gesture, view, event);
+        if ( result !== undefined ) {
+          return result;
+        }
+      }
+    }
+
+    return undefined;
+
+  }
+
+});
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+@module ember
+@submodule ember-touch
+*/
+
+/**
+Base class to be extended to define specific gesture recognizers. Handles low-level touch
+events and state management. It also provides some utility methods to the extended classes.
+
+  @class Gesture
+  @namespace Ember
+  @extends Ember.Object
+*/
+Em.Gesture = Em.Object.extend({
+
+  /**
+    The current state of the gesture recognizer. This value can be any of the
+    following:
+
+      WAITING_FOR_TOUCHES
+      POSSIBLE
+      BEGAN
+      CHANGED
+      ENDED
+      CANCELLED
+
+    @property state
+    @type Number
+  */
+  state: null,
+
+  /**
+    A string to identify the gesture recognizer's name. This value is set automatically
+    by Em.Gestures when a gesture is registered.
+
+    @property name
+    @type String
+  */
+  name: null,
+
+  /**
+    View in which the gesture must be recognized.
+    Assigned on startup.
+  */
+  view: null,
+
+  /**
+    Assigned on startup.
+  */
+  applicationGestureManager: Ember.computed(function() {
+    // TODO: more elegant way
+    return this.view.get('container').lookup('gesture:application');
+  }),
+
+  container: null,
+
+  /**
+    Specifies whether a gesture is discrete or continuous.
+
+    @property gestureIsDiscrete
+    @type Boolean
+    @default false
+  */
+  gestureIsDiscrete: false,
+
+
+  /**
+    This property enables to recognize gestures simultaneously. Whenever a gesture
+    is being recognized and its `simultaneously` property is false, it denies other
+    gestures to be recognized at the same time.
+
+    @property simultaneously
+    @type Boolean
+    @default true
+  */
+  simultaneously: true,
+
+  /**
+    Used this property to assign a `GestureDelegate` instance to the `delegate` property
+    in the `init` process.
+
+    @property delegateName
+    @type String
+  */
+  delegateName: null,
+
+  /**
+    Apply a `GestureDelegate` to customize an application's gesture-recognition behavior.
+
+    @property delegate
+    @type Em.GestureDelegate
+  */
+  delegate: null,
+
+  /**
+    Use this property to disable the gesture recognition.
+    Use isEnabledBinding to bind to global or view properties.
+
+    @property isEnabled
+    @type Boolean
+    @default true
+  */
+  isEnabled: true,
+
+
+  /**
+    Manage and maintain a list of active touches related to a gesture recognizer.
+
+    A gesture updates automatically its internal touch list
+    to have only the last active touch events.
+
+    Custom gestures may not interact with the `TouchList` methods,
+    it is usually the gesture API which manages its touch list.
+
+    Custom gestures usually access its length property and
+    the internal touch list to have information of the last
+    active touch events.
+
+    @protected
+    @property touches
+    @type Em.TouchList
+  */
+  touches: null,
+
+  /**
+    You can also use the numberOfActiveTouches property to inspect how many touches
+    are active, this is mostly useful in `shouldBegin` since every other callback can
+    assume that there are as many active touches as specified in the
+    `numberOfRequiredTouches` property.
+
+    @private
+    @property numberOfActiveTouches
+    @type Number
+  */
+  numberOfActiveTouches: 0,
+
+  /**
+    Used to specify the number of touches required for the gesture to enter a possible
+    state
+
+    @private
+    @property numberOfRequiredTouches
+    @type Number
+  */
+  numberOfRequiredTouches: 1,
+
+  init: function() {
+
+    this._super();
+    this.touches = Em.TouchList.create();
+    this.name = get(this, 'name');
+
+    var delegateName =  this.get('delegateName');
+    var delegate =  this.get('delegate');
+
+    if (!delegate && delegateName ) {
+
+      var applicationGestureManager = get(this, 'applicationGestureManager');
+
+      delegate = applicationGestureManager.findDelegate(delegateName);
+      Em.assert('empty delegate, attempting to set up delegate based on delegateName', delegate);
+      set(this, 'delegate', delegate);
+
+    }
+
+  },
+
+  //..............................................
+  // Gesture Protected Methods
+
+  /**
+    Called when a gesture enters a possible state. This means the gesture
+    recognizer has accepted enough touches to match the number of required touches.
+    Usually, the internal state is initialized in this callback.
+    @protected
+    @method didBecomePossible
+  */
+  didBecomePossible: function() { },
+
+  /**
+    Called if a view returns false from a gesture event.
+    This callback allows to reset the internal state if the user
+    rejects an event.
+    @protected
+    @method didBegin
+  */
+  eventWasRejected: function() { },
+
+  /**
+    Called if a view returns false from a gesture event. This callback allows
+     to reset the internal state if the user rejects an event.
+    @protected
+    @method shouldBegin
+  */
+  shouldBegin: function() {
+    return true;
+  },
+
+  /**
+    Called when the gesture enters a began state.
+    Called before the view receives the Start event.
+    @protected
+    @method didBegin
+  */
+  didBegin: function() { },
+
+  /**
+    Called when the gesture enters a began state, and when one of the touches moves.
+    Called before the view receives the Change event.
+    @protected
+    @method didChange
+  */
+  didChange: function(evt) { },
+
+  /**
+    Allows a gesture to block itself from entering an ended state.
+    This callback gets called whenever a tracked touch gets a touchEnd event.
+    @protected
+    @method shouldEnd
+  */
+  shouldEnd: function() {
+    return true;
+  },
+
+  /**
+    Called when the gesture enters an ended state.
+    Called before the view receives the End event.
+    @protected
+    @method didEnd
+  */
+  didEnd: function() { },
+
+  /**
+    Called when the gesture enters a cancelled state.
+    Called before the view receives the Cancel event.
+    @protected
+    @method didCancel
+  */
+  didCancel: function() { },
+
+  //..............................................
+  // Utilities
+
+  /** @private */
+
+
+  /**
+   If `simultaneously` is true, it blocks the `ApplicationGestureManager` instance.
+    @private
+    @method blockApplicationGestureManagerIfSimultaneously
+   */
+  blockApplicationGestureManagerIfSimultaneously: function() {
+
+    if ( !this.simultaneously ) {
+
+      var allowedView = this.view;
+      var callback = function(v) {
+        return allowedView === v;
+      };
+
+      var agm = this.get('applicationGestureManager');
+      agm.block.apply(agm, [allowedView, callback]);
+
+
+    }
+
+  },
+
+  /**
+    Notify the event to the view and trigger `eventWasRejected` if the view doesn't
+    implement the API or returned false.
+    @private
+    @method attemptGestureEventDelivery
+  */
+  attemptGestureEventDelivery: function(eventName, evt) {
+
+    Em.assert('attemptGestureEventDelivery is called with eventName and event arguments', !!eventName && !!evt);
+
+    var wasNotified =  this._notifyViewOfGestureEvent(eventName, evt);
+    if ( !wasNotified ) {
+      this.eventWasRejected();
+    }
+
+  },
+
+  /**
+    Given two Touch objects, this method returns the distance between them.
+    @private
+    @method distance
+    @return Number
+  */
+  distance: function(touches) {
+
+    if (touches.length < 2) {
+      return 0;
+    }
+
+    var first = touches[0];
+    var second = touches[1];
+
+    var x = first.pageX;
+    var y = first.pageY;
+    var x0 = second.pageX;
+    var y0 = second.pageY;
+
+    return Math.sqrt((x -= x0) * x + (y -= y0) * y);
+  },
+
+  /**
+    Given an array of Touch objects, this method returns the midpoint between them.
+
+    @private
+    @method centerPointForTouches
+    @return Number
+  */
+  centerPointForTouches: function(touches) {
+    var sumX = 0,
+        sumY = 0;
+
+    for (var i=0, l=touches.length; i<l; i++) {
+      var touch = touches[i];
+      sumX += touch.pageX;
+      sumY += touch.pageY;
+    }
+
+    var location = {
+      x: sumX / touches.length,
+      y: sumY / touches.length
+    };
+
+    return location;
+  },
+
+  /**
+    Allows the gesture to notify a view associated with a gesture
+    event.
+
+    @private
+    @method _notifyViewOfGestureEvent
+  */
+  _notifyViewOfGestureEvent: function(eventName, evt) {
+    var handler = this.view[eventName];
+    var result = false;
+
+    if (Em.typeOf(handler) === 'function') {
+      result = handler.call(this.view, this, evt);
+    }
+
+    return result;
+  },
+
+  /**
+    @method toString
+  */
+  toString: function() {
+    return Em.Gesture+'<'+Em.guidFor(this)+'>';
+  },
+
+  /**
+    Reset the touches list.
+    @private
+    @method _resetState
+  */
+  _resetState: function() {
+    this.touches.removeAllTouches();
+  },
+
+  //..............................................
+  // Touch event handlers
+
+  /**
+    Given a `touchstart` event, updates the list of touches.
+    If the `numberOfRequiredTouches` hasn't been reached yet, it sets the
+    WAITING_FOR_TOUCHES state. Otherwise when the gesture is discrete, it
+    moves to a BEGAN state and applies its logic. Continous gestures are setup
+    to the POSSIBLE state and execute their `didBecomePossible` method.
+    @method touchStart
+  */
+  touchStart: function(evt) {
+    var targetTouches = evt.originalEvent.targetTouches;
+    var _touches = this.touches;
+    var state = get(this, 'state');
+
+    set(_touches, 'timestamp', Date.now());
+
+    //Collect touches by their identifiers
+    for (var i=0, l=targetTouches.length; i<l; i++) {
+      var touch = targetTouches[i];
+
+      if(_touches.touchWithId(touch.identifier) === null  ) {
+
+        if ( _touches.get('length') === get(this, 'numberOfRequiredTouches')  ) {
+          // restart touches, otherwise a gesture could stay on a possible state forever
+          _touches.removeAllTouches();
+        }
+        _touches.addTouch(touch);
+      }
+    }
+
+    if (_touches.get('length') < get(this, 'numberOfRequiredTouches')) {
+      set(this ,'state', Em.Gesture.WAITING_FOR_TOUCHES);
+
+    } else {
+      if ( this.gestureIsDiscrete ) {
+
+      // Discrete gestures may skip the possible step if they're ready to begin
+        //
+        if ( this.shouldBegin() ) {
+          this.blockApplicationGestureManagerIfSimultaneously();
+          set(this, 'state', Em.Gesture.BEGAN);
+          this.didBegin();
+        }
+
+      } else {
+        set(this, 'state', Em.Gesture.POSSIBLE);
+        this.didBecomePossible();
+      }
+    }
+
+  },
+
+  /**
+    Given a `touchmove` event, updates the list of touches.
+    It changes the currentState to BEGAN and fires the [gesture]Start
+    view method.
+    If the gesture is discrete, the state is POSSIBLE and its `shouldBegin`
+    implementation response true.
+    If the current state is BEGAN or CHANGED and the gesture is continuous,
+    it applies the CHANGED state and fires the [gesture]Change view method.
+    @method touchMove
+  */
+  touchMove: function(evt) {
+
+    var state = get(this, 'state');
+
+    if (state === Em.Gesture.WAITING_FOR_TOUCHES || state === Em.Gesture.ENDED || state === Em.Gesture.CANCELLED) {
+
+      // Nothing to do here
+      return;
+    }
+
+    var changedTouches = evt.originalEvent.changedTouches;
+    var _touches = this.touches;
+
+    set(_touches, 'timestamp', Date.now());
+
+    // Update touches hash
+    for (var i=0, l=changedTouches.length; i<l; i++) {
+      var touch = changedTouches[i];
+      _touches.updateTouch(touch);
+    }
+
+    if (state === Em.Gesture.POSSIBLE && !this.gestureIsDiscrete) {
+
+      if ( this.shouldBegin() ) {
+
+        this.blockApplicationGestureManagerIfSimultaneously();
+        set(this, 'state', Em.Gesture.BEGAN);
+        this.didBegin();
+
+        // Give the gesture a chance to update its state so the view can get
+        // updated information in the Start event
+        this.didChange(evt);
+        this.attemptGestureEventDelivery(this.name+'Start', evt);
+      }
+
+    } else if (state === Em.Gesture.BEGAN || state === Em.Gesture.CHANGED)  {
+
+      set(this, 'state', Em.Gesture.CHANGED);
+      this.didChange(evt);
+
+      // Discrete gestures don't fire changed events
+      if ( !this.gestureIsDiscrete ) {
+
+        this.attemptGestureEventDelivery(this.name+'Change', evt);
+
+      }
+
+    }
+
+
+  },
+
+  /**
+    Given a `touchend` event, updates the list of touches, manages the event and finally
+    resets the `touch` list.
+    If the current state is either BEGAN or CHANGED and `shouldEnd` response is true,
+    it changes the state to ENDED, performs `didEnd` method and fires the [gesture]End
+    view method.
+    @method touchEnd
+  */
+  touchEnd: function(evt) {
+    var state = get(this, 'state');
+    var _touches = this.touches;
+    set(_touches, 'timestamp', Date.now());
+
+
+    var changedTouches = (evt && evt.originalEvent ) ? evt.originalEvent.changedTouches : undefined;
+    if ( changedTouches ) {
+      // Update touches hash
+      for (var i=0, l=changedTouches.length; i<l; i++) {
+        var touch = changedTouches[i];
+        _touches.updateTouch(touch);
+      }
+    }
+
+    if ( ( state === Em.Gesture.BEGAN || state === Em.Gesture.CHANGED ) && this.shouldEnd() ) {
+
+      // Discrete gestures use shouldEnd to either accept or decline the gesture.
+      set(this, 'state', Em.Gesture.ENDED);
+      this.didEnd();
+      this.attemptGestureEventDelivery(this.name+'End', evt);
+
+    }
+    this._resetState();
+  },
+
+  /**
+    Given a `touchcancel` event, resets the `touch` list, and when the
+    current state is different than CANCEL, set the state to CANCEL, performs
+    `didCancel` method and if the gesture is continuous fires the [gesture]Cancel
+    view method.
+    @method touchCancel
+  */
+  touchCancel: function(evt) {
+    var state = get(this, 'state');
+
+    if ( state !== Em.Gesture.CANCELLED) {
+
+      set(this, 'state', Em.Gesture.CANCELLED);
+      this.didCancel();
+
+      if ( !this.gestureIsDiscrete ) {
+        this.attemptGestureEventDelivery(this.name+'Cancel', evt);
+      }
+
+    }
+
+    this._resetState();
+
+  }
+
+});
+
+Em.GestureDirection = {
+  Vertical: 1,
+  Horizontal: 2
+};
+
+
+Em.OneGestureDirection = {
+  Right: 1,
+  Left: 2,
+  Down: 4,
+  Up: 8
+};
+
+Em.Gesture.WAITING_FOR_TOUCHES = 0;
+Em.Gesture.POSSIBLE = 1; // only continuous
+Em.Gesture.BEGAN = 2;
+Em.Gesture.CHANGED = 3;
+Em.Gesture.ENDED = 4;
+Em.Gesture.CANCELLED = 5;
+
+})();
+
+
+
+(function() {
+var set = Ember.set, get = Ember.get;
+
+Em.Application.reopen({
+
+  gestureManager: Ember.computed(function() {
+    // TODO: more elegant way
+    return this.__container__.lookup('gesture:application');
+  })
+
+});
+
+
+Ember.Application.initializer({
+
+  name: 'gestureManager',
+  before: 'defaultGestures',
+
+  initialize: function(container) {
+    container.register('gesture:application', Ember.ApplicationGestureManager);
+  }
+
+});
+
+Ember.Application.initializer({
+
+  name: 'defaultGestures',
+  after: 'gestureManager',
+
+  initialize: function(container) {
+
+    var gestureManager = container.lookup('gesture:application');
+
+    gestureManager.registerGesture('pan', Em.PanGestureRecognizer);
+    gestureManager.registerGesture('pinch', Em.PinchGestureRecognizer);
+    gestureManager.registerGesture('press', Em.PressGestureRecognizer);
+    gestureManager.registerGesture('swipe', Em.SwipeGestureRecognizer);
+    gestureManager.registerGesture('tap', Em.TapGestureRecognizer);
+    gestureManager.registerGesture('touchHold', Em.TouchHoldGestureRecognizer);
+
+  }
+
+});
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/*
+  Extends Em.View making the init method gesture-aware.
+*/
+Em.View.reopen({
+
+  /**
+    The Em.GestureManager instance which will manage the gestures of the view.
+    This object is automatically created and set at init-time.
+
+    @default null
+    @type Array
+  */
+  eventManager: null,
+
+  init: function() {
+    this._super();
+    this._createGestureManager();
+
+  },
+
+  /**
+    Inspects the properties on the view instance and create gestures if they're
+    used.
+  */
+  _createGestureManager: function() {
+
+    var eventManager = get(this, 'eventManager');
+
+    if (!eventManager) {
+
+      var applicationGestureManager = get(this, 'container').lookup('gesture:application');
+      var knownGestures = applicationGestureManager.knownGestures();
+
+
+      var gestures = [];
+      var manager = Em.GestureManager.create();
+      Em.assert('You should register a gesture. Take a look at the registerGestures injection', !!knownGestures );
+
+
+      for (var gesture in knownGestures) {
+        if (this[gesture+'Start'] || this[gesture+'Change'] || this[gesture+'End']) {
+
+          var optionsHash;
+          if (this[gesture+'Options'] !== undefined && typeof this[gesture+'Options'] === 'object') {
+            optionsHash = this[gesture+'Options'];
+          } else {
+            optionsHash = {};
+          }
+
+          optionsHash.name = gesture;
+          optionsHash.view = this;
+          optionsHash.manager = manager;
+
+          var extensions = {};
+          if ( optionsHash.isEnabledBinding ) {
+
+            if ( !Ember.isGlobalPath(optionsHash.isEnabledBinding) ) {
+              extensions.isEnabledBinding = 'view.'+optionsHash.isEnabledBinding;
+            } else {
+              extensions.isEnabledBinding = optionsHash.isEnabledBinding;
+            }
+
+            optionsHash = Ember.$.extend({}, optionsHash);
+            delete optionsHash.isEnabledBinding;
+          }
+
+          var currentGesture = knownGestures[gesture].create(optionsHash, extensions);
+          if ( extensions.isEnabledBinding ) {
+
+            Ember.run.sync();
+
+          }
+
+          gestures.push(currentGesture);
+        }
+      }
+
+
+      set(manager, 'view', this);
+      set(manager, 'gestures', gestures);
+
+      set(this, 'eventManager', manager);
+
+    }
+
+
+  }
+
+});
+
+})();
+
+
+
+(function() {
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+/**
+Recognizes a multi-touch pinch gesture. Pinch gestures require a specified
+number of fingers to move and will record and update the scale.
+
+For pinchChange events, the pinch gesture recognizer includes a scale property
+which can be applied as a CSS transform directly.
+
+    var myview = Em.View.create({
+      elementId: 'gestureTest',
+
+      pinchChange: function(rec, evt) {
+        this.$().css('scale',function(index, value) {
+          return rec.get('scale') * value
+        });
+      }
+    });
+
+The number of touches required to start the gesture can be specified with the
+_numberOfRequiredTouches_ property. This property can be set in the
+pinchOptions hash.
+
+    var myview = Em.View.create({
+      pinchOptions: {
+        numberOfRequiredTouches: 3
+      }
+    });
+
+@class PinchGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+*/
+Em.PinchGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The scale value which represents the current amount of scaling that has
+    been applied to the view.
+
+    @type Number
+  */
+  scale: 1,
+
+  numberOfRequiredTouches: 2,
+
+  //..................................................
+  // Private Methods and Properties
+
+  /**
+    Track starting distance between touches per gesture.
+
+    @private
+    @type Number
+  */
+  _startingDistanceBetweenTouches: null,
+
+  /**
+    Used for measuring velocity
+
+    @private
+    @type Number
+  */
+  _previousTimestamp: null,
+
+  /**
+    Used for measuring velocity and scale
+
+    @private
+    @type Number
+  */
+  _previousDistance: 0,
+
+  /**
+    The pixel distance that the fingers need to get closer/farther away by before
+    this gesture is recognized.
+
+    @private
+    @type Number
+  */
+  _deltaThreshold: 5,
+
+  /**
+    Used for rejected events
+
+    @private
+    @type Number
+  */
+  _previousScale: 1,
+
+  /**
+    @private
+  */
+  didBecomePossible: function() {
+    this._startingDistanceBetweenTouches = this.distance(get(this.touches,'touches'));
+    this._previousDistance = this._startingDistanceBetweenTouches;
+    this._previousTimestamp = get(this.touches,'timestamp');
+  },
+
+  shouldBegin: function() {
+    var currentDistanceBetweenTouches = this.distance(get(this.touches,'touches'));
+
+    return Math.abs(currentDistanceBetweenTouches - this._startingDistanceBetweenTouches) >= this._deltaThreshold;
+  },
+
+  didChange: function() {
+    var scale = this._previousScale = get(this, 'scale');
+    var timeDifference = this.touches.timestamp - this._previousTimestamp;
+    var currentDistanceBetweenTouches = this.distance(get(this.touches,'touches'));
+    var distanceDifference = (currentDistanceBetweenTouches - this._previousDistance);
+
+    set(this, 'velocity', distanceDifference / timeDifference);
+    set(this, 'scale', currentDistanceBetweenTouches / this._previousDistance);
+
+    this._previousTimestamp = get(this.touches,'timestamp');
+    this._previousDistance = currentDistanceBetweenTouches;
+  },
+
+  eventWasRejected: function() {
+    set(this, 'scale', this._previousScale);
+  }
+
+});
+
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+
+/**
+Recognizes a multi-touch pan gesture. Pan gestures require a specified number
+of fingers to move. It will record and update the center point between the
+touches.
+
+For panChange events, the pan gesture recognizer includes a translation
+property which can be applied as a CSS transform directly. Translation values
+are hashes which contain an x and a y value.
+
+    var myview = Em.View.create({
+      elementId: 'gestureTest',
+
+      panChange: function(rec, evt) {
+        var val = rec.get('translation');
+        this.$().css({
+          translateX: '%@=%@'.fmt((val.x < 0)? '-' : '+',Math.abs(val.x)),
+          translateY: '%@=%@'.fmt((val.y < 0)? '-' : '+',Math.abs(val.y))
+        });
+      }
+    });
+
+The number of touches required to start the gesture can be specified with the
+_numberOfRequiredTouches_ property. This property can be set in the panOptions
+hash.
+
+    var myview = Em.View.create({
+      panOptions: {
+        numberOfRequiredTouches: 2
+      }
+    });
+
+@class PanGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+*/
+Em.PanGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The translation value which represents the current amount of movement that
+    has been applied to the view.
+
+    @type Location
+  */
+  translation: null,
+
+
+  /**
+    The pixel distance that the fingers need to move before the gesture is
+    recognized.
+    It should be set depending on the device factor and view behaviors.
+    Distance is calculated separately on vertical and horizontal directions
+    depending on the direction property.
+
+    @private
+    @type Number
+  */
+  initThreshold: 5,
+
+  direction:  Em.GestureDirection.Horizontal | Em.GestureDirection.Vertical ,
+
+  //..................................................
+  // Private Methods and Properties
+
+  /**
+    Used to measure offsets
+
+    @private
+    @type Number
+  */
+  _previousLocation: null,
+
+  /**
+    Used for rejected events
+
+    @private
+    @type Hash
+  */
+  _previousTranslation: null,
+
+
+  init: function() {
+    this._super();
+    set(this, 'translation', {x:0,y:0});
+  },
+
+  didBecomePossible: function() {
+
+    this._previousLocation = this.centerPointForTouches(get(this.touches,'touches'));
+  },
+
+  shouldBegin: function() {
+    var previousLocation = this._previousLocation;
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var x = previousLocation.x;
+    var y = previousLocation.y;
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+    var shouldBegin = false;
+    //shouldBegin = Math.sqrt( (x - x0)*(x - x0) + (y - y0)*(y - y0)   ) >= this.initThreshold;
+
+    if ( this.direction & Em.GestureDirection.Vertical ) {
+
+      shouldBegin = Math.abs( y - y0 ) >= this.initThreshold;
+
+    }
+    if (!shouldBegin && ( this.direction & Em.GestureDirection.Horizontal ) ) {
+
+      shouldBegin = Math.abs( x - x0 ) >= this.initThreshold;
+
+    }
+
+    return shouldBegin;
+
+  },
+
+  didChange: function() {
+    var previousLocation = this._previousLocation;
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+    var translation = {x:currentLocation.x, y:currentLocation.y};
+
+    translation.x = currentLocation.x - previousLocation.x;
+    translation.y = currentLocation.y - previousLocation.y;
+
+    this._previousTranslation = get(this, 'translation');
+    set(this, 'translation', translation);
+    this._previousLocation = currentLocation;
+  },
+
+  eventWasRejected: function() {
+    set(this, 'translation', this._previousTranslation);
+  },
+
+  toString: function() {
+    return Em.PanGestureRecognizer+'<'+Em.guidFor(this)+'>';
+  }
+
+});
+
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+/**
+Recognizes a multi-touch tap gesture. Tap gestures allow for a certain amount
+of wiggle-room between a start and end of a touch. Taps are discrete gestures
+so only tapEnd() will get fired on a view.
+
+    var myview = Em.View.create({
+      elementId: 'gestureTest',
+
+      tapEnd: function(recognizer, evt) {
+        $('#gestureTest').css('background','yellow');
+      }
+    });
+
+The number of touches required to start the gesture can be specified with the
+_numberOfRequiredTouches_ property, which can be set in the tapOptions hash.
+
+    var myview = Em.View.create({
+      tapOptions: {
+        numberOfRequiredTouches: 3
+      }
+    });
+
+And the number of taps required to fire the gesture can be specified using the
+_numberOfTaps_ property.
+
+    var myview = Em.View.create({
+      tapOptions: {
+        numberOfTaps: 3,
+        delayBetweenTaps: 150
+      }
+    });
+
+@class TapGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+*/
+Em.TapGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The translation value which represents the current amount of movement that
+    has been applied to the view.
+
+    @type Location
+  */
+  numberOfTaps: 1,
+
+  delayBetweenTaps: 500,
+
+  tapThreshold: 10,
+
+  //..................................................
+  // Private Methods and Properties
+
+  /** @private */
+  gestureIsDiscrete: true,
+
+  /** @private */
+  _initialLocation: null,
+
+  /** @private */
+  _waitingTimeout: null,
+
+  /** @private */
+  _waitingForMoreTouches: false,
+
+  _internalTouches: null,
+
+  init: function(){
+    this._super();
+    this._internalTouches = Em.TouchList.create();
+    Em.assert( get(this, 'numberOfRequiredTouches')===1, 'TODO: implement!!' );
+  },
+
+  shouldBegin: function() {
+
+    return get(this.touches,'length') === get(this, 'numberOfRequiredTouches');
+
+  },
+
+  didBegin: function() {
+
+    this._initialLocation = this.centerPointForTouches(get(this.touches,'touches'));
+    this._internalTouches.addTouch( this.touches[0] );
+
+    this._waitingForMoreTouches = get(this._internalTouches,'length') < get(this, 'numberOfTaps');
+
+    if ( this._waitingForMoreTouches ) {
+
+      var that = this;
+      this._waitingTimeout = window.setTimeout( function() {
+        that._waitingFired(that);
+      }, this.delayBetweenTaps);
+
+    }
+
+  },
+
+  shouldEnd: function() {
+
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var x = this._initialLocation.x;
+    var y = this._initialLocation.y;
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+    var distance = Math.sqrt((x -= x0) * x + (y -= y0) * y);
+
+    return (Math.abs(distance) < this.tapThreshold) && !this._waitingForMoreTouches;
+
+  },
+
+
+
+  didEnd: function() {
+
+    window.clearTimeout( this._waitingTimeout );
+
+
+    // clean internalState
+    this._initialLocation = null;
+    this._internalTouches.removeAllTouches();
+
+  },
+
+  _waitingFired: function() {
+
+    // clean internalState
+    this._initialLocation = null;
+    this._internalTouches.removeAllTouches();
+
+    // set state for the gesture manager
+    set(this, 'state', Em.Gesture.CANCELLED);
+    var eventName = this.name+'Cancel';
+    var evt = new Em.TimeoutTouchEvent({type: Em.TimeoutTouchEventType.Cancel});
+    this.attemptGestureEventDelivery(eventName, evt);
+    this._resetState();
+
+  },
+
+
+  toString: function() {
+    return Em.TapGestureRecognizer+'<'+Em.guidFor(this)+'>';
+  }
+
+});
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+/**
+Recognizes a multi-touch press gesture. Press gestures allow for a certain
+amount of wiggle-room between a start and end of a touch, and requires a
+minimum hold period to be triggered. The press gesture also requires to
+stop touching the screen to be triggered.
+
+Press gestures are discrete so only _pressEnd_ will get fired.
+
+    var myview = Em.View.create({
+      elementId: 'gestureTest',
+
+      pressEnd: function(recognizer, evt) {
+
+      }
+    });
+
+The number of touches required to start the gesture can be specified with the
+_numberOfRequiredTouches_ and _pressPeriodThreshold_ properties.
+This properties can be set in the _pressHoldOptions_ hash:
+
+    var myview = Em.View.create({
+      pressOptions: {
+        pressPeriodThreshold: 500
+      }
+    });
+
+@class PressGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+*/
+Em.PressGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The minimum period (ms) that the fingers must be held to recognize the gesture end.
+
+    @private
+    @type Number
+  */
+  pressPeriodThreshold: 500,
+  //..................................................
+  // Private Methods and Properties
+
+  /** @private */
+  gestureIsDiscrete: true,
+
+  /** @private */
+  _initialLocation: null,
+
+  /** @private */
+  _moveThreshold: 10,
+
+  /** @private */
+  _initialTimestamp: null,
+
+
+  shouldBegin: function() {
+    return get(this.touches,'length') === get(this, 'numberOfRequiredTouches');
+  },
+
+  didBegin: function() {
+    this._initialLocation = this.centerPointForTouches(get(this.touches,'touches'));
+    this._initialTimestamp = get(this.touches,'timestamp');
+  },
+
+  shouldEnd: function() {
+
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var x = this._initialLocation.x;
+    var y = this._initialLocation.y;
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+    var distance = Math.sqrt((x -= x0) * x + (y -= y0) * y);
+
+    var isValidDistance = (Math.abs(distance) < this._moveThreshold);
+
+
+    var nowTimestamp = get(this.touches,'timestamp');
+    var isValidHoldPeriod = (nowTimestamp - this._initialTimestamp ) >= this.pressPeriodThreshold;
+
+    var result = isValidDistance && isValidHoldPeriod;
+
+    if  ( !result ) {
+      set(this, 'state', Em.Gesture.CANCELLED);
+      this.didCancel();
+    }
+
+    return result;
+  },
+
+  didEnd: function() {
+
+    this._resetCounters();
+
+  },
+
+  didCancel: function() {
+
+    this._resetCounters();
+
+  },
+
+  _resetCounters: function() {
+
+    this._initialLocation = null;
+    this._initialTimestamp = null;
+
+  },
+
+  toString: function() {
+    return Em.PressGestureRecognizer+'<'+Em.guidFor(this)+'>';
+  }
+
+});
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+/**
+Recognizes a multi-touch touch and hold gesture.
+
+Touch and Hold gestures allow move the finger on the same view, and after
+the user leaves its finger motionless during a specific period the end view
+event is automatically triggered.
+
+TouchHold are discrete gestures so only _touchHoldEnd_ will get fired.
+
+    var myview = Em.View.create({
+      elementId: 'gestureTest',
+
+      touchHoldEnd: function(recognizer, evt) {
+
+      }
+    });
+
+
+The number of touches required to start the gesture can be specified with the
+following properties:
+- _numberOfRequiredTouches_
+- a minimum _holdPeriod_ the finger must be held to trigger the end event
+- _modeThreshold_ which allows to move the finger a specific number of pixels
+This properties can be set in the touchHoldOptions
+
+    var myview = Em.View.create({
+      touchHoldOptions: {
+        holdPeriod: 500,
+        moveThreshold: 10
+      }
+    });
+
+
+@class TouchHoldGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+**/
+Em.TouchHoldGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The minimum period (ms) that the fingers must be held to trigger the event.
+
+    @private
+    @type Number
+  */
+  holdPeriod: 2000,
+
+  moveThreshold: 50,
+
+  //..................................................
+  // Private Methods and Properties
+
+  /** @private */
+  gestureIsDiscrete: true,
+
+  _endTimeout: null,
+
+  _targetElement: null,
+
+
+  shouldBegin: function() {
+    return get(this.touches,'length') === get(this, 'numberOfRequiredTouches');
+  },
+
+  didBegin: function() {
+
+    this._initialLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var target = get(this.touches,'touches')[0].target;
+    set(this,'_target', target );
+
+    var that = this;
+    this._endTimeout = window.setTimeout( function() {
+
+      that._endFired(that);
+
+    }, this.holdPeriod);
+
+  },
+
+  didChange: function() {
+
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var x = this._initialLocation.x;
+    var y = this._initialLocation.y;
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+    var distance = Math.sqrt((x -= x0) * x + (y -= y0) * y);
+
+    var isValidMovement = (Math.abs(distance) < this.moveThreshold);
+    // ideal situation would be using touchleave event to be notified
+    // the touch leaves the DOM element
+    if ( !isValidMovement ) {
+      this._disableEndFired();
+      set(this, 'state', Em.Gesture.CANCELLED);
+
+      //this._resetState(); // let be executed on touchEnd
+    }
+
+  },
+
+  // when a touchend event was fired ( cause of removed finger )
+  // disable interval action trigger and block end state
+  // this event is responsable for gesture cancel
+  shouldEnd: function() {
+
+    this._disableEndFired();
+    set(this, 'state', Em.Gesture.CANCELLED);
+    this.didCancel();
+
+    return  false;
+
+  },
+
+  _endFired: function() {
+
+    this._disableEndFired();
+
+    if ( this.state === Em.Gesture.BEGAN || this.state === Em.Gesture.CHANGED ) {
+
+      set(this, 'state', Em.Gesture.ENDED);
+
+      var eventName = this.name+'End';
+
+      var evt = new Em.TimeoutTouchEvent({type: Em.TimeoutTouchEventType.End});
+      this.attemptGestureEventDelivery(eventName, evt);
+
+      //this._resetState(); // let be executed on touchEnd
+
+    }
+
+  },
+
+  _disableEndFired: function() {
+
+     window.clearTimeout(this._endTimeout);
+
+  },
+
+  toString: function() {
+    return Em.TouchHoldGestureRecognizer+'<'+Em.guidFor(this)+'>';
+  }
+
+});
+
+
+
+})();
+
+
+
+(function() {
+var get = Em.get, set = Em.set;
+
+/**
+ @module ember
+ @submodule ember-touch
+*/
+/**
+Recognizes a swipe gesture in one or more directions.
+
+Swipes are continuous gestures that will get fired on a view.
+
+    var myview = Em.View.create({
+
+      swipeStart: function(recognizer, evt) {
+
+      },
+      swipeChange: function(recognizer, evt) {
+
+      },
+      // usually, you will only use this method
+      swipeEnd: function(recognizer, evt) {
+
+      },
+      swipeCancel: function(recognizer, evt) {
+
+      }
+    });
+
+SwipeGestureRecognizer recognizes a swipe when the touch has moved to a
+(direction) far enough (swipeThreshold) in a period (cancelPeriod).
+The current implementation will only recognize a direction on swipeEnd on
+(recognizer.swipeDirection).
+
+    var myview = Em.View.create({
+      swipeOptions: {
+        direction: Em.OneGestureDirection.Left | Em.OneGestureDirection.Right,
+        cancelPeriod: 100,
+        swipeThreshold: 10
+      }
+    });
+
+@class SwipeGestureRecognizer
+@namespace Ember
+@extends Em.Gesture
+*/
+Em.SwipeGestureRecognizer = Em.Gesture.extend({
+
+  /**
+    The period (ms) in which the gesture should have been recognized.
+
+    @private
+    @type Number
+  */
+  cancelPeriod: 100,
+  swipeThreshold: 50,
+
+  /*
+    It should be set up depending of the device factor and view behaviors.
+    Distance is calculated separately on vertical and horizontal directions
+    depending on the direction property.
+  */
+  initThreshold: 5,
+
+  direction: Em.OneGestureDirection.Right,
+
+  //..................................................
+  // Private Methods and Properties
+
+  numberOfRequiredTouches: 1,
+  swipeDirection: null,
+  _initialLocation: null,
+  _previousLocation: null,
+  _cancelTimeout: null,
+
+
+  /**
+    The pixel distance that the fingers need to move before this gesture is
+    recognized.
+
+    @private
+    @type Number
+  */
+
+
+  didBecomePossible: function() {
+
+    this._previousLocation = this.centerPointForTouches(get(this.touches,'touches'));
+  },
+
+  shouldBegin: function() {
+    var previousLocation = this._previousLocation;
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var x = previousLocation.x;
+    var y = previousLocation.y;
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+  //  var distance = Math.sqrt((x -= x0) * x + (y -= y0) * y);
+
+    var shouldBegin = false;
+
+    if ( this.direction & Em.OneGestureDirection.Right ) {
+      shouldBegin = ( (x0-x) > this.initThreshold);
+    }
+    if ( !shouldBegin && ( this.direction & Em.OneGestureDirection.Left )  ) {
+      shouldBegin = ( (x-x0) > this.initThreshold);
+    }
+    if ( !shouldBegin && ( this.direction & Em.OneGestureDirection.Down )  ) {
+      shouldBegin = ( (y0-y) > this.initThreshold);
+    }
+    if ( !shouldBegin && ( this.direction & Em.OneGestureDirection.Up ) ) {
+      shouldBegin = ( (y-y0) > this.initThreshold);
+    }
+
+    return shouldBegin;
+  },
+
+  didBegin: function() {
+
+    this._initialLocation = this.centerPointForTouches(get(this.touches,'touches'));
+
+    var that = this;
+
+    this._cancelTimeout = window.setTimeout( function() {
+      that._cancelFired(that);
+    }, this.cancelPeriod);
+
+  },
+
+  didChange: function(evt) {
+
+    var currentLocation = this.centerPointForTouches(get(this.touches,'touches'));
+    var x = this._initialLocation.x;
+    var y = this._initialLocation.y;
+
+    var x0 = currentLocation.x;
+    var y0 = currentLocation.y;
+
+    var isValidMovement = false;
+
+    if ( this.direction & Em.OneGestureDirection.Right ) {
+
+      isValidMovement = ( (x0-x) > this.swipeThreshold);
+      this.swipeDirection = Em.OneGestureDirection.Right;
+
+    }
+    if ( !isValidMovement && ( this.direction & Em.OneGestureDirection.Left )  ) {
+
+      isValidMovement = ( (x-x0) > this.swipeThreshold);
+      this.swipeDirection = Em.OneGestureDirection.Left;
+
+    }
+    if ( !isValidMovement && ( this.direction & Em.OneGestureDirection.Down )  ) {
+
+      isValidMovement = ( (y0-y) > this.swipeThreshold);
+      this.swipeDirection = Em.OneGestureDirection.Down;
+
+    }
+    if ( !isValidMovement && ( this.direction & Em.OneGestureDirection.Up ) ) {
+
+      isValidMovement = ( (y-y0) > this.swipeThreshold);
+      this.swipeDirection = Em.OneGestureDirection.Up;
+
+    }
+
+    if ( isValidMovement ) {
+
+      this._disableCancelFired();
+      set(this, 'state', Em.Gesture.ENDED);
+
+      var eventName = this.name+'End';
+      this.attemptGestureEventDelivery(eventName, evt);
+      this._resetState();
+
+    }
+
+  },
+
+  // touch end should cancel the gesture
+  shouldEnd: function() {
+
+    this._cancelFired();
+
+    return  false;
+
+  },
+
+  _cancelFired: function() {
+
+    this._disableCancelFired();
+    set(this, 'state', Em.Gesture.CANCELLED);
+
+    var eventName = this.name+'Cancel';
+    var evt = new Em.TimeoutTouchEvent({type: Em.TimeoutTouchEventType.Cancel});
+    this.attemptGestureEventDelivery(eventName, evt);
+    this._resetState();
+
+  },
+
+  _disableCancelFired: function() {
+
+     window.clearTimeout( this._cancelTimeout );
+
+  },
+
+  toString: function() {
+    return Em.SwipeGestureRecognizer+'<'+Em.guidFor(this)+'>';
+  }
+
+});
+
+})();
+
+
+
+(function() {
+
+})();
+
+
+
+(function() {
+/**
+A lightweight library for building and using touch gestures with Ember Applications
+
+@module ember
+@submodule ember-touch
+@main ember-touch
+*/
+
+})();

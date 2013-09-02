@@ -1,65 +1,39 @@
 !!! 5
 = html_tag :class => "no-js", :lang => "#{I18n.locale}"
 %head
-  - if content_for?(:title)
-    %title
-      = yield(:title)
-      = " - Emuzikos"
-  - if content_for?(:description)
-    %meta{ name: 'description', content: yield(:description) }
-  - if content_for?(:keywords)
-    %meta{ name: 'keywords', content: yield(:keywords) }
-  - if content_for?(:canonical)
-    %meta{ rel: 'canonical', href: yield(:canonical) }
-
-  %meta{:charset => "utf-8"}/
-  %meta{ :name => "google-site-verification", :content => "U84a4JsWjHvENwEbAWcsSTecF326rTo9L_5oDKJKA5c"}
-  %meta{:content => "Boris Rorsvort", :name => "author"}
-  %meta{:content => "True", :name => "HandheldFriendly"}
-  %meta{:content => "Mycollecto", :name => "apple-mobile-web-app-title"}/
-  %link{:href => "/favicon.ico", :rel => "shortcut icon"}/
-  / Microsoft.
-  %meta{:content => "on", "http-equiv" => "cleartype"}
-  / optimized for mobile
-  %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
-  / optimized for mobile, zoom/scaling disabled
-  %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0", :name => "viewport"}/
-  / BROWSER CHROME
-  / status bar styles: default, black, or black-translucent
-  %meta{:content => "black", :name => "apple-mobile-web-app-status-bar-style"}/
-  / hides browser chrome
-  %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}/
-  / HOME SCREEN ICONS
-  / home screen icon
-  %link{:href => "/assets/icons/h/apple-touch-icon.png", :rel => "apple-touch-icon"}/
-  / home screen icon - ipad
-  %link{:href => "/assets/icons/m/apple-touch-icon.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
-  / home screen icon - high res
-  %link{:href => "/assets/icons/h/apple-touch-icon.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
-  / home screen icon, omits iOS embellishments, works in Android
-  %link{:href => "/assets/icons/h/apple-touch-icon.png", :rel => "apple-touch-icon-precomposed"}/
-  / home screen icon, omits iOS embellishments - ipad
-  %link{:href => "/assets/icons/m/apple-touch-icon.png", :rel => "apple-touch-icon-precomposed", :sizes => "72x72"}/
-  / home screen icon, omits iOS embellishments - high res
-  %link{:href => "/assets/icons/h/apple-touch-icon.png", :rel => "apple-touch-icon-precomposed", :sizes => "114x114"}/
-  / STARTUP IMAGES
-  /
-    startup image for web apps - iPad - landscape (748x1024)
-    Note: iPad landscape startup image has to be exactly 748x1024 pixels (portrait, with contents rotated).
-  %link{:href => "/assets/icons/startup_pages/ipad-748-landscape.jpg", :media => "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)", :rel => "apple-touch-startup-image"}/
-  / startup image for web apps - iPad - portrait (768x1004)
-  %link{:href => "/assets/icons/startup_pages/ipad-748.jpg", :media => "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)", :rel => "apple-touch-startup-image"}/
-  / startup image for web apps (320x460)
-  %link{:href => "/assets/icons/startup_pages/iphone-320.jpg", :media => "screen and (max-device-width: 320px)", :rel => "apple-touch-startup-image"}/
-
+  %title
+    = "Mycollecto - An unofficial application for Collecto taxi in Brussels"
+  %meta{name: 'description', content: "The quickest way to find nearby collecto taxi points in Brussels" }
+  %meta{name: 'keywords', content: 'collecto, collecto taxi, brussels, bruxelles, carte points collectos, points collecto, collecto punts'}
+  %meta{charset: "utf-8"}/
+  %meta{name: "google-site-verification", content: "He-IZgvGomVoNNlv4ufr1tEARLvKeyCAies2To0DQVQ"}
+  %meta{content: "Boris Rorsvort", name: "author"}
+  %meta{content: "True", name: "HandheldFriendly"}
+  %meta{content: "Mycollecto", name: "apple-mobile-web-app-title"}/
+  %meta{content: "on", "http-equiv" => "cleartype"}
+  %meta{content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", name: "viewport"}/
+  %meta{content: "black", name: "apple-mobile-web-app-status-bar-style"}/
+  %meta{content: "yes", name: "apple-mobile-web-app-capable"}/
+  %link{href: "/favicon.ico", rel: "shortcut icon"}/
+  %link{href: "http://www.mycollecto.be", rel: 'canonical'}
+  %link{href: "/assets/icons/h/apple-touch-icon.png", rel: "apple-touch-icon"}/
+  %link{href: "/assets/icons/m/apple-touch-icon.png", rel: "apple-touch-icon", sizes: "72x72"}/
+  %link{href: "/assets/icons/h/apple-touch-icon.png", rel: "apple-touch-icon", sizes: "114x114"}/
+  %link{href: "/assets/icons/h/apple-touch-icon.png", rel: "apple-touch-icon-precomposed"}/
+  %link{href: "/assets/icons/m/apple-touch-icon.png", rel: "apple-touch-icon-precomposed", sizes: "72x72"}/
+  %link{href: "/assets/icons/h/apple-touch-icon.png", rel: "apple-touch-icon-precomposed", sizes: "114x114"}/
+  %link{href: "/assets/icons/startup_pages/ipad-748-landscape.jpg", media: "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)", rel: "apple-touch-startup-image"}/
+  %link{href: "/assets/icons/startup_pages/ipad-748.jpg", media: "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)", rel: "apple-touch-startup-image"}/
+  %link{href: "/assets/icons/startup_pages/iphone-320.jpg", media: "screen and (max-device-width: 320px)", rel: "apple-touch-startup-image"}/
 
   = csrf_meta_tag
-  -# = wiselinks_meta_tag
   = stylesheet_link_tag "application"
   = javascript_include_tag "application"
+
   = yield :stylesheets
   = yield :head
 
-  -# # = javascript_include_tag "polyfills"
+  = render partial: 'layouts/mixpanel'
+
   /[if lt IE 9]
     %script{:src => "http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"}

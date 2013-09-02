@@ -1,24 +1,17 @@
 Mycollecto.PointController = Em.ObjectController.extend({
+  needs: ['points'],
+
   closeModal: function() {
     var self  = this;
     var modal = $('.modal');
-
     modal.modal('hide');
-
-    modal.on('hidden.bs.modal', function () {
-      self.transitionToRoute('points');
-    });
   },
 
-  findItinirary: function(point) {
-    // 1. Reverse geocode current User LatLng to get the address
-    // 2. set variables
-    var pointAddress,
-        pointPos,
-        userAddress,
-        userPos;
-
-    // 3. Build Link params for maps https://developer.apple.com/library/ios/#featuredarticles/iPhoneURLScheme_Reference/Articles/MapLinks.html
-    // 4. Forrward to that url
+  findItinirary: function() {
+    var controller   = this;
+    var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
+    var pointAddress = controller.get('content.formatted_address');
+    window.location  = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+currentPos.lat+','+currentPos.lng;
+    mixpanel.track("Find Itinerary");
   }
 });

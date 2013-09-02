@@ -1,11 +1,12 @@
 Mycollecto.PointView = Em.View.extend({
   classNames  : ['point'],
-  afterRenderEvent: function() {
+  didInsertElement: function() {
+    var self = this;
     $('.modal').modal('show');
+    $('.modal').on('hide.bs.modal', function () {
+      $('.modal-backdrop').fadeOut();
+      self.get('controller').transitionToRoute('points');
+    });
+
   }
-
-  // click: function(evt) {
-  //   this.get('controller').send('closeModal');
-  // }
-
 });

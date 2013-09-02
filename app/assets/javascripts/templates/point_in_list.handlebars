@@ -1,19 +1,23 @@
 {{#with point}}
-  <div {{action showDetails point}}>
-    <div class="col-3 col-sm-1">
-      <div class="row">
-        <span class="btn btn-warning col-12">
-          {{id}}
-        </span>
+  <div {{action showDetails point}} class='col-xs-12'>
+    <div class='row'>
+      <div class="col-xs-3 col-sm-1">
+          <div class="row">
+            <span class="btn btn-warning col-xs-12">
+              {{id}}
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-9 col-sm-10 point-list--item--header">
+          <h4>
+            {{fullName}}
+          </h4>
+          {{#if distanceFromUser}}
+            <span class="point-list--item--header--distance">{{distanceFromUser}} m</span>
+          {{/if}}
+        </div>
       </div>
     </div>
-    <div class="col-9 col-sm-10 point-list--item--header">
-      <h4>
-        {{name_fr}}
-      </h4>
-      <span class="point-list--item--header--distance">{{distanceFromUser}} m</span>
-    </div>
-  </div>
 {{/with}}
 
 <a class='point-list--center-map btn btn-default' {{action centerMap point}}>

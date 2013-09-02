@@ -1,11 +1,5 @@
-{{view Mycollecto.MapView }}
-
 <div class="point-list-scroller">
-  <div class="handle">
-    <div class="handle--bar"></div>
-    <div class="handle--bar"></div>
-    <div class="handle--bar"></div>
-  </div>
+  {{view Mycollecto.HandleView}}
   <div class="point-list">
     {{#each point in controller}}
       {{view Mycollecto.PointInListView contentBinding='point'}}
@@ -14,3 +8,4 @@
 </div>
 
 {{ outlet }}
+
