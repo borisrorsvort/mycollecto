@@ -6,29 +6,21 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   map: null,
   mapMarkers: [],
   panelVisible: true,
+  handleOpen: false,
 
   init: function(){
-    // Create map object
-    var map        =  L.map('map',{zoom: 12});
-    var osmUrl     = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osm        = new L.TileLayer(osmUrl,{
-      zoom         : 12,
-      detectRetina : true,
-      reuseTiles   : true
-    });
-    map.addLayer(osm);
-    map.on('locationfound', onLocationFound);
-    map.on('locationerror', onLocationError);
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
+    var map                 = L.mapbox.map('map');
+    var mapTiles            = 'borisrorsvort.map-yz4prbd9';
+    var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
+    var layer               = L.mapbox.tileLayer(mapTiles, { detectRetina: true, retinaVersion: mapRetinaTiles }).addTo(map);
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
 
     controller.set("map", map);
-
-    var attrib = new L.Control.Attribution({
-      prefix: 'Map data © openstreetmap',
-      position: 'topright'
-    }).addTo(map);
 
     function onLocationFound(e) {
 
@@ -45,7 +37,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latitude', e.latlng.lat);
       currentUserPosition.set('longitude', e.latlng.lng);
 
-      map.setView( e.latlng, 16, {animate: true} );
+      map.setView( e.latlng, 17, {animate: true} );
 
       controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
     }
@@ -58,6 +50,15 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     this._super();
 
   },
+
+
+  invalidateMapSize: function() {
+    var controller = this;
+    setTimeout(function() {
+      controller.map.invalidateSize(true);
+    }, 150);
+  }.observes('handleOpen'),
+
 
   createMarkers: function() {
 
@@ -78,21 +79,21 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       var name = point.get("nameFr")
-      popupHtml = "<a href='/#/points/"+pointId+"'>"+name+"</a><a href='/#/points/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
+      popupHtml = "<a href='/#/"+pointId+"'>"+name+"</a><a href='/#/"+pointId+"'><i class='icon-circled-right' style:'margin-left: 10px'/></a>"
 
       marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
+
       // Adding click action to marker
       marker.on('click', function() {
-        window.location = '/#/points/' + pointId;
+        window.location = '/#/' + pointId;
         mixpanel.track("View point details", {'via' : 'map'});
         mixpanel.people.increment("point lookup", 1);
       });
 
       controller.mapMarkers.push(marker);
-      // point.recalculateDistanceFromUser(controller.get('currentUserPosition'));
+
     });
 
-    // Setup Sroller - Here we are alomost sure the points are sorted already
     controller.initScrollEvents();
 
   }.observes('content.isLoaded'),
@@ -121,7 +122,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       },{
         context: '.point-list',
         continuous: false,
-        offset: 2
+        offset: 1
       });
     }, 10);
   },
