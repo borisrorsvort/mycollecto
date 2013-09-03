@@ -15,7 +15,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var map                 = L.mapbox.map('map');
     var mapTiles            = 'borisrorsvort.map-yz4prbd9';
     var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
-    var layer               = L.mapbox.tileLayer(mapTiles, { detectRetina: true, retinaVersion: mapRetinaTiles }).addTo(map);
+    var layer               = L.mapbox.tileLayer(mapTiles, {maxZoom: 16, detectRetina: true, retinaVersion: mapRetinaTiles, reuseTiles: true }).addTo(map);
 
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
@@ -91,7 +91,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       controller.mapMarkers.push(marker);
-
     });
 
     controller.initScrollEvents();
@@ -110,6 +109,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     //#TODO invert again when Oli fix the server
     var x          = model.get('latitude');
     var y          = model.get('longitude');
+    alert(model.get('nameFr'));
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));

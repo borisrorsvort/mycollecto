@@ -1,10 +1,22 @@
 Mycollecto.PointController = Em.ObjectController.extend({
   needs: ['points'],
 
+  init: function() {
+    debugger
+    alert(this.get('controllers.points').content.indexOf(this.get('model')));
+  },
+
   closeModal: function() {
     var self  = this;
     var modal = $('.modal');
     modal.modal('hide');
+  },
+
+  nextPoint: function(){
+    var points = this.get("controllers.points.model")
+    var idx = points.indexOf(this.get("model"));
+    var nextPoint = points.nextObject(idx+1);
+    this.transitionToRoute('point', nextPoint.get('id'));
   },
 
   findItinirary: function() {
