@@ -1,10 +1,9 @@
 Mycollecto.PointController = Em.ObjectController.extend({
   needs: ['points'],
 
-  init: function() {
-    debugger
-    alert(this.get('controllers.points').content.indexOf(this.get('model')));
-  },
+  // init: function() {
+
+  // },
 
   closeModal: function() {
     var self  = this;
