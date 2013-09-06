@@ -7,8 +7,9 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   mapMarkers: [],
   panelVisible: true,
   handleOpen: false,
+  mapLoaded: false,
 
-  init: function(){
+  initMap: function(){
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
@@ -47,7 +48,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }
 
     map.locate({maximumAge: 2000});
-    this._super();
+    // this._super();
 
   },
 

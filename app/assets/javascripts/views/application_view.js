@@ -9,4 +9,6 @@ Ember.View.reopen({
   }
 });
 
-Mycollecto.ApplicationView = Em.View.extend({});
+Mycollecto.ApplicationView = Em.View.extend({
+  classNames: ['row']
+});
