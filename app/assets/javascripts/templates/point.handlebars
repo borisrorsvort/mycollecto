@@ -1,28 +1,29 @@
-<div class="point-list-scroller animated fadeInLeft">
-  {{view Mycollecto.HandleView}}
+{{! <div class="point-list-scroller animated fadeInLeft"> }}
   <div class="pull-left">
     <span class="btn btn-warning media-object">
       {{id}}
     </span>
   </div>
-  <div class="media-body">
-    <h4 class="media-heading modal-title media">
-      {{fullName}}
-    </h4>
-    <p class="lead">
-      <a {{action nextPoint}}>Next point</a>
-    </p>
-  </div>
-  </div>
-  <div class="body">
+
+  <h4 class="media-heading modal-title media">
+    {{fullName}}
+  </h4>
+  <p class="lead">
+    {{#if isFirst}}
+      <a {{action goToPreviousPoint}}>All points</a>
+    {{else}}
+      <a {{action goToPreviousPoint}}>Previous point</a>
+    {{/if}}
+    <a {{action goToNextPoint}}>Next point</a>
+  </p>
+
   <p class="lead">{{addressFr}} -- {{addressNl}}</p>
 
   {{#if notes}}
     <h5 class="muted">Notes:</h5>
     <p>{{notes}}</p>
   {{/if}}
-  </div>
-  <div class="modal-footer">
+
   <div class="btn-group btn-group-justified">
     <a href="tel: 0032 2 800 36 36" class='btn btn-warning hidden-lg'>
       <i class="icon-phone"></i>
@@ -34,4 +35,4 @@
     </a>
   </div>
 
-</div>
+{{! </div> }}

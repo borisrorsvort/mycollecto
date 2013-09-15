@@ -1,9 +1,29 @@
 Mycollecto.PointController = Em.ObjectController.extend({
   needs: ['points'],
+  pointPosition: null,
+  nextPoint: null,
+  previousPoint: null,
+  isFirst: null,
 
-  // init: function() {
+  setter: function() {
+    var points  = this.get("controllers.points.model");
 
-  // },
+    this.set('pointPosition', points.indexOf(this.get("content")));
+    this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
+    this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
+
+    if (points.indexOf(this.get("content")) === 0) {
+      this.set('isFirst', true);
+    } else {
+      this.set('isFirst', false);
+    }
+
+    console.log('pointPosition: '+ this.get('pointPosition'));
+    // console.log('nextPoint: '+ this.get('nextPoint'));
+    // console.log('previousPoint: '+ this.get('previousPoint'));
+    console.log('isFirst: '+ this.get('isFirst'));
+
+  }.observes('content.isLoaded'),
 
   closeModal: function() {
     var self  = this;
@@ -11,11 +31,16 @@ Mycollecto.PointController = Em.ObjectController.extend({
     modal.modal('hide');
   },
 
-  nextPoint: function(){
-    var points = this.get("controllers.points.model")
-    var idx = points.indexOf(this.get("model"));
-    var nextPoint = points.nextObject(idx+1);
-    this.transitionToRoute('point', nextPoint.get('id'));
+  goToNextPoint: function(){
+    this.transitionToRoute('point', this.get('nextPoint').id);
+  },
+
+  goToPreviousPoint: function(){
+    if (this.get('pointPosition') === 0) {
+      this.transitionToRoute('points');
+    } else {
+      this.transitionToRoute('point', this.get('previousPoint').id);
+    }
   },
 
   findItinirary: function() {

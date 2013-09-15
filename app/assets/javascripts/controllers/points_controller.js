@@ -48,8 +48,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }
 
     map.locate({maximumAge: 2000});
-    // this._super();
-
   },
 
 

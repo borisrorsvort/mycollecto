@@ -1,4 +1,5 @@
 Mycollecto.PointsView = Em.View.extend({
+  classNames: ['points-wrapper full-height col-xs-12 col-sm-4'],
   didInsertElement: function() {
     $('#map').show();
     $('.ember-application').spin(false);
