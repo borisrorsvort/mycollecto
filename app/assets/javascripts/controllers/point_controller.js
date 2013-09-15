@@ -12,17 +12,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
     this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
     this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
 
-    if (points.indexOf(this.get("content")) === 0) {
-      this.set('isFirst', true);
-    } else {
-      this.set('isFirst', false);
-    }
-
-    console.log('pointPosition: '+ this.get('pointPosition'));
-    // console.log('nextPoint: '+ this.get('nextPoint'));
-    // console.log('previousPoint: '+ this.get('previousPoint'));
-    console.log('isFirst: '+ this.get('isFirst'));
-
   }.observes('content.isLoaded'),
 
   closeModal: function() {
@@ -49,5 +38,9 @@ Mycollecto.PointController = Em.ObjectController.extend({
     var pointAddress = controller.get('content.formatted_address');
     window.location  = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+currentPos.lat+','+currentPos.lng;
     mixpanel.track("Find Itinerary");
+  },
+
+  callCollecto: function() {
+    window.location = "tel:+3228003636";
   }
 });

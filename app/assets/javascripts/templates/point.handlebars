@@ -1,22 +1,29 @@
-{{! <div class="point-list-scroller animated fadeInLeft"> }}
-  <div class="pull-left">
-    <span class="btn btn-warning media-object">
+<div class="point-nav row">
+  <a {{action goToPreviousPoint}} class='point--nav--arrows point--nav--arrows-prev col-xs-5'>
+    <i class="icon-chevron-left"></i>
+  </a>
+  {{#linkTo 'points' class="points--back-button col-xs-2"}}
+    <i class="icon-numbered-list"></i>
+  {{/linkTo}}
+  <a {{action goToNextPoint}} class='point--nav--arrows point--nav--arrows-next col-xs-5'>
+    <i class="icon-chevron-right"></i>
+  </a>
+</div>
+
+<header class="point--header">
+  <div class="point--header--number">
+    <span class="btn btn-warning">
       {{id}}
     </span>
   </div>
 
-  <h4 class="media-heading modal-title media">
+  <h4 class="media-body">
     {{fullName}}
   </h4>
-  <p class="lead">
-    {{#if isFirst}}
-      <a {{action goToPreviousPoint}}>All points</a>
-    {{else}}
-      <a {{action goToPreviousPoint}}>Previous point</a>
-    {{/if}}
-    <a {{action goToNextPoint}}>Next point</a>
-  </p>
+  <div class="clearfix"></div>
+</header>
 
+<section class="point--details">
   <p class="lead">{{addressFr}} -- {{addressNl}}</p>
 
   {{#if notes}}
@@ -24,15 +31,15 @@
     <p>{{notes}}</p>
   {{/if}}
 
-  <div class="btn-group btn-group-justified">
-    <a href="tel: 0032 2 800 36 36" class='btn btn-warning hidden-lg'>
-      <i class="icon-phone"></i>
-      Call Now
-    </a>
-    <a {{action findItinirary}} class='btn btn-default'>
-      Find Itinary
-      <i class="icon-circled-right"></i>
-    </a>
-  </div>
+</section>
 
-{{! </div> }}
+<section class="point--details point--actions btn-group btn-group-justified">
+  <a {{action callCollecto}} class='btn btn-warning hidden-lg'>
+    <i class="icon-phone"></i>
+    Call Now
+  </a>
+  <a {{action findItinirary}} class='btn btn-default'>
+    Find Itinary
+    <i class="icon-circled-right"></i>
+  </a>
+</section>

@@ -4,3 +4,81 @@
   display: block;
   margin-bottom: 10px;
 }
+
+.point-nav {
+  border-bottom: 1px solid darken($point-list-item-background, 5%);
+  margin-bottom: 15px;
+  a {
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    @include link-colors($point-list-item-text-color, #fff, $point-list-item-text-color);
+    display: inline-block;
+    padding: 10px;
+    font-size: 18px;
+  }
+}
+
+.point--nav--arrows {
+  &.point--nav--arrows-prev {
+    border-right: 1px solid darken($point-list-item-background, 5%);
+  }
+  &.point--nav--arrows-next {
+    border-left: 1px solid darken($point-list-item-background, 5%);
+  }
+}
+
+.points--back-button {
+  font-size: 16px;
+  border-right: 1px solid lighten($point-list-item-background, 2%);
+  border-left: 1px solid lighten($point-list-item-background, 2%);
+  background: darken($point-list-item-background, 2%);
+}
+
+.point--details {
+  color: $point-list-item-text-color;
+  padding: 15px;
+  .lead {
+    font-size: 16px;
+    line-height: 1.45em;
+  }
+}
+
+.point--header--number {
+  float: left;
+  margin-right: 15px;
+}
+
+.point--header {
+  padding: 30px;
+  background: darken($point-list-item-background, 5%);
+  margin: -15px -15px 15px;
+  @include box-shadow(#000 0 0 2px inset);
+
+  h4  {
+    margin: 0;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: $screen-sm) {
+
+  .point--header {
+    text-align: center;
+    @include border-radius(4px);
+    margin: 0 0 15px;
+
+    h4  {
+      font-size: 16px;
+      margin-top: 15px;
+    }
+  }
+  .point--header--number {
+    float: none;
+    margin-right: 0;
+    .btn {
+      font-size: 36px;
+      margin: 0 auto;
+    }
+  }
+}

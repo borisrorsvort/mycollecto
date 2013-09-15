@@ -40,7 +40,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
       map.setView( e.latlng, 17, {animate: true} );
 
-      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
+      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}));
     }
 
     function onLocationError(e) {
@@ -96,6 +96,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   }.observes('content.isLoaded'),
 
+  redirectTofirstObject: function() {
+    this.transitionToRoute('point', this.get('firstObject'));
+  }.observes('content.isLoaded'),
+
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
     mixpanel.people.increment("point lookup", 1);
@@ -105,10 +109,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   centerMap: function(model) {
     var controller = this;
 
-    //#TODO invert again when Oli fix the server
     var x          = model.get('latitude');
     var y          = model.get('longitude');
-    alert(model.get('nameFr'));
     var pos        = new L.LatLng(x,y);
     controller.map.panTo(pos);
     controller.animateMarker(model.get('id'));
