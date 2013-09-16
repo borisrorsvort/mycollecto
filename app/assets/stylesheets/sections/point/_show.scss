@@ -57,7 +57,13 @@
 
   h4  {
     margin: 0;
-    font-size: 13px;
+    font-size: 15px;
+    color: lighten($point-list-item-background, 35%);
+    font-weight: bold;
+    small {
+      margin-top: 10px;
+      display: block;
+    }
   }
 }
 

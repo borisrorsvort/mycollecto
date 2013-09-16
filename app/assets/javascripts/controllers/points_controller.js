@@ -16,7 +16,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var map                 = L.mapbox.map('map');
     var mapTiles            = 'borisrorsvort.map-yz4prbd9';
     var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
-    var layer               = L.mapbox.tileLayer(mapTiles, {maxZoom: 16, detectRetina: true, retinaVersion: mapRetinaTiles, reuseTiles: true }).addTo(map);
+    var layer               = L.mapbox.tileLayer(mapTiles, {maxZoom: 16, detectRetina: true, retinaVersion: mapRetinaTiles, reuseTiles: true, updateWhenIdle: true }).addTo(map);
 
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
@@ -56,7 +56,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     setTimeout(function() {
       controller.map.invalidateSize(true);
     }, 150);
-  }.observes('handleOpen'),
+  }.observes('mapLoaded'),
 
 
   createMarkers: function() {

@@ -19,6 +19,10 @@
 
   <h4 class="media-body">
     {{fullName}}
+    {{#if distanceFromUser}}
+      <br>
+      <small>{{distanceFromUser}}m</small>
+    {{/if}}
   </h4>
   <div class="clearfix"></div>
 </header>
@@ -34,8 +38,13 @@
 </section>
 
 <section class="point--details">
-  <header><h5>Next available Pickup Time:</h5></header>
-  <p>{{pickupTime}}</p>
+  <header>
+    <h5>
+      <i class="icon-clock"></i>
+      Next available Pickup Time:
+      <div class="label label-primary">{{pickupTime}}</div>
+    </h5>
+  </header>
 </section>
 
 <section class="point--details point--actions btn-group btn-group-justified">

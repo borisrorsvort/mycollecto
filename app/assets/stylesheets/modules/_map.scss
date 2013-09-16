@@ -1,6 +1,7 @@
 #map {
-  height: 1400px;
+  height: 1440px;
   max-height: 100% - $point-list-scroller-height;
+  z-index: 9999999;
   @include transition(all 0.5s);
 
   @media (min-width: $screen-sm) {
