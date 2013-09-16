@@ -42,8 +42,12 @@
     <h5>
       <i class="icon-clock"></i>
       Next available Pickup Time:
-      <div class="label label-primary">{{pickupTime}}</div>
     </h5>
+    <div class="pickup-time-labels">
+      {{#each item in pickupTime}}
+        <div class="label label-primary">{{item}}</div>
+      {{/each}}
+    </div>
   </header>
 </section>
 
