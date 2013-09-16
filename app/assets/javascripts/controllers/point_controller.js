@@ -4,11 +4,12 @@ Mycollecto.PointController = Em.ObjectController.extend({
   nextPoint: null,
   previousPoint: null,
   isFirst: null,
-  pickupTime: null,
+  pickupTime: [],
 
   setPickupTime: function() {
-    var next = this.findNextPickupTime(moment().format("HH"), moment().format("mm"));
+    var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
     this.set('pickupTime', next);
+    console.dir(next);
   }.observes('content.isLoaded'),
 
   setter: function() {
@@ -71,6 +72,29 @@ Mycollecto.PointController = Em.ObjectController.extend({
     }
 
     return next;
+  },
+
+  findNextList: function(hour, minutes, size) {
+    var h = parseInt(hour);
+    var m = parseInt(minutes);
+    var list = new Array();
+
+    for (i=0; i<size; i++) {
+      var res = this.findNextPickupTime(h, m);
+
+      if (i == 0 && res == "23:00") {
+        h = 23;
+        m = 0;
+      } else if (res == "23:00") {
+        break;
+      }
+
+      list.push(res);
+      h = (h + Math.floor((m + 30) / 60)) % 24;
+      m = Math.floor((m + 30) % 60);
+    }
+    return list;
   }
+
 
 });
