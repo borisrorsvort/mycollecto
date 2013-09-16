@@ -97,7 +97,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   }.observes('content.isLoaded'),
 
   redirectTofirstObject: function() {
-    this.transitionToRoute('point', this.get('firstObject'));
+    var that = this;
+    setTimeout(function() {
+      that.transitionToRoute('point', that.get('firstObject'));
+    }, 800);
   }.observes('content.isLoaded'),
 
   showDetails: function(point) {
