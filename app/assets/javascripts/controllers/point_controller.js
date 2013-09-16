@@ -53,16 +53,16 @@ Mycollecto.PointController = Em.ObjectController.extend({
   findNextPickupTime: function(hour, minutes) {
     // default value
     var next = "23:00";
-    var h = parseInt(hour, 10);
-    var m = parseInt(minutes, 10)
+    var h = parseInt(hour);
+    var m = parseInt(minutes)
 
-    if (h > 23 || h < 6) {
+    if (h >= 23 || h < 6) {
       if (m <= 10) {
-          return hour + ":30";
+        return hour + ":30";
       } else if (m > 10 && m < 40) {
-          return (h+1) + ":00";
+        return ((h+1) % 24) + ":00";
       } else {
-          return (h+1) + ":30";
+        return ((h+1) % 24) + ":30";
       }
     }
 
