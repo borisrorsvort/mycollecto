@@ -28,6 +28,7 @@ group :assets do
   gem 'spinjs-rails'
   gem 'leaflet-rails'
   gem 'mapbox-rails'
+  gem 'momentjs-rails'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 

@@ -3,8 +3,17 @@ html {
   @include transition(all 0.2s ease-in);
 }
 
+html {
+  height: 100%;
+}
 body {
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
+  padding: 0 15px;
+}
+
+.full-height {
+  min-height: 100%;
+  border-top: 5px solid darken($point-list-item-background, 10%);
 }

@@ -1,3 +1,1 @@
-Mycollecto.ApplicationRoute = Ember.Route.extend({
-
-});
+Mycollecto.ApplicationRoute = Ember.Route.extend({});

@@ -1,12 +1,10 @@
 Mycollecto.PointView = Em.View.extend({
-  classNames  : ['point'],
+  classNames  : ['point full-height col-xs-12 col-sm-4'],
   didInsertElement: function() {
-    var self = this;
-    $('.modal').modal('show');
-    $('.modal').on('hide.bs.modal', function () {
-      $('.modal-backdrop').fadeOut();
-      self.get('controller').transitionToRoute('points');
-    });
-
+    var points_controller = this.get('controller').get('controllers.points');
+    if (!points_controller.mapLoaded === true) {
+      points_controller.set('mapLoaded', true);
+      points_controller.initMap();
+    }
   }
 });

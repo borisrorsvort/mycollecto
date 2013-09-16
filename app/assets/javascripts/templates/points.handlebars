@@ -1,11 +1,5 @@
-<div class="point-list-scroller">
-  {{view Mycollecto.HandleView}}
-  <div class="point-list">
-    {{#each point in controller}}
-      {{view Mycollecto.PointInListView contentBinding='point'}}
-    {{/each}}
-  </div>
-</div>
+{{#each point in controller}}
+  {{view Mycollecto.PointInListView contentBinding='point'}}
+{{/each}}
 
-{{ outlet }}
 

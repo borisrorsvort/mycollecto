@@ -1,40 +1,59 @@
-<div class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header media">
-        <div class="pull-right">
-          <button type="button" {{action closeModal}} class="btn btn-default" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="pull-left">
-          <span class="btn btn-warning media-object">
-            {{id}}
-          </span>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading modal-title media">
-            {{fullName}}
-          </h4>
-        </div>
-      </div>
-      <div class="modal-body">
-        <p class="lead">{{addressFr}} -- {{addressNl}}</p>
-        {{#if notes}}
-          <h5 class="muted">Notes:</h5>
-          <p>{{notes}}</p>
-        {{/if}}
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group btn-group-justified">
-          <a href="tel: 0032 2 800 36 36" class='btn btn-warning hidden-lg'>
-            <i class="icon-phone"></i>
-            Call Now
-          </a>
-          <a {{action findItinirary}} class='btn btn-default'>
-            Find Itinary
-            <i class="icon-circled-right"></i>
-          </a>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<div class="point-nav row">
+  <a {{action goToPreviousPoint}} class='point--nav--arrows point--nav--arrows-prev col-xs-5'>
+    <i class="icon-chevron-left"></i>
+  </a>
+  {{#linkTo 'points' class="points--back-button col-xs-2"}}
+    <i class="icon-numbered-list"></i>
+  {{/linkTo}}
+  <a {{action goToNextPoint}} class='point--nav--arrows point--nav--arrows-next col-xs-5'>
+    <i class="icon-chevron-right"></i>
+  </a>
+</div>
+
+<header class="point--header">
+  <div class="point--header--number">
+    <span class="btn btn-warning">
+      {{id}}
+    </span>
+  </div>
+
+  <h4 class="media-body">
+    {{fullName}}
+    {{#if distanceFromUser}}
+      <br>
+      <small>{{distanceFromUser}}m</small>
+    {{/if}}
+  </h4>
+  <div class="clearfix"></div>
+</header>
+
+<section class="point--details">
+  <p class="lead">{{addressFr}} -- {{addressNl}}</p>
+
+  {{#if notes}}
+    <h5 class="muted">Notes:</h5>
+    <p>{{notes}}</p>
+  {{/if}}
+
+</section>
+
+<section class="point--details">
+  <header>
+    <h5>
+      <i class="icon-clock"></i>
+      Next available Pickup Time:
+      <div class="label label-primary">{{pickupTime}}</div>
+    </h5>
+  </header>
+</section>
+
+<section class="point--details point--actions btn-group btn-group-justified">
+  <a {{action callCollecto}} class='btn btn-warning hidden-lg'>
+    <i class="icon-phone"></i>
+    Call Now
+  </a>
+  <a {{action findItinirary}} class='btn btn-default'>
+    Find Itinary
+    <i class="icon-circled-right"></i>
+  </a>
+</section>

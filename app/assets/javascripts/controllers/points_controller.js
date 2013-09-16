@@ -7,15 +7,16 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   mapMarkers: [],
   panelVisible: true,
   handleOpen: false,
+  mapLoaded: false,
 
-  init: function(){
+  initMap: function(){
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
     var map                 = L.mapbox.map('map');
     var mapTiles            = 'borisrorsvort.map-yz4prbd9';
     var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
-    var layer               = L.mapbox.tileLayer(mapTiles, { detectRetina: true, retinaVersion: mapRetinaTiles }).addTo(map);
+    var layer               = L.mapbox.tileLayer(mapTiles, {maxZoom: 16, detectRetina: true, retinaVersion: mapRetinaTiles, reuseTiles: true, updateWhenIdle: true }).addTo(map);
 
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
@@ -39,7 +40,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
       map.setView( e.latlng, 17, {animate: true} );
 
-      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 40}));
+      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}));
     }
 
     function onLocationError(e) {
@@ -47,8 +48,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     }
 
     map.locate({maximumAge: 2000});
-    this._super();
-
   },
 
 
@@ -57,7 +56,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     setTimeout(function() {
       controller.map.invalidateSize(true);
     }, 150);
-  }.observes('handleOpen'),
+  }.observes('mapLoaded'),
 
 
   createMarkers: function() {
@@ -91,11 +90,14 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       });
 
       controller.mapMarkers.push(marker);
-
     });
 
     controller.initScrollEvents();
 
+  }.observes('content.isLoaded'),
+
+  redirectTofirstObject: function() {
+    this.transitionToRoute('point', this.get('firstObject'));
   }.observes('content.isLoaded'),
 
   showDetails: function(point) {
@@ -107,7 +109,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   centerMap: function(model) {
     var controller = this;
 
-    //#TODO invert again when Oli fix the server
     var x          = model.get('latitude');
     var y          = model.get('longitude');
     var pos        = new L.LatLng(x,y);

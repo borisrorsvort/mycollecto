@@ -9,4 +9,17 @@ Ember.View.reopen({
   }
 });
 
-Mycollecto.ApplicationView = Em.View.extend({});
+Mycollecto.ApplicationView = Em.View.extend({
+  classNames: ['application-wrapper row'],
+  didInsertElement: function() {
+    var view = this;
+    view.adjustHeight();
+    $(window).on('resize',function(){
+      view.adjustHeight();
+    });
+  },
+
+  adjustHeight: function() {
+    $('.application-wrapper').css('height', ($(window).height()+'px'));
+  }
+});
