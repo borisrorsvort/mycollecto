@@ -92,8 +92,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       controller.mapMarkers.push(marker);
     });
 
-    controller.initScrollEvents();
-
   }.observes('content.isLoaded'),
 
   redirectTofirstObject: function() {
@@ -119,18 +117,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     controller.animateMarker(model.get('id'));
   },
 
-  initScrollEvents: function() {
-    setTimeout(function() {
-      $('.point-list .point-list--item').waypoint( function(direction) {
-        $(this).find('.point-list--center-map').click();
-      },{
-        context: '.point-list',
-        continuous: false,
-        offset: 1
-      });
-    }, 10);
-  },
-
   animateMarker: function(id) {
     var controller = this;
 
@@ -147,10 +133,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     $.each(markers, function(index, val) {
       this.openPopup();
     });
-  },
-
-  togglePanel: function() {
-    this.toggleProperty('panelVisible');
-  },
+  }
 
 });

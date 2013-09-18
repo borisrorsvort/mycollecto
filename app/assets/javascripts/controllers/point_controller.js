@@ -21,12 +21,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
   }.observes('content.isLoaded'),
 
-  closeModal: function() {
-    var self  = this;
-    var modal = $('.modal');
-    modal.modal('hide');
-  },
-
   goToNextPoint: function(){
     this.transitionToRoute('point', this.get('nextPoint').id);
   },
