@@ -45,15 +45,19 @@ Mycollecto.PointController = Em.ObjectController.extend({
     window.location = "tel:+3228003636";
   },
 
-  findNextPickupTime: function(hour, minutes) {
+  findNextPickupTime: function(h, m) {
     // default value
-    var next = "23:00";
-    var h = parseInt(hour);
-    var m = parseInt(minutes)
+    if (h == 5 && m > 40) {
+      return "23:00";
+    }
+
+    if (h == 22 && m > 40) {
+      return "23:30";
+    }
 
     if (h >= 23 || h < 6) {
       if (m <= 10) {
-        return hour + ":30";
+        return h + ":30";
       } else if (m > 10 && m < 40) {
         return ((h+1) % 24) + ":00";
       } else {
@@ -61,11 +65,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
       }
     }
 
-    if (h == 22 && m > 40) {
-      return (h+1) + ":30";
-    }
-
-    return next;
+    return "23:00";
   },
 
   findNextList: function(hour, minutes, size) {
@@ -77,8 +77,8 @@ Mycollecto.PointController = Em.ObjectController.extend({
       var res = this.findNextPickupTime(h, m);
 
       if (i == 0 && res == "23:00") {
-        h = 23;
-        m = 0;
+        h = 22;
+        m = 30;
       } else if (res == "23:00") {
         break;
       }
