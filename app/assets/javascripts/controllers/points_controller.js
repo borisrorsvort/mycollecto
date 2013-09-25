@@ -40,10 +40,12 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
       map.setView( e.latlng, 17, {animate: true} );
       Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}).then(function(points){
+        // Feed the content prop with the points
         controller.set('content', points);
+        // And Redirect to closest point
         controller.transitionToRoute('point', points.objectAt(0));
       });
-      
+
     }
 
     function onLocationError(e) {
