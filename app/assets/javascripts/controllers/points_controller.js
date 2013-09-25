@@ -39,11 +39,15 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('longitude', e.latlng.lng);
 
       map.setView( e.latlng, 17, {animate: true} );
-
-      controller.set('content', Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}));
+      Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}).then(function(points){
+        controller.set('content', points);
+        controller.transitionToRoute('point', points.objectAt(0));
+      });
+      
     }
 
     function onLocationError(e) {
+      console.log("Location error");
       controller.set('content', Mycollecto.Point.find());
     }
 
@@ -92,13 +96,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       controller.mapMarkers.push(marker);
     });
 
-  }.observes('content.isLoaded'),
-
-  redirectTofirstObject: function() {
-    var that = this;
-    setTimeout(function() {
-      that.transitionToRoute('point', that.get('firstObject'));
-    }, 800);
   }.observes('content.isLoaded'),
 
   showDetails: function(point) {
