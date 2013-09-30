@@ -50,14 +50,23 @@
     </div>
   </header>
 </section>
+<div class="hidden-lg">
+  <section class="point--details point--actions btn-group btn-group-justified">
+    <a {{action callCollecto}} class='btn btn-warning'>
+      <i class="icon-phone"></i>
+      Call Now
+    </a>
+    <a {{action findItinirary}} class='btn btn-default'>
+      Find Itinerary
+      <i class="icon-circled-right"></i>
+    </a>
+  </section>
+</div>
 
-<section class="point--details point--actions btn-group btn-group-justified">
-  <a {{action callCollecto}} class='btn btn-warning hidden-lg'>
-    <i class="icon-phone"></i>
-    Call Now
-  </a>
-  <a {{action findItinirary}} class='btn btn-default'>
+<div class="visible-lg point--details point--actions">
+  <a {{action findItinirary}} class='btn btn-default btn-block btn-lg'>
     Find Itinerary
     <i class="icon-circled-right"></i>
   </a>
-</section>
+</div>
+
