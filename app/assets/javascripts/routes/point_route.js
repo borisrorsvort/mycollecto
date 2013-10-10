@@ -4,7 +4,6 @@ Mycollecto.PointRoute = Ember.Route.extend({
   },
 
   setBounds: function() {
-    // debugger
     var self            = this;
     var pointController = self.controllerFor('points');
     var map             = pointController.map;
