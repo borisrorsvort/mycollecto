@@ -9,7 +9,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
   setPickupTime: function() {
     var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
     this.set('pickupTime', next);
-    console.dir(next);
   }.observes('content.isLoaded'),
 
   setter: function() {

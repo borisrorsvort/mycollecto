@@ -13,10 +13,16 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
     var controller          = this;
     var currentUserPosition = controller.get('currentUserPosition');
-    var map                 = L.mapbox.map('map');
-    var mapTiles            = 'borisrorsvort.map-yz4prbd9';
-    var mapRetinaTiles      = 'borisrorsvort.map-frkowyyy';
-    var layer               = L.mapbox.tileLayer(mapTiles, {maxZoom: 16, detectRetina: true, retinaVersion: mapRetinaTiles, reuseTiles: true, updateWhenIdle: true }).addTo(map);
+    var map                 = L.map('map');
+
+    var layer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      key: '92e5866dcc9e47179553d1c6ae09d4c9',
+      detectRetina: true,
+      maxZoom: 16,
+      reuseTiles: true,
+      updateWhenIdle: true
+    }).addTo(map);
 
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
