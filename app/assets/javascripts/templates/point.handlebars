@@ -38,6 +38,13 @@
 </section>
 
 <section class="point--details">
+  <ul>
+  {{#each routeInstruction in routeInstructions}}
+    <li> {{routeInstruction}}</li>
+  {{/each}}
+  </ul>
+</section>
+<section class="point--details">
   <header>
     <h5>
       <i class="icon-clock"></i>
