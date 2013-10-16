@@ -10,55 +10,67 @@
   </a>
 </div>
 
-<header class="point--header">
-  <div class="point--header--number">
-    <span class="btn btn-warning">
-      {{id}}
-    </span>
-  </div>
+<header class="point--box point--box-centered">
+  <div class="point--box--body">
+    <div class="point--detail--number">
+      <span class="btn btn-warning">
+        {{id}}
+      </span>
+    </div>
 
-  <h4 class="media-body">
-    {{fullName}}
-    {{#if distanceFromUser}}
-      <br>
-      <small>{{distanceFromUser}}m</small>
-    {{/if}}
-  </h4>
-  <div class="clearfix"></div>
+    <h4 class="media-body point--details--info">
+      {{fullName}}
+      {{#if distanceFromUser}}
+        <br>
+        <small>{{distanceFromUser}}m</small>
+      {{/if}}
+    </h4>
+    <div class="clearfix"></div>
+  </div>
 </header>
 
-<section class="point--details">
-  <p class="lead">{{addressFr}} -- {{addressNl}}</p>
+<section class="point--box">
+  <div class="point--box--body">
+    <p class="lead">{{addressFr}} -- {{addressNl}}</p>
 
-  {{#if notes}}
-    <h5 class="muted">Notes:</h5>
-    <p>{{notes}}</p>
-  {{/if}}
+    {{#if notes}}
+      <h5 class="muted">Notes:</h5>
+      <p>{{notes}}</p>
+    {{/if}}
 
+  </div>
 </section>
 
-<section class="point--details">
-  <ul>
-  {{#each routeInstruction in routeInstructions}}
-    <li> {{routeInstruction}}</li>
-  {{/each}}
-  </ul>
-</section>
-<section class="point--details">
-  <header>
+<section class="point--box">
+  <header class='point--box--header'>
     <h5>
-      <i class="icon-clock"></i>
       Next available Pickup Time:
     </h5>
-    <div class="pickup-time-labels">
-      {{#each item in pickupTime}}
-        <div class="label label-primary">{{item}}</div>
+  </header>
+  <div class="pickup-time-labels point--box--body">
+    {{#each item in pickupTime}}
+      <div class="label label-default">{{item}}</div>
+    {{/each}}
+  </div>
+</section>
+
+{{#if routeInstructions}}
+  <section class="point--box">
+    <header class='point--box--header'>
+      <h5>
+        Walking Directions:
+      </h5>
+    </header>
+    <div class="point--box--body">
+      {{#each routeInstruction in routeInstructions}}
+        <div class='instruction'> {{routeInstruction}}</div>
       {{/each}}
     </div>
-  </header>
-</section>
+  </section>
+{{/if}}
+
 <div class="hidden-lg">
-  <section class="point--details point--actions btn-group btn-group-justified">
+  <section class="point--box point--actions btn-group btn-group-justified">
     <a {{action callCollecto}} class='btn btn-warning'>
       <i class="icon-phone"></i>
       Call Now
@@ -70,7 +82,7 @@
   </section>
 </div>
 
-<div class="visible-lg point--details point--actions">
+<div class="visible-lg point--box point--actions">
   <a {{action findItinirary}} class='btn btn-default btn-block btn-lg'>
     Find Itinerary
     <i class="icon-circled-right"></i>

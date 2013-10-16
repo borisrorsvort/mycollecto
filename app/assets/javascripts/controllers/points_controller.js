@@ -17,10 +17,10 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var map                 = L.map('map');
 
     var layer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       key: '92e5866dcc9e47179553d1c6ae09d4c9',
       detectRetina: true,
-      maxZoom: 16,
+      maxZoom: 18,
       reuseTiles: true,
       updateWhenIdle: true
     }).addTo(map);
