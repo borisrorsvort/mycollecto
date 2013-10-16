@@ -8,7 +8,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   panelVisible: true,
   handleOpen: false,
   mapLoaded: false,
-
+  path: undefined,
+  needs: ['point'],
   initMap: function(){
 
     var controller          = this;
@@ -16,17 +17,20 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var map                 = L.map('map');
 
     var layer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       key: '92e5866dcc9e47179553d1c6ae09d4c9',
       detectRetina: true,
-      maxZoom: 16,
+      maxZoom: 18,
       reuseTiles: true,
       updateWhenIdle: true
     }).addTo(map);
 
+    path =  Mycollecto.Path.create();
+    path.set("map", map);
+    path.set("pointController", this.get("controllers.point"));
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
-
+    controller.set("path",path);
     controller.set("map", map);
 
     function onLocationFound(e) {
@@ -43,7 +47,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
       currentUserPosition.set('latLng', e.latlng);
       currentUserPosition.set('latitude', e.latlng.lat);
       currentUserPosition.set('longitude', e.latlng.lng);
-
+      controller.get("path").set("origin", e.latlng);
       map.setView( e.latlng, 17, {animate: true} );
       Mycollecto.Point.find({latitude: e.latlng.lat, longitude: e.latlng.lng, size: 20}).then(function(points){
         // Feed the content prop with the points

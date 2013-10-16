@@ -5,7 +5,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
   previousPoint: null,
   isFirst: null,
   pickupTime: [],
-
   setPickupTime: function() {
     var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
     this.set('pickupTime', next);
@@ -18,6 +17,10 @@ Mycollecto.PointController = Em.ObjectController.extend({
     this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
     this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
 
+    path =  this.get("controllers.points.path");
+    if (path){
+      path.set("destination",{lat: this.get("content.latitude"), lng: this.get('content.longitude')});
+    }
   }.observes('content.isLoaded'),
 
   goToNextPoint: function(){
