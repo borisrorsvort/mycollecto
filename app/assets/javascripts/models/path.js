@@ -12,7 +12,7 @@ Mycollecto.Path  = Em.Object.extend({
 			var url = "http://routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
 			$.getJSON(url , function (data){
 				that.setLine(data.route_geometry)
-				that.get("pointController").set("routeInstructions", data.route_instructions);
+				that.get("pointController").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
 			});
 		}
 	}.observes("origin","destination"),
