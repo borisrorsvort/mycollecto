@@ -1,26 +1,55 @@
 Mycollecto.PointController = Em.ObjectController.extend({
-  needs: ['points'],
+  needs: ['points', 'path', 'map', 'application'],
   pointPosition: null,
   nextPoint: null,
   previousPoint: null,
   isFirst: null,
   pickupTime: [],
+
   setPickupTime: function() {
     var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
     this.set('pickupTime', next);
   }.observes('content.isLoaded'),
 
+  initMap: function() {
+    if (this.get('controllers.points.mapCreated') === false) {
+      this.get('controllers.points').initMap();
+    }
+  }.observes('content.isLoaded'),
+
+  setBounds: function() {
+
+    var map     = this.get('controllers.map.map');
+    var userLatLng = this.get('controllers.application.userPosition.latLng');
+
+    if (userLatLng) {
+      var x      = this.get('latitude');
+      var y      = this.get('longitude');
+      var pos    = new L.LatLng(x,y);
+      var bounds = new L.LatLngBounds([pos, userLatLng]);
+      map.fitBounds(bounds, {padding: [40,40]});
+      this.get('controllers.points').animateMarker(this.get('id'));
+    }
+
+  }.observes('content.isLoaded'),
+
   setter: function() {
     var points  = this.get("controllers.points.model");
-
-    this.set('pointPosition', points.indexOf(this.get("content")));
-    this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
-    this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
-
-    path =  this.get("controllers.points.path");
-    if (path){
-      path.set("destination",{lat: this.get("content.latitude"), lng: this.get('content.longitude')});
+    if (points) {
+      this.set('pointPosition', points.indexOf(this.get("content")));
+      this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
+      this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
     }
+
+  }.observes('content.isLoaded'),
+
+  updateDestinationForPath: function () {
+    var x      = this.get('latitude');
+    var y      = this.get('longitude');
+    var pos    = new L.LatLng(x,y);
+
+    this.get("controllers.path").set("destination", pos);
+
   }.observes('content.isLoaded'),
 
   goToNextPoint: function(){
@@ -37,7 +66,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
   findItinirary: function() {
     var controller   = this;
-    var currentPos   = controller.get('controllers.points').currentUserPosition.latLng;
+    var currentPos   = controller.get('controllers.application.userPosition.latLng');
     var pointAddress = controller.get('content.formatted_address');
     window.location  = 'http://maps.apple.com/?daddr='+pointAddress+'&saddr='+currentPos.lat+','+currentPos.lng;
     mixpanel.track("Find Itinerary");
