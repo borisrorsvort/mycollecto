@@ -21,7 +21,7 @@ Mycollecto.ApplicationController = Em.Controller.extend({
     console.log('Create path object');
 
     if (navigator.geolocation) {
-      $('body').spin({top: 20});
+      $('body').spin({top: 40});
       navigator.geolocation.getCurrentPosition(function(position){
         controller.onLocationFound(position);
       });
