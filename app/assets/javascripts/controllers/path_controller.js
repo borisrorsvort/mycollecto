@@ -1,6 +1,6 @@
 Mycollecto.PathController = Ember.ObjectController.extend({
   content: null,
-  needs: ['points', 'map'],
+  needs: ['point', 'points', 'map'],
 
   draw: function(){
     var origin      = this.get("origin");
@@ -10,8 +10,8 @@ Mycollecto.PathController = Ember.ObjectController.extend({
     if (origin && destination) {
       var url = "http://routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
       $.getJSON(url , function (data){
-        that.setLine(data.route_geometry)
-        that.get("controllers.points").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
+        that.setLine(data.route_geometry);
+        that.get("controllers.point").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
       }).then(function(){
         $('body').spin(false);
       });
