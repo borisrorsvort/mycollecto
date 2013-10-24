@@ -19,16 +19,20 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
   setBounds: function() {
 
-    var map     = this.get('controllers.map.map');
-    var userLatLng = this.get('controllers.application.userPosition.latLng');
+    if (this.get('controllers.application.geoLocationDone') === true) {
 
-    if (userLatLng) {
-      var x      = this.get('latitude');
-      var y      = this.get('longitude');
-      var pos    = new L.LatLng(x,y);
-      var bounds = new L.LatLngBounds([pos, userLatLng]);
-      map.fitBounds(bounds, {padding: [40,40]});
-      this.get('controllers.points').animateMarker(this.get('id'));
+      var map     = this.get('controllers.map.map');
+      var userLatLng = this.get('controllers.application.userPosition.latLng');
+
+      if (userLatLng) {
+        var x      = this.get('latitude');
+        var y      = this.get('longitude');
+        var pos    = new L.LatLng(x,y);
+        var bounds = new L.LatLngBounds([pos, userLatLng]);
+        map.fitBounds(bounds, {padding: [40,40]});
+        this.get('controllers.points').animateMarker(this.get('id'));
+      }
+
     }
 
   }.observes('content.isLoaded'),

@@ -11,12 +11,14 @@ Mycollecto.ApplicationController = Em.Controller.extend({
     controller.get("controllers.map").setProperties({
       'content': map
     });
+    console.log('Create map object');
 
     // Create Instance of Map
     var path =  Mycollecto.Path.create();
     controller.get("controllers.path").setProperties({
       'content': path
     });
+    console.log('Create path object');
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position){
