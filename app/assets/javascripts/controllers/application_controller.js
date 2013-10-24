@@ -11,14 +11,15 @@ Mycollecto.ApplicationController = Em.Controller.extend({
     controller.get("controllers.map").setProperties({
       'content': map
     });
-    console.log('Create map object');
+    mixpanel.track("View point details", {'via' : 'app init'});
+    // console.log('Create map object');
 
     // Create Instance of Map
     var path =  Mycollecto.Path.create();
     controller.get("controllers.path").setProperties({
       'content': path
     });
-    console.log('Create path object');
+    // console.log('Create path object');
 
     if (navigator.geolocation) {
       $('body').spin({top: 40});
@@ -57,6 +58,7 @@ Mycollecto.ApplicationController = Em.Controller.extend({
   toggleSearchForm: function() {
     $('.searchbar .btn').first().toggleClass('hidden');
     $('.searchbar input').first().toggleClass('hidden').focus();
+    mixpanel.track("Search: Toggle form");
   },
 
   updatePathOrigin: function() {

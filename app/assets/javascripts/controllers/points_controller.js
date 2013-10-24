@@ -100,7 +100,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   showDetails: function(point) {
     mixpanel.track("View point details", {'via' : 'list'});
-    mixpanel.people.increment("point lookup", 1);
     this.transitionToRoute('point', point);
   },
 

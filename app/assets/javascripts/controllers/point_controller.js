@@ -57,6 +57,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
   }.observes('content.isLoaded'),
 
   goToNextPoint: function(){
+    mixpanel.track("View point details", {'via' : 'next btn'});
     this.transitionToRoute('point', this.get('nextPoint').id);
   },
 
@@ -64,8 +65,14 @@ Mycollecto.PointController = Em.ObjectController.extend({
     if (this.get('pointPosition') === 0) {
       this.transitionToRoute('points');
     } else {
+      mixpanel.track("View point details", {'via' : 'prev btn'});
       this.transitionToRoute('point', this.get('previousPoint').id);
     }
+  },
+
+  goToPointsList: function() {
+    mixpanel.track("View points list");
+    this.transitionToRoute('points');
   },
 
   findItinirary: function() {

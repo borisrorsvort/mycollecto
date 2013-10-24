@@ -49,14 +49,17 @@ Mycollecto.SearchbarInput = Ember.TextField.extend({
           $('#map').spin(false);
           $('.searchbar .btn').first().toggleClass('hidden');
           $('.searchbar input').first().val('').toggleClass('hidden').blur();
+          mixpanel.track("Search: Address found");
 
         } else {
+          mixpanel.track("Search: Couldn find address");
           alert('We could not find the location');
         }
       },
       // fail
       function(argument) {
         alert('Failed to locate the place');
+        mixpanel.track("Search: Failed to locate the place");
       });
     }
   }

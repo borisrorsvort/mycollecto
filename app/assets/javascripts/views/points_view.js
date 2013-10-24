@@ -4,7 +4,5 @@ Mycollecto.PointsView = Em.View.extend({
     $('#map').show();
     $('.ember-application').spin(false);
     $('.point-list').spin();
-
-    mixpanel.track("View points list");
   }
 });
