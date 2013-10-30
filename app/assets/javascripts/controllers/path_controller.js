@@ -13,7 +13,7 @@ Mycollecto.PathController = Ember.ObjectController.extend({
         that.setLine(data.route_geometry);
         that.get("controllers.point").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
       }).then(function(){
-        $('body').spin(false);
+        // $('body').spin(false);
       });
     }
 

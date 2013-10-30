@@ -7,12 +7,14 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   needs: ['point', 'path', 'application', 'map'],
 
   initMap: function(){
+
     var controller = this;
     var userPosition = controller.get('controllers.application.userPosition');
 
     controller.get("controllers.map.tileLayer").addTo(controller.get("controllers.map.map"));
 
     controller.set('mapCreated', true);
+    $('body').spin(false);
 
   }.observes('content.isLoaded'),
 
@@ -109,25 +111,6 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var y          = model.get('longitude');
     var pos        = new L.LatLng(x,y);
     controller.get('controllers.map.map').panTo(pos);
-    controller.animateMarker(model.get('id'));
-  },
-
-  animateMarker: function(id) {
-    var controller = this;
-
-    markers = $.grep(controller.mapMarkers, function(n, i){
-      return n.options.id == id;
-    });
-
-    // Reset all icons
-    // TODO add promises
-    $.each(controller.mapMarkers, function(index, val) {
-      this.closePopup();
-    });
-    // Set Current current point new icon
-    $.each(markers, function(index, val) {
-      this.openPopup();
-    });
   }
 
 });

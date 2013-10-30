@@ -5,33 +5,28 @@ Mycollecto.ApplicationController = Em.Controller.extend({
 
   init: function() {
     controller = this;
-
     // Create Instance of Map
     var map =  Mycollecto.Map.create();
     controller.get("controllers.map").setProperties({
       'content': map
     });
     mixpanel.track("View point details", {'via' : 'app init'});
-    // console.log('Create map object');
 
     // Create Instance of Map
     var path =  Mycollecto.Path.create();
     controller.get("controllers.path").setProperties({
       'content': path
     });
-    // console.log('Create path object');
 
     if (navigator.geolocation) {
-      $('body').spin({top: 40});
-      navigator.geolocation.getCurrentPosition(function(position){
-        controller.onLocationFound(position);
-      });
+      navigator.geolocation.getCurrentPosition(function(position) {controller.onLocationFound(position)}, function(position) {controller.onLocationNotFound(position)});
     } else {
       controller.onLocationNotFound();
     }
   },
 
   onLocationFound: function (position) {
+    $('body').spin({top: '50%'});
     this.get('userPosition').setProperties({
       latLng: new L.LatLng(position.coords.latitude, position.coords.longitude),
       latitude: position.coords.latitude,
@@ -47,12 +42,20 @@ Mycollecto.ApplicationController = Em.Controller.extend({
   },
 
   onLocationNotFound: function () {
-    this.set('geoLocationDone', true);
+    $('body').spin({top: '50%'});
     this.get('userPosition').setProperties({
       latLng: new L.LatLng(50.850539, 4.351745),
       latitude: 50.850539,
       longitude: 4.351745
     });
+
+    this.get("controllers.path").setProperties({
+      "origin": this.get('userPosition.latLng')
+    });
+    console.log('Location Not found');
+    // Set props only then fire event
+    this.set('geoLocationDone', true);
+    console.log(this.get('geoLocationDone'));
   },
 
   toggleSearchForm: function() {

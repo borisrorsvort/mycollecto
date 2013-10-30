@@ -30,7 +30,6 @@ Mycollecto.PointController = Em.ObjectController.extend({
         var pos    = new L.LatLng(x,y);
         var bounds = new L.LatLngBounds([pos, userLatLng]);
         map.fitBounds(bounds, {padding: [40,40]});
-        this.get('controllers.points').animateMarker(this.get('id'));
       }
 
     }

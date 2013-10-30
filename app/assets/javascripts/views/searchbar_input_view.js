@@ -37,8 +37,7 @@ Mycollecto.SearchbarInput = Ember.TextField.extend({
           });
 
           // Find closests points
-          Mycollecto.Point.find({address: customAddress+' Bruxelles, Belgique', size: 40})
-          .then(function(points){
+          Mycollecto.Point.find({address: customAddress+' Bruxelles, Belgique', size: 40}).then(function(points){
             // Feed the content prop with the points
             controller.set('content', points);
             // And Redirect to closest point
