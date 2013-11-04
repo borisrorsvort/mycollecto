@@ -29,15 +29,27 @@
   </div>
 </header>
 
+<div class="hidden-lg">
+  <section class="point--box point--actions btn-group btn-group-justified">
+    <a {{action callCollectocallCollecto}} class='btn btn-warning'>
+      <i class="icon-phone"></i>
+      Call Now
+    </a>
+    <a {{action findItinirary}} class='btn btn-default'>
+      Find Itinerary
+      <i class="icon-circled-right"></i>
+    </a>
+  </section>
+</div>
+
+
 <section class="point--box">
   <div class="point--box--body">
     <p class="lead">{{addressFr}} -- {{addressNl}}</p>
-
     {{#if notes}}
       <h5 class="muted">Notes:</h5>
       <p>{{notes}}</p>
     {{/if}}
-
   </div>
 </section>
 
@@ -82,19 +94,6 @@
   </section>
 {{/if}}
 
-<div class="hidden-lg">
-  <section class="point--box point--actions btn-group btn-group-justified">
-    <a {{action callCollectocallCollecto}} class='btn btn-warning'>
-      <i class="icon-phone"></i>
-      Call Now
-    </a>
-    <a {{action findItinirary}} class='btn btn-default'>
-      Find Itinerary
-      <i class="icon-circled-right"></i>
-    </a>
-  </section>
-</div>
-
 <div class="visible-lg point--box point--actions">
   <a {{action findItinirary}} class='btn btn-default btn-block btn-lg'>
     Find Itinerary
@@ -102,3 +101,4 @@
   </a>
 </div>
 
+<div class="clearfix"></div>
