@@ -11,7 +11,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var controller = this;
     var userPosition = controller.get('controllers.application.userPosition');
 
-    controller.get("controllers.map.tileLayer").addTo(controller.get("controllers.map.map"));
+    controller.get("controllers.map.tileLayer").addTo(controller.get("controllers.map.map")).redraw();
 
     controller.set('mapCreated', true);
     $('body').spin(false);
@@ -49,21 +49,23 @@ Mycollecto.PointsController = Em.ArrayController.extend({
 
   loadPoints: function() {
     var controller = this;
-    var userPosition = this.get('controllers.application.userPosition');
+    var userPosition = controller.get('controllers.application.userPosition');
     Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function(points){
       // Feed the content prop with the points
       controller.set('content', points);
-      // And Redirect to closest point
-      controller.transitionToRoute('point', points.objectAt(0));
+      // prevent redreict twice
+      var closest_point = points.objectAt(0);
+      if (controller.get('controllers.point.content.id') !== closest_point.get('id')) {
+        // And Redirect to closest point
+        controller.transitionToRoute('point', closest_point);
+      }
     });
 
   }.observes('controllers.application.geoLocationDone'),
 
   invalidateMapSize: function() {
     var controller = this;
-    setTimeout(function() {
-      controller.get('controllers.map.map').invalidateSize(true);
-    }, 150);
+    controller.get('controllers.map.map').invalidateSize(true);
   }.observes('mapCreated'),
 
   createMarkers: function() {

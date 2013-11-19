@@ -6,6 +6,10 @@ Mycollecto.PointController = Em.ObjectController.extend({
   isFirst: null,
   pickupTime: [],
 
+  logContentLoad: function() {
+    console.log('content.isLoaded');
+  }.observes('content.isLoaded'),
+
   setPickupTime: function() {
     var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
     this.set('pickupTime', next);
@@ -15,7 +19,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
     if (this.get('controllers.points.mapCreated') === false) {
       this.get('controllers.points').initMap();
     }
-  }.observes('content.isLoaded'),
+  }.observes('controllers.points.content.isLoaded'),
 
   setBounds: function() {
 
@@ -31,27 +35,30 @@ Mycollecto.PointController = Em.ObjectController.extend({
         var bounds = new L.LatLngBounds([pos, userLatLng]);
         map.fitBounds(bounds, {padding: [40,40]});
       }
-
     }
+    console.log('set bounds')
 
   }.observes('content.isLoaded'),
 
   setter: function() {
     var points  = this.get("controllers.points.model");
-    if (points) {
+    if (typeof(points) === 'object') {
       this.set('pointPosition', points.indexOf(this.get("content")));
       this.set('nextPoint', points.nextObject(this.get('pointPosition')+1));
       this.set('previousPoint', points.nextObject(this.get('pointPosition')-1));
+      console.log('Get in point nav');
     }
-
-  }.observes('content.isLoaded'),
+  }.observes('content.isLoaded', 'controllers.points.content.isLoaded'),
 
   updateDestinationForPath: function () {
-    var x      = this.get('latitude');
-    var y      = this.get('longitude');
-    var pos    = new L.LatLng(x,y);
+    var x              = this.get('latitude'),
+        y              = this.get('longitude'),
+        pos            = new L.LatLng(x,y),
+        oldDestination = this.get("controllers.path.destination");
 
-    this.get("controllers.path").set("destination", pos);
+    if (oldDestination !== pos) {
+      this.get("controllers.path").set("destination", pos);
+    }
 
   }.observes('content.isLoaded'),
 
