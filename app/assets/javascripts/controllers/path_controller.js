@@ -9,7 +9,7 @@ Mycollecto.PathController = Ember.ObjectController.extend({
 
     if (origin && destination && (origin !== destination)) {
       console.log('draw path');
-      var url = "http://routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
+      var url = "https://ssl_routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
       $.getJSON(url , function (data){
         if (data.route_geometry !== undefined) {
           that.initLine(data.route_geometry);
