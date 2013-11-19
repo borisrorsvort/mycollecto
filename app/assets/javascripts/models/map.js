@@ -8,7 +8,7 @@ Mycollecto.Map = Ember.Object.extend({
   }.property(),
 
   tileLayer: function() {
-    var layer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
+    var layer = L.tileLayer('https://ssl_tiles.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
       key: '92e5866dcc9e47179553d1c6ae09d4c9',
       detectRetina: true,
       maxZoom: 18,
