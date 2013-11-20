@@ -5,7 +5,7 @@ Mycollecto.Map = Ember.Object.extend({
       zoom: 16
     });
     return map;
-  }.property(),
+  },
 
   tileLayer: function() {
     var layer = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
@@ -16,5 +16,5 @@ Mycollecto.Map = Ember.Object.extend({
       updateWhenIdle: true
     })
     return layer;
-  }.property()
+  }
 });

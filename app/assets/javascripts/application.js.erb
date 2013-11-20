@@ -1,27 +1,9 @@
 //= require jquery
-//= require jquery_ujs
 //= require leaflet
-//= require handlebars
-//= require ember
-//= require ember-data
-
 //= require moment
 //= require jquery.spin
-
-//= require_self
-//= require mycollecto
+//= require handlebars
 
 
-<% if Rails.env.development? %>
- var options = {
-  LOG_ACTIVE_GENERATION: true,
-  LOG_VIEW_LOOKUPS: true,
-  LOG_TRANSITIONS: true
-}
-<% else %>
- var options = {}
-<% end %>
-
-Mycollecto = Ember.Application.create();
 
 

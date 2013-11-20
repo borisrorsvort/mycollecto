@@ -1,5 +1,5 @@
 Mycollecto.PointController = Em.ObjectController.extend({
-  needs: ['points', 'path', 'map', 'application'],
+  needs: ['points'],
   pointPosition: null,
   nextPoint: null,
   previousPoint: null,
@@ -19,10 +19,10 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
   setBounds: function() {
 
-    if (this.get('controllers.application.geoLocationDone') === true) {
+    if (this.get('controllers.points.userPosition')) {
 
-      var map     = this.get('controllers.map.map');
-      var userLatLng = this.get('controllers.application.userPosition.latLng');
+      var map     = this.get('controllers.points.map');
+      var userLatLng = this.get('controllers.points.userPosition.latLng');
 
       if (userLatLng) {
         var x      = this.get('latitude');
@@ -34,7 +34,7 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
     }
 
-  }.observes('content.isLoaded'),
+  },
 
   setter: function() {
     var points  = this.get("controllers.points.model");
@@ -51,27 +51,28 @@ Mycollecto.PointController = Em.ObjectController.extend({
     var y      = this.get('longitude');
     var pos    = new L.LatLng(x,y);
 
-    this.get("controllers.path").set("destination", pos);
+  //  this.get("controllers.path").set("destination", pos);
 
   }.observes('content.isLoaded'),
+  actions: {
+    goToNextPoint: function(){
+      mixpanel.track("View point details", {'via' : 'next btn'});
+      this.transitionToRoute('point', this.get('nextPoint').id);
+    },
 
-  goToNextPoint: function(){
-    mixpanel.track("View point details", {'via' : 'next btn'});
-    this.transitionToRoute('point', this.get('nextPoint').id);
-  },
+    goToPreviousPoint: function(){
+      if (this.get('pointPosition') === 0) {
+        this.transitionToRoute('points');
+      } else {
+        mixpanel.track("View point details", {'via' : 'prev btn'});
+        this.transitionToRoute('point', this.get('previousPoint').id);
+      }
+    },
 
-  goToPreviousPoint: function(){
-    if (this.get('pointPosition') === 0) {
+    goToPointsList: function() {
+      mixpanel.track("View points list");
       this.transitionToRoute('points');
-    } else {
-      mixpanel.track("View point details", {'via' : 'prev btn'});
-      this.transitionToRoute('point', this.get('previousPoint').id);
     }
-  },
-
-  goToPointsList: function() {
-    mixpanel.track("View points list");
-    this.transitionToRoute('points');
   },
 
   findItinirary: function() {

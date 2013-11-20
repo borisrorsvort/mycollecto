@@ -1,116 +1,71 @@
-
 Mycollecto.PointsController = Em.ArrayController.extend({
+  userPosition: Ember.Object.create(),
+  
   sortProperties: ['distanceFromUser'],
   sortDescending: true,
   mapMarkers: [],
   mapCreated: null,
-  needs: ['point', 'path', 'application', 'map'],
+  needs: ['point', 'path', 'pointsIndex'],
 
-  initMap: function(){
+  init: function() {
+    controller = this;
+    mixpanel.track("View point details", {'via' : 'app init'});
 
-    var controller = this;
-    var userPosition = controller.get('controllers.application.userPosition');
-
-    controller.get("controllers.map.tileLayer").addTo(controller.get("controllers.map.map"));
-
-    controller.set('mapCreated', true);
-    $('body').spin(false);
-
-  }.observes('content.isLoaded'),
-
-  addUserPositionMarker: function() {
-
-    var map = this.get("controllers.map.map");
-
-    var myIcon = L.divIcon({
-      html: '<i class="icon-user"/>',
-      className: 'marker-custom marker-custom-user'
-    });
-
-    var userMarker = L.marker(this.get('controllers.application.userPosition.latLng'), {
-      icon: myIcon
-    }).addTo(map);
-
-    // Assign marker and icon to UserPosition
-    this.get('controllers.application.userPosition').setProperties({
-      marker: userMarker,
-      markerIcon: myIcon
-    });
-
-  }.observes('mapCreated'),
-
-  updateUserMarkerPosition: function() {
-    var userPos = this.get('controllers.application.userPosition');
-    if (userPos.get('marker')) {
-      userPos.get('marker').setLatLng(userPos.get('latLng'));
+    // Create Instance of Map
+    var map =  Mycollecto.Map.create();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {controller.onLocationFound(position)}, function(position) {controller.onLocationNotFound(position)});
+    } else {
+      controller.onLocationNotFound();
     }
+  },
 
-  }.observes('controllers.application.userPosition.latLng'),
+  onLocationFound: function (position) {
+    $('body').spin({top: '50%'});
+    this.get('userPosition').setProperties({
+      latLng: new L.LatLng(position.coords.latitude, position.coords.longitude),
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
+    /*
+    this.get("controllers.path").setProperties({
+      "origin": this.get('userPosition.latLng')
+    });
+*/
+    // Set props only then fire event
+    this.userLocated();
+  },
 
-  loadPoints: function() {
-    var controller = this;
-    var userPosition = this.get('controllers.application.userPosition');
+  onLocationNotFound: function () {
+    $('body').spin({top: '50%'});
+    this.get('userPosition').setProperties({
+      latLng: new L.LatLng(50.850539, 4.351745),
+      latitude: 50.850539,
+      longitude: 4.351745
+    });
+
+   /* this.get("controllers.path").setProperties({
+      "origin": this.get('userPosition.latLng')
+    });*/
+    console.log('Location Not found');
+    // Set props only then fire event
+    this.set('geoLocationDone', true);
+    console.log(this.get('geoLocationDone'));
+    this.userLocated();
+  },
+
+  
+  userLocated: function(){
+    controller = this;
+    var userPosition = this.get('userPosition');
     Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function(points){
       // Feed the content prop with the points
       controller.set('content', points);
+      controller.set('controllers.pointsIndex.model', points)
       // And Redirect to closest point
-      controller.transitionToRoute('point', points.objectAt(0));
+     // controller.transitionToRoute('point', points.objectAt(0));
     });
-
-  }.observes('controllers.application.geoLocationDone'),
-
-  invalidateMapSize: function() {
-    var controller = this;
-    setTimeout(function() {
-      controller.get('controllers.map.map').invalidateSize(true);
-    }, 150);
-  }.observes('mapCreated'),
-
-  createMarkers: function() {
-    var controller = this;
-    var map        = this.get('controllers.map.map');
-
-    controller.get("model").forEach(function(point){
-      var pointId = point.get('id');
-
-      var myIcon = L.divIcon({
-        html: pointId,
-        className: 'marker-custom'
-      });
-
-      var marker = L.marker(new L.LatLng(point.get("latitude"), point.get("longitude")), {
-        id: pointId,
-        icon: myIcon
-      });
-
-      var name      = point.get("nameFr")
-      var popupHtml = "<a href='/#/"+pointId+"'>"+name+"</a>"
-
-      marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
-
-      // Adding click action to marker
-      marker.on('click', function() {
-        window.location = '/#/' + pointId;
-        mixpanel.track("View point details", {'via' : 'map'});
-        mixpanel.people.increment("point lookup", 1);
-      });
-
-      controller.mapMarkers.push(marker);
-    });
-
-  }.observes('mapCreated', 'content.@each'),
-
-  showDetails: function(point) {
-    mixpanel.track("View point details", {'via' : 'list'});
-    this.transitionToRoute('point', point);
+    
   },
-
-  centerMap: function(model) {
-    var controller = this;
-    var x          = model.get('latitude');
-    var y          = model.get('longitude');
-    var pos        = new L.LatLng(x,y);
-    controller.get('controllers.map.map').panTo(pos);
-  }
 
 });
