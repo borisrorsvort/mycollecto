@@ -67,7 +67,7 @@
   </div>
 </section>
 
-{{#if routeInstructions}}
+{{#if controllers.points.routeInstructions}}
   <section class="point--box">
     <header class='point--box--header'>
       <h5>
@@ -75,7 +75,7 @@
       </h5>
     </header>
     <div class="point--box--body">
-      {{#each routeInstruction in routeInstructions}}
+      {{#each routeInstruction in controllers.points.routeInstructions}}
         <div class='instruction'> {{routeInstruction}}</div>
       {{/each}}
     </div>

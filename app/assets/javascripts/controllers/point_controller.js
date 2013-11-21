@@ -11,30 +11,13 @@ Mycollecto.PointController = Em.ObjectController.extend({
     this.set('pickupTime', next);
   }.observes('content.isLoaded'),
 
-  initMap: function() {
-    if (this.get('controllers.points.mapCreated') === false) {
-      this.get('controllers.points').initMap();
-    }
-  }.observes('content.isLoaded'),
 
   setBounds: function() {
-
-    if (this.get('controllers.points.userPosition')) {
-
-      var map     = this.get('controllers.points.map');
-      var userLatLng = this.get('controllers.points.userPosition.latLng');
-
-      if (userLatLng) {
-        var x      = this.get('latitude');
-        var y      = this.get('longitude');
-        var pos    = new L.LatLng(x,y);
-        var bounds = new L.LatLngBounds([pos, userLatLng]);
-        map.fitBounds(bounds, {padding: [40,40]});
-      }
-
-    }
-
-  },
+    var x      = this.get('latitude');
+    var y      = this.get('longitude');
+    var pos    = new L.LatLng(x,y);
+    this.set("controllers.points.targetPosition.latLng", pos);
+  }.observes('content.isLoaded'),
 
   setter: function() {
     var points  = this.get("controllers.points.model");
@@ -46,15 +29,10 @@ Mycollecto.PointController = Em.ObjectController.extend({
 
   }.observes('content.isLoaded'),
 
-  updateDestinationForPath: function () {
-    var x      = this.get('latitude');
-    var y      = this.get('longitude');
-    var pos    = new L.LatLng(x,y);
-
-  //  this.get("controllers.path").set("destination", pos);
-
-  }.observes('content.isLoaded'),
   actions: {
+    findNewAddressPosition: function(value){
+      console.log(value);
+    },
     goToNextPoint: function(){
       mixpanel.track("View point details", {'via' : 'next btn'});
       this.transitionToRoute('point', this.get('nextPoint').id);
