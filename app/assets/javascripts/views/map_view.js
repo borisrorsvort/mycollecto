@@ -4,7 +4,7 @@ Mycollecto.MapView = Em.View.extend({
 
   didInsertElement: function() {
     this._super();
-    
+
     var map = L.map('map').setView([50.850539, 4.351745], 16);
     L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
         key: this.get("key"),
@@ -16,56 +16,54 @@ Mycollecto.MapView = Em.View.extend({
     this.set('map',map);
     $('body').spin(false);
     $('#map').spin(false);
-    
+
     map.invalidateSize(true);
-    this.setUserMarker();  
-  //  this.pointsLoaded();  
+    this.setUserMarker();
   },
-  
-  userLocated: function(){
+
+  userLocated: function() {
     this.setUserMarker();
   }.observes('controller.userPosition.latLng'),
-  
-  setUserMarker: function(){
-   
-   
-   var map = this.get("map");
-   var latLng = this.get('controller.userPosition.latLng'); 
-   var userMarker = this.get("controller.userPosition.marker");
-   
-   if (userMarker){
-     userMarker.setLatLng(latLng);
-    // map.panTo(latLng);
-     
-   }
-   else{
-     if (map && latLng){
-       var myIcon = L.divIcon({
-         html: '<i class="icon-user"/>',
-         className: 'marker-custom marker-custom-user'
-       });
-     
-       var userMarker = L.marker(latLng, {
-         icon: myIcon
-       }).addTo(map);
-     
-       this.get("controller.userPosition").setProperties({
-         marker: userMarker,
-         markerIcon: myIcon
-       });
-       
-     }
-   }
-   
+
+  setUserMarker: function() {
+
+    var map = this.get("map"),
+        latLng = this.get('controller.userPosition.latLng'),
+        userMarker = this.get("controller.userPosition.marker");
+
+    if (userMarker){
+
+      userMarker.setLatLng(latLng);
+
+    } else {
+
+      if (map && latLng){
+
+        var myIcon = L.divIcon({
+          html: '<i class="icon-user"/>',
+          className: 'marker-custom marker-custom-user'
+        });
+
+        var userMarker = L.marker(latLng, {
+          icon: myIcon
+        }).addTo(map);
+
+        this.get("controller.userPosition").setProperties({
+          marker: userMarker,
+          markerIcon: myIcon
+        });
+
+      }
+    }
   },
-  
 
-  pointsLoaded: function(){
-    map = this.get("map");
+  pointsLoaded: function() {
+    map        = this.get("map");
     controller = this.get("controller");
-    controller.get("model").forEach(function(point){
-      var pointId = point.get('id');
 
+    controller.get("model").forEach(function(point){
+
+      var pointId = point.get('id');
       var myIcon = L.divIcon({
         html: pointId,
         className: 'marker-custom'
@@ -87,47 +85,58 @@ Mycollecto.MapView = Em.View.extend({
         mixpanel.track("View point details", {'via' : 'map'});
         mixpanel.people.increment("point lookup", 1);
       });
-    });      
-    
-  }.observes("controller.content"),      
-  
+    });
+
+  }.observes("controller.content"),
+
   draw: function(){
-    var origin      = this.get("controller.userPosition.latLng");
-    var destination = this.get("controller.targetPosition.latLng");
-    var map = this.get('map');
-    that = this;
+
+    var origin = this.get("controller.userPosition.latLng"),
+        destination = this.get("controller.targetPosition.latLng"),
+        map = this.get('map'),
+        that = this;
 
     if (origin && destination && (origin !== destination)) {
 
-      var url = "https://ssl_routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
+      var url    = "https://ssl_routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?",
+          bounds = new L.LatLngBounds(origin, destination);
+
       $.getJSON(url , function (data){
         if (data.route_geometry !== undefined) {
           that.initLine(data.route_geometry);
           that.setRouteInstructions(data);
         }
       });
-      
-      var bounds = new L.LatLngBounds(origin, destination);
-      map.fitBounds(bounds, {padding: [40,40]}); 
-      
-    }else{
-      if(origin){
+
+      map.fitBounds(bounds, {padding: [40,40]});
+
+    } else {
+
+      if (origin) {
         map.panTo(origin);
       }
+
     }
 
   }.observes("controller.userPosition.latLng", "controller.targetPosition.latLng"),
 
   initLine: function(points){
+
     line = this.get("line");
+
     if (points !== undefined) {
+
       if (line === undefined){
+
         // create Line
         this.createLine(points);
+
       } else {
+
         // update trajectory
         this.updateLine(points, line);
       }
+
     }
   },
 
@@ -140,7 +149,8 @@ Mycollecto.MapView = Em.View.extend({
   },
 
   setRouteInstructions: function(data) {
-    this.get("controller").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
+    this.get("controller").set("routeInstructions", data.route_instructions.map(function(route){
+      return route[0]+" / "+route[4]
+    }));
   }
-  
-});      
+});
