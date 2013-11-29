@@ -89,7 +89,7 @@ Mycollecto.MapView = Em.View.extend({
       });
     });      
     
-  }.observes("controller.content"),      
+  }.observes("controller.model"),      
   
   draw: function(){
     var origin      = this.get("controller.userPosition.latLng");

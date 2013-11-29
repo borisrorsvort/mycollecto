@@ -1,5 +1,5 @@
 Mycollecto.PointsIndexController = Em.ArrayController.extend({
-  needs: ["points"],
+  needs: ["points"], 
   actions:{
     showDetails: function(point) {
       mixpanel.track("View point details", {'via' : 'list'});

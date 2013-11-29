@@ -6,7 +6,7 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   sortDescending: true,
   mapMarkers: [],
   mapCreated: null,
-  needs: ['point', 'path', 'pointsIndex'],
+  needs: ['point'],
   actions:{
     findNewAddressPosition: function(customAddress){
      controller = this;
@@ -104,8 +104,8 @@ Mycollecto.PointsController = Em.ArrayController.extend({
     var userPosition = this.get('userPosition');
     Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function(points){
       // Feed the content prop with the points
-      controller.set('content', points);
-      controller.set('controllers.pointsIndex.model', points)
+      controller.set('model', points);
+      //controller.set('controllers.pointsIndex.model', points)
       if(forceRedirect === true){
         controller.transitionToRoute('point', controller.get("content").objectAt(0));
       }
