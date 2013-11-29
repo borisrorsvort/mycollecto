@@ -99,14 +99,14 @@ Mycollecto.PointsController = Em.ArrayController.extend({
   },
 
   
-  userLocated: function(forceRedirect){
+  userLocated: function(){
     controller = this;
     var userPosition = this.get('userPosition');
     Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function(points){
       // Feed the content prop with the points
       controller.set('model', points);
-      //controller.set('controllers.pointsIndex.model', points)
-      if(forceRedirect === true){
+      //do not redirect if we are on a point page
+      if(controller.get('controllers.point.model') === null){
         controller.transitionToRoute('point', controller.get("content").objectAt(0));
       }
     });

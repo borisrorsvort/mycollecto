@@ -2,9 +2,18 @@ Mycollecto.MapView = Em.View.extend({
   templateName: "map",
   key: "92e5866dcc9e47179553d1c6ae09d4c9",
 
+  adjustHeight: function() {
+    $('.application-wrapper').css('height', ($(window).height()+'px'));
+  },
+
   didInsertElement: function() {
     this._super();
     
+    var view = this;
+    view.adjustHeight();
+    $(window).on('resize',function(){
+      view.adjustHeight();
+    });
     var map = L.map('map').setView([50.850539, 4.351745], 16);
     L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
         key: this.get("key"),
@@ -17,7 +26,7 @@ Mycollecto.MapView = Em.View.extend({
     $('body').spin(false);
     $('#map').spin(false);
     
-    map.invalidateSize(true);
+    map.invalidateSize();
     this.setUserMarker();  
   //  this.pointsLoaded();  
   },
@@ -32,6 +41,8 @@ Mycollecto.MapView = Em.View.extend({
    var map = this.get("map");
    var latLng = this.get('controller.userPosition.latLng'); 
    var userMarker = this.get("controller.userPosition.marker");
+
+   map.invalidateSize();
    
    if (userMarker){
      userMarker.setLatLng(latLng);
@@ -107,7 +118,7 @@ Mycollecto.MapView = Em.View.extend({
       });
       
       var bounds = new L.LatLngBounds(origin, destination);
-      map.fitBounds(bounds, {padding: [40,40]}); 
+      map.fitBounds(bounds, {padding: [160,160]}); 
       
     }else{
       if(origin){
