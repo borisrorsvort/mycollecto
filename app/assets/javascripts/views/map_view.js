@@ -88,7 +88,6 @@ Mycollecto.MapView = Em.View.extend({
         mixpanel.people.increment("point lookup", 1);
       });
     });      
-    
   }.observes("controller.model"),      
   
   draw: function(){
