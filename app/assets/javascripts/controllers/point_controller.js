@@ -22,12 +22,11 @@ Mycollecto.PointController = Ember.ObjectController.extend({
 
   setter: function () {
     var points  = this.get("controllers.points.model");
-    if (points) {
+    if (points.length > 0) {
       this.set('pointPosition', points.indexOf(this.get("content")));
       this.set('nextPoint', points.nextObject(this.get('pointPosition') + 1));
       this.set('previousPoint', points.nextObject(this.get('pointPosition') - 1));
     }
-
   }.observes('content.isLoaded'),
 
   actions: {
