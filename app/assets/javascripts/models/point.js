@@ -1,3 +1,4 @@
+/*global Mycollecto, Ember, DS*/
 Mycollecto.Point  = DS.Model.extend({
   name             : DS.attr('string'),
   nameFr           : DS.attr('string'),
@@ -10,14 +11,17 @@ Mycollecto.Point  = DS.Model.extend({
   distanceFromUser : DS.attr('number'),
   formatted_address: DS.attr('string'),
 
-  fullName: function() {
+  fullName: function () {
     var nameFr = this.get("nameFr");
     var nameNl = this.get("nameNl");
+    var fullName;
+
     if (nameFr === nameNl) {
-      return nameFr;
+      fullName = nameFr;
     } else {
-      return (nameFr + ' — ' + nameNl).htmlSafe();
+      fullName = (nameFr + ' — ' + nameNl).htmlSafe();
     }
-  }.property("nameFr","nameNl")
+    return fullName;
+  }.property("nameFr", "nameNl")
 
 });

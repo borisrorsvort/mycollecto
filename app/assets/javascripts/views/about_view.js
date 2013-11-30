@@ -1,7 +1,8 @@
-Mycollecto.AboutView = Em.View.extend({
+/*global Mycollecto, Ember, $, mixpanel*/
+Mycollecto.AboutView = Ember.View.extend({
   classNames  : ['row page-about'],
 
-  afterRenderEvent: function() {
+  afterRenderEvent: function () {
     mixpanel.track("View about page");
   }
 });

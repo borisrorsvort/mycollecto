@@ -1,4 +1,4 @@
-// http://emberjs.com/guides/models/defining-a-store/
+/*global Mycollecto, DS*/
 
 Mycollecto.Store = DS.Store.extend({
   revision: 12,

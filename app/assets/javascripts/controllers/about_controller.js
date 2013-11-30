@@ -1,6 +1,7 @@
-Mycollecto.AboutController = Em.Controller.extend({
+/*global Mycollecto, Ember*/
+Mycollecto.AboutController = Ember.Controller.extend({
   needs: ['points'],
-  switchToPoints: function() {
+  switchToPoints: function () {
     this.transitionToRoute('points');
   }
 });

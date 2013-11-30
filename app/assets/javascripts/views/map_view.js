@@ -1,80 +1,86 @@
-Mycollecto.MapView = Em.View.extend({
+/*global Mycollecto, Ember, $, mixpanel, window, L*/
+Mycollecto.MapView = Ember.View.extend({
+  // className: ['col-xs-12 col-sm-8 dark']
   templateName: "map",
-  key: "92e5866dcc9e47179553d1c6ae09d4c9",
+  cloudmadeKey: "92e5866dcc9e47179553d1c6ae09d4c9",
 
-  adjustHeight: function() {
-    $('.application-wrapper').css('height', ($(window).height()+'px'));
+  adjustHeight: function () {
+    $('.application-wrapper').css('height', ($(window).height() + 'px'));
   },
 
-  didInsertElement: function() {
+  didInsertElement: function () {
     this._super();
-    
+
     var view = this;
+    var map = L.map('map').setView([50.850539, 4.351745], 16);
+
     view.adjustHeight();
-    $(window).on('resize',function(){
+
+    $(window).on('resize', function () {
       view.adjustHeight();
     });
-    var map = L.map('map').setView([50.850539, 4.351745], 16);
+
     L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
-        key: this.get("key"),
-        detectRetina: true,
-        maxZoom: 18,
-        reuseTiles: true,
-        updateWhenIdle: true
-      }).addTo(map);
-    this.set('map',map);
+      key: this.get("cloudmadeKey"),
+      detectRetina: true,
+      maxZoom: 18,
+      reuseTiles: true,
+      updateWhenIdle: true
+    }).addTo(map);
+
+    this.set('map', map);
+
     $('body').spin(false);
     $('#map').spin(false);
-    
+
     map.invalidateSize();
-    this.setUserMarker();  
-  //  this.pointsLoaded();  
+    this.setUserMarker();
+
   },
-  
-  userLocated: function(){
+
+  userLocated: function () {
     this.setUserMarker();
   }.observes('controller.userPosition.latLng'),
-  
-  setUserMarker: function(){
-   
-   
-   var map = this.get("map");
-   var latLng = this.get('controller.userPosition.latLng'); 
-   var userMarker = this.get("controller.userPosition.marker");
 
-   map.invalidateSize();
-   
-   if (userMarker){
-     userMarker.setLatLng(latLng);
-    // map.panTo(latLng);
-     
-   }
-   else{
-     if (map && latLng){
-       var myIcon = L.divIcon({
-         html: '<i class="icon-user"/>',
-         className: 'marker-custom marker-custom-user'
-       });
-     
-       var userMarker = L.marker(latLng, {
-         icon: myIcon
-       }).addTo(map);
-     
-       this.get("controller.userPosition").setProperties({
-         marker: userMarker,
-         markerIcon: myIcon
-       });
-       
-     }
-   }
-   
+  setUserMarker: function () {
+
+    var map = this.get("map");
+    var latLng = this.get('controller.userPosition.latLng');
+    var userMarker = this.get("controller.userPosition.marker");
+
+    map.invalidateSize();
+
+    if (userMarker) {
+
+      userMarker.setLatLng(latLng);
+      // map.panTo(latLng);
+
+    } else {
+
+      if (map && latLng) {
+        var myIcon = L.divIcon({
+          html: '<i class="icon-user"/>',
+          className: 'marker-custom marker-custom-user'
+        });
+
+        var newUserMarker = L.marker(latLng, {
+          icon: myIcon
+        }).addTo(map);
+
+        this.get("controller.userPosition").setProperties({
+          marker: newUserMarker,
+          markerIcon: myIcon
+        });
+      }
+    }
   },
-  
 
-  pointsLoaded: function(){
-    map = this.get("map");
-    controller = this.get("controller");
-    controller.get("model").forEach(function(point){
+
+  pointsLoaded: function () {
+    var map = this.get("map");
+    var controller = this.get("controller");
+
+    controller.get("model").forEach(function (point) {
       var pointId = point.get('id');
 
       var myIcon = L.divIcon({
@@ -87,51 +93,50 @@ Mycollecto.MapView = Em.View.extend({
         icon: myIcon
       });
 
-      var name      = point.get("nameFr")
-      var popupHtml = "<a href='/#/"+pointId+"'>"+name+"</a>"
+      var name      = point.get("nameFr");
+      var popupHtml = "<a href='/#/" + pointId + "'>" + name + "</a>";
 
       marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
 
       // Adding click action to marker
-      marker.on('click', function() {
-        controller.transitionToRoute("point",pointId);
+      marker.on('click', function () {
+        controller.transitionToRoute("point", pointId);
         mixpanel.track("View point details", {'via' : 'map'});
-        mixpanel.people.increment("point lookup", 1);
       });
-    });      
-  }.observes("controller.model"),      
-  
-  draw: function(){
-    var origin      = this.get("controller.userPosition.latLng");
+    });
+  }.observes("controller.model"),
+
+  draw: function () {
+    var origin = this.get("controller.userPosition.latLng");
     var destination = this.get("controller.targetPosition.latLng");
     var map = this.get('map');
-    that = this;
+    var that = this;
 
     if (origin && destination && (origin !== destination)) {
 
-      var url = "https://ssl_routes.cloudmade.com/"+this.get("key")+"/api/0.3/"+origin.lat+","+origin.lng+","+destination.lat+","+destination.lng+"/foot.js?callback=?";
-      $.getJSON(url , function (data){
+      var url = "https://ssl_routes.cloudmade.com/" + this.get("key") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
+      $.getJSON(url, function (data) {
         if (data.route_geometry !== undefined) {
           that.initLine(data.route_geometry);
           that.setRouteInstructions(data);
         }
       });
-      
+
       var bounds = new L.LatLngBounds(origin, destination);
-      map.fitBounds(bounds, {padding: [160,160]}); 
-      
-    }else{
-      if(origin){
+      map.fitBounds(bounds, {padding: [160, 160]});
+
+    } else {
+      if (origin) {
         map.panTo(origin);
       }
     }
 
   }.observes("controller.userPosition.latLng", "controller.targetPosition.latLng"),
 
-  initLine: function(points){
-    line = this.get("line");
+  initLine: function (points) {
+    var line = this.get("line");
     if (points !== undefined) {
-      if (line === undefined){
+      if (line === undefined) {
         // create Line
         this.createLine(points);
       } else {
@@ -141,16 +146,19 @@ Mycollecto.MapView = Em.View.extend({
     }
   },
 
-  createLine: function(points) {
-    this.set("line", L.polyline( points, {color: 'red'}).addTo(that.get("map")));
+  createLine: function (points) {
+    var that = this;
+    this.set("line", L.polyline(points, {color: 'red'}).addTo(that.get("map")));
   },
 
-  updateLine: function(points, line) {
+  updateLine: function (points, line) {
     line.setLatLngs(points);
   },
 
-  setRouteInstructions: function(data) {
-    this.get("controller").set("routeInstructions", data.route_instructions.map(function(route){ return route[0]+" / "+route[4]}));
+  setRouteInstructions: function (data) {
+    this.get("controller").set("routeInstructions", data.route_instructions.map(function (route) {
+      return route[0] + " / " + route[4];
+    }));
   }
-  
-});      
+
+});

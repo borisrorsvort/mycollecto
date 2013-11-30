@@ -1,8 +1,9 @@
+/*global Mycollecto, Ember, $, mixpanel*/
 Mycollecto.SearchbarInput = Ember.TextField.extend({
-  keyUp: function(e) {
+  keyUp: function (e) {
     this.interpretKeyEvents(e);
-    if (e.keyCode == 13) {
-      this.get('parentView.controller').send("findNewAddressPosition",this.get('value'));
+    if (e.keyCode === 13) {
+      this.get('parentView.controller').send('findNewAddressPosition', this.get('value'));
     }
   }
 });
