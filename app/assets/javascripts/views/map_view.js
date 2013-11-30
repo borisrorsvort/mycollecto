@@ -123,7 +123,7 @@ Mycollecto.MapView = Ember.View.extend({
       });
 
       var bounds = new L.LatLngBounds(origin, destination);
-      map.fitBounds(bounds, {padding: [160, 160]});
+      map.fitBounds(bounds, {padding: [40, 40]});
 
     } else {
       if (origin) {

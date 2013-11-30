@@ -20,30 +20,26 @@ Mycollecto.PointController = Ember.ObjectController.extend({
     this.set("controllers.points.targetPosition.latLng", pos);
   }.observes('content.isLoaded'),
 
-  setter: function () {
-    var points  = this.get("controllers.points.model");
-    if (points.length > 0) {
-      this.set('pointPosition', points.indexOf(this.get("content")));
-      this.set('nextPoint', points.nextObject(this.get('pointPosition') + 1));
-      this.set('previousPoint', points.nextObject(this.get('pointPosition') - 1));
-    }
-  }.observes('content.isLoaded'),
-
   actions: {
     findNewAddressPosition: function (value) {
       console.log(value);
     },
     goToNextPoint: function () {
       mixpanel.track("View point details", {'via' : 'next btn'});
-      this.transitionToRoute('point', this.get('nextPoint').id);
+      var points  = this.get("controllers.points.model");
+      
+      var nextPoint = points.objectAt(points.indexOf(this.get("content")) + 1);
+      this.transitionToRoute('point', nextPoint.id);
     },
 
     goToPreviousPoint: function () {
-      if (this.get('pointPosition') === 0) {
+      mixpanel.track("View point details", {'via' : 'prev btn'});
+      var points  = this.get("controllers.points.model");
+      if(points.indexOf(this.get("content")) ===0){
         this.transitionToRoute('points');
-      } else {
-        mixpanel.track("View point details", {'via' : 'prev btn'});
-        this.transitionToRoute('point', this.get('previousPoint').id);
+      }else{
+        var nextPoint = points.objectAt(points.indexOf(this.get("content"))-1);
+        this.transitionToRoute('point', nextPoint.id);
       }
     },
 
