@@ -1,11 +1,11 @@
 /*global Mycollecto, Ember, $, mixpanel, window, L*/
 Mycollecto.MapView = Ember.View.extend({
-  // className: ['col-xs-12 col-sm-8 dark']
+  classNames: ['col-xs-12 col-sm-8 map-wrapper'],
   templateName: "map",
   cloudmadeKey: "92e5866dcc9e47179553d1c6ae09d4c9",
 
   adjustHeight: function () {
-    $('.application-wrapper').css('height', ($(window).height() + 'px'));
+    $('.application-wrapper, .map-wrapper').css('height', ($(window).height() + 'px'));
   },
 
   didInsertElement: function () {
@@ -114,7 +114,7 @@ Mycollecto.MapView = Ember.View.extend({
 
     if (origin && destination && (origin !== destination)) {
 
-      var url = "https://ssl_routes.cloudmade.com/" + this.get("key") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
+      var url = "https://ssl_routes.cloudmade.com/" + this.get("cloudmadeKey") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
       $.getJSON(url, function (data) {
         if (data.route_geometry !== undefined) {
           that.initLine(data.route_geometry);
