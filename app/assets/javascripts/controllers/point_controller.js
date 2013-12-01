@@ -21,13 +21,14 @@ Mycollecto.PointController = Ember.ObjectController.extend({
   }.observes('content.isLoaded'),
 
   actions: {
+
     findNewAddressPosition: function (value) {
       console.log(value);
     },
+
     goToNextPoint: function () {
       mixpanel.track("View point details", {'via' : 'next btn'});
       var points  = this.get("controllers.points.model");
-      
       var nextPoint = points.objectAt(points.indexOf(this.get("content")) + 1);
       this.transitionToRoute('point', nextPoint.id);
     },
@@ -35,10 +36,10 @@ Mycollecto.PointController = Ember.ObjectController.extend({
     goToPreviousPoint: function () {
       mixpanel.track("View point details", {'via' : 'prev btn'});
       var points  = this.get("controllers.points.model");
-      if(points.indexOf(this.get("content")) ===0){
+      if (points.indexOf(this.get("content")) === 0) {
         this.transitionToRoute('points');
-      }else{
-        var nextPoint = points.objectAt(points.indexOf(this.get("content"))-1);
+      } else {
+        var nextPoint = points.objectAt(points.indexOf(this.get('content')) - 1);
         this.transitionToRoute('point', nextPoint.id);
       }
     },
@@ -110,6 +111,4 @@ Mycollecto.PointController = Ember.ObjectController.extend({
     }
     return list;
   }
-
-
 });
