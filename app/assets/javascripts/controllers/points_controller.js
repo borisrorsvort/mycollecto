@@ -50,6 +50,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
               });
 
               controller.userLocated(true);
+              $('#map').spin(false);
 
               $('.searchbar .btn').first().toggleClass('hidden');
               $('.searchbar input').first().val('').toggleClass('hidden').blur();
@@ -115,7 +116,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
   },
 
 
-  userLocated: function () {
+  userLocated: function (forceReload) {
     var controller = this;
     var userPosition = this.get('userPosition');
 
@@ -123,10 +124,9 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
       // Feed the content prop with the points
       controller.set('model', points);
       //do not redirect if we are on a point page
-      if (controller.get('controllers.point.model') === null) {
+      if (controller.get('controllers.point.model') === null || forceReload) {
         controller.transitionToRoute('point', controller.get("content").objectAt(0));
       }
     });
-
-  }
+  }.observes("userPosition.latLng")
 });

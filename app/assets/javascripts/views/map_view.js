@@ -111,7 +111,9 @@ Mycollecto.MapView = Ember.View.extend({
     var destination = this.get("controller.targetPosition.latLng");
     var map = this.get('map');
     var that = this;
-
+    console.log(origin);
+    console.log(destination);
+    
     if (origin && destination && (origin !== destination)) {
 
       var url = "https://ssl_routes.cloudmade.com/" + this.get("cloudmadeKey") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
@@ -124,14 +126,14 @@ Mycollecto.MapView = Ember.View.extend({
 
       var bounds = new L.LatLngBounds(origin, destination);
       map.fitBounds(bounds, {padding: [40, 40]});
-
+      
     } else {
       if (origin) {
         map.panTo(origin);
       }
     }
 
-  }.observes("controller.userPosition.latLng", "controller.targetPosition.latLng"),
+  }.observes("controller.targetPosition.latLng"),
 
   initLine: function (points) {
     var line = this.get("line");

@@ -13,12 +13,16 @@ Mycollecto.PointController = Ember.ObjectController.extend({
   }.observes('content.isLoaded'),
 
 
-  setBounds: function () {
+  setTargetPosition: function () {
     var x = this.get('latitude');
     var y = this.get('longitude');
-    var pos = new L.LatLng(x, y);
-    this.set("controllers.points.targetPosition.latLng", pos);
-  }.observes('content.isLoaded'),
+    var newlatlng = new L.LatLng(x, y);
+    this.get("controllers.points.targetPosition").setProperties({
+      latLng: newlatlng,
+      latitude: x,
+      longitude: y
+    });
+  }.observes('latitude', 'longitude'),
 
   actions: {
 
