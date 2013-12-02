@@ -133,7 +133,7 @@ Mycollecto.MapView = Ember.View.extend({
       }
     }
 
-  }.observes("controller.targetPosition.latLng"),
+  }.observes("controller.targetPosition.latLng","controller.userPosition.latLng"),
 
   initLine: function (points) {
     var line = this.get("line");

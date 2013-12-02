@@ -26,10 +26,6 @@ Mycollecto.PointController = Ember.ObjectController.extend({
 
   actions: {
 
-    findNewAddressPosition: function (value) {
-      console.log(value);
-    },
-
     goToNextPoint: function () {
       mixpanel.track("View point details", {'via' : 'next btn'});
       var points  = this.get("controllers.points.model");

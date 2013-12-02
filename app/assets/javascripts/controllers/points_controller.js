@@ -128,5 +128,5 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
         controller.transitionToRoute('point', controller.get("content").objectAt(0));
       }
     });
-  }.observes("userPosition.latLng")
+  }
 });
