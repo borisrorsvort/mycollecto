@@ -50,7 +50,7 @@ Mycollecto.MapView = Ember.View.extend({
 
     map.invalidateSize();
 
-    if (userMarker) {
+    if (userMarker && latLng) {
 
       userMarker.setLatLng(latLng);
       // map.panTo(latLng);
@@ -111,8 +111,7 @@ Mycollecto.MapView = Ember.View.extend({
     var destination = this.get("controller.targetPosition.latLng");
     var map = this.get('map');
     var that = this;
-    console.log(origin);
-    console.log(destination);
+
     
     if (origin && destination && (origin !== destination)) {
 

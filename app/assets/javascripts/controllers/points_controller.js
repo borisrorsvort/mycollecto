@@ -38,6 +38,10 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
           // success
           function (data) {
             if (data.length > 0) {
+              //reset user position & target in order to avoid multiple loads of path when both are modified
+              controller.set("userPosition.latLng",null);
+              controller.set("targetPosition.latLng",null);
+              
               var placeLat = data[0].lat;
               var placeLong = data[0].lon;
               var newlatlng = new L.LatLng(placeLat, placeLong);
