@@ -12,4 +12,5 @@ body {
 .full-height {
   min-height: 100%;
   border-top: 5px solid darken($point-list-item-background, 10%);
+  @include pie-clearfix;
 }
