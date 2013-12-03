@@ -1,118 +1,136 @@
-
-Mycollecto.PointsController = Em.ArrayController.extend({
+/*global Mycollecto, $, Ember, L, navigator, mixpanel, alert*/
+Mycollecto.PointsController = Ember.ArrayController.extend({
+  userPosition: Ember.Object.create(),
+  targetPosition: Ember.Object.create(),
   sortProperties: ['distanceFromUser'],
   sortDescending: true,
   mapMarkers: [],
   mapCreated: null,
-  needs: ['point', 'path', 'application', 'map'],
+  needs: ['point'],
 
-  initMap: function(){
+  actions: {
+    findNewAddressPosition: function (customAddress) {
+      var controller = this;
 
-    var controller = this;
-    var userPosition = controller.get('controllers.application.userPosition');
-
-    controller.get("controllers.map.tileLayer").addTo(controller.get("controllers.map.map")).redraw();
-
-    controller.set('mapCreated', true);
-    $('body').spin(false);
-
-  }.observes('content.isLoaded'),
-
-  addUserPositionMarker: function() {
-
-    var map = this.get("controllers.map.map");
-
-    var myIcon = L.divIcon({
-      html: '<i class="icon-user"/>',
-      className: 'marker-custom marker-custom-user'
-    });
-
-    var userMarker = L.marker(this.get('controllers.application.userPosition.latLng'), {
-      icon: myIcon
-    }).addTo(map);
-
-    // Assign marker and icon to UserPosition
-    this.get('controllers.application.userPosition').setProperties({
-      marker: userMarker,
-      markerIcon: myIcon
-    });
-
-  }.observes('mapCreated'),
-
-  updateUserMarkerPosition: function() {
-    var userPos = this.get('controllers.application.userPosition');
-    if (userPos.get('marker')) {
-      userPos.get('marker').setLatLng(userPos.get('latLng'));
-    }
-
-  }.observes('controllers.application.userPosition.latLng'),
-
-  loadPoints: function() {
-    var controller = this;
-    var userPosition = controller.get('controllers.application.userPosition');
-    Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function(points){
-      // Feed the content prop with the points
-      controller.set('content', points);
-      // prevent redreict twice
-      var closest_point = points.objectAt(0);
-      if (controller.get('controllers.point.content.id') !== closest_point.get('id')) {
-        // And Redirect to closest point
-        controller.transitionToRoute('point', closest_point);
+      if (customAddress.indexOf("Brussels") === -1 && customAddress.indexOf("Bruxelles")) {
+        customAddress += " Bruxelles";
       }
-    });
 
-  }.observes('controllers.application.geoLocationDone'),
+      if (customAddress.indexOf("Belgie") === -1 && customAddress.indexOf("Belgique")) {
+        customAddress += " Belgique";
+      }
 
-  invalidateMapSize: function() {
-    var controller = this;
-    controller.get('controllers.map.map').invalidateSize(true);
-  }.observes('mapCreated'),
+      if (this.get('oldCustomAddress') !== customAddress) {
 
-  createMarkers: function() {
-    var controller = this;
-    var map        = this.get('controllers.map.map');
+        this.set('oldCustomAddress', customAddress);
 
-    controller.get("model").forEach(function(point){
-      var pointId = point.get('id');
+        $('#map').spin();
 
-      var myIcon = L.divIcon({
-        html: pointId,
-        className: 'marker-custom'
-      });
+        $.ajax({
+          url: 'http://nominatim.openstreetmap.org/search',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            format: 'json',
+            q: customAddress
+          }
+        }).then(
+          // success
+          function (data) {
+            if (data.length > 0) {
+              //reset user position & target in order to avoid multiple loads of path when both are modified
+              controller.set("userPosition.latLng",null);
+              controller.set("targetPosition.latLng",null);
 
-      var marker = L.marker(new L.LatLng(point.get("latitude"), point.get("longitude")), {
-        id: pointId,
-        icon: myIcon
-      });
+              var placeLat = data[0].lat;
+              var placeLong = data[0].lon;
+              var newlatlng = new L.LatLng(placeLat, placeLong);
 
-      var name      = point.get("nameFr")
-      var popupHtml = "<a href='/#/"+pointId+"'>"+name+"</a>"
+              // Update user Position
+              controller.get("userPosition").setProperties({
+                latLng: newlatlng,
+                latitude: placeLat,
+                longitude: placeLong
+              });
 
-      marker.bindPopup(popupHtml, {closeButton: false}).addTo(map);
+              controller.userLocated(true);
+              $('#map').spin(false);
 
-      // Adding click action to marker
-      marker.on('click', function() {
-        window.location = '/#/' + pointId;
-        mixpanel.track("View point details", {'via' : 'map'});
-        mixpanel.people.increment("point lookup", 1);
-      });
+              $('.searchbar .btn').first().toggleClass('hidden');
+              $('.searchbar input').first().val('').toggleClass('hidden').blur();
+              mixpanel.track("Search: Address found");
 
-      controller.mapMarkers.push(marker);
-    });
-
-  }.observes('mapCreated', 'content.@each'),
-
-  showDetails: function(point) {
-    mixpanel.track("View point details", {'via' : 'list'});
-    this.transitionToRoute('point', point);
+            } else {
+              mixpanel.track("Search: Couldn find address");
+              alert('We could not find the location');
+            }
+          },
+          // fail
+          function (argument) {
+            alert('Failed to locate the place');
+            mixpanel.track("Search: Failed to locate the place");
+          }
+        );
+      }
+    }
   },
 
-  centerMap: function(model) {
-    var controller = this;
-    var x          = model.get('latitude');
-    var y          = model.get('longitude');
-    var pos        = new L.LatLng(x,y);
-    controller.get('controllers.map.map').panTo(pos);
-  }
 
+  init: function () {
+    var controller = this;
+    mixpanel.track("View point details", {'via' : 'app init'});
+
+    if (navigator.geolocation) {
+
+      navigator.geolocation.getCurrentPosition(function (position) {
+        controller.onLocationFound(position);
+      }, function (position) {
+        controller.onLocationNotFound(position);
+      });
+
+    } else {
+      controller.onLocationNotFound();
+    }
+  },
+
+  onLocationFound: function (position) {
+    this.get('userPosition').setProperties({
+      latLng: new L.LatLng(position.coords.latitude, position.coords.longitude),
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
+
+    // Set props only then fire event
+    this.userLocated();
+  },
+
+  onLocationNotFound: function () {
+   // $('body').spin({top: '50%'});
+    this.get('userPosition').setProperties({
+      latLng: new L.LatLng(50.850539, 4.351745),
+      latitude: 50.850539,
+      longitude: 4.351745
+    });
+
+    console.log('Location Not found');
+    // Set props only then fire event
+    this.set('geoLocationDone', true);
+    console.log(this.get('geoLocationDone'));
+    this.userLocated();
+  },
+
+
+  userLocated: function (forceReload) {
+    var controller = this;
+    var userPosition = this.get('userPosition');
+
+    Mycollecto.Point.find({latitude: userPosition.get('latitude'), longitude: userPosition.get('longitude'), size: 50}).then(function (points) {
+      // Feed the content prop with the points
+      controller.set('model', points);
+      //do not redirect if we are on a point page
+      if (controller.get('controllers.point.model') === null || forceReload) {
+        controller.transitionToRoute('point', controller.get("content").objectAt(0));
+      }
+    });
+  }
 });

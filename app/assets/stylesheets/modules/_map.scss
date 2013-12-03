@@ -1,6 +1,14 @@
+.map-wrapper {
+  max-height: 100% - $point-list-scroller-height;
+  @media (min-width: $screen-sm) {
+    max-height: 100%;
+  }
+}
+
 #map {
   height: 1440px;
-  max-height: 100% - $point-list-scroller-height;
+  // height: 200px;
+  max-height: 100%;
   z-index: 9999999;
   @include transition(all 0.5s);
 
