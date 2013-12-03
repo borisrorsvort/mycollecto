@@ -128,9 +128,9 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
       // Feed the content prop with the points
       controller.set('model', points);
       //do not redirect if we are on a point page
-      if (controller.get('controllers.point.model') === null || forceReload) {
+      // if (controller.get('controllers.point.model') === null || forceReload) {
         controller.transitionToRoute('point', controller.get("content").objectAt(0));
-      }
+      // }
     });
   }
 });
