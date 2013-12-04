@@ -106,7 +106,7 @@ Mycollecto.MapView = Ember.View.extend({
     });
   }.observes("controller.model"),
 
-  draw: function () {
+  draw: function (e) {
     var origin = this.get("controller.userPosition.latLng");
     var destination = this.get("controller.targetPosition.latLng");
     var map = this.get('map');
@@ -114,7 +114,10 @@ Mycollecto.MapView = Ember.View.extend({
 
     
     if (origin && destination && (origin !== destination)) {
-
+      console.log("====DRAW PATH====");
+      console.log(e);
+      console.log(origin);
+      console.log(destination);
       var url = "https://ssl_routes.cloudmade.com/" + this.get("cloudmadeKey") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
       $.getJSON(url, function (data) {
         if (data.route_geometry !== undefined) {
@@ -126,12 +129,7 @@ Mycollecto.MapView = Ember.View.extend({
       var bounds = new L.LatLngBounds(origin, destination);
       map.fitBounds(bounds, {padding: [40, 40]});
       
-    } else {
-      if (origin) {
-        map.panTo(origin);
-      }
     }
-
   }.observes("controller.targetPosition.latLng","controller.userPosition.latLng"),
 
   initLine: function (points) {
