@@ -114,10 +114,6 @@ Mycollecto.MapView = Ember.View.extend({
 
     
     if (origin && destination && (origin !== destination)) {
-      console.log("====DRAW PATH====");
-      console.log(e);
-      console.log(origin);
-      console.log(destination);
       var url = "https://ssl_routes.cloudmade.com/" + this.get("cloudmadeKey") + "/api/0.3/" + origin.lat + "," + origin.lng + "," + destination.lat + "," + destination.lng + "/foot.js?callback=?";
       $.getJSON(url, function (data) {
         if (data.route_geometry !== undefined) {
