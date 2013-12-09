@@ -22,7 +22,7 @@ Mycollecto.PointController = Ember.ObjectController.extend({
       latitude: x,
       longitude: y
     });
-  }.observes('latitude', 'longitude'),
+  }.observes('latitude'),
 
   actions: {
 
