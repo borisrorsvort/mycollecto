@@ -1,0 +1,5 @@
+<div class='points-wrapper point-list-scroller full-height col-xs-12 col-sm-4'>
+  {{#each point in controllers.points.model}}
+    {{view Mycollecto.PointInListView contentBinding='point'}}
+  {{/each}}
+</div>
