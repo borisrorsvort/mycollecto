@@ -125,7 +125,7 @@ Mycollecto.MapView = Ember.View.extend({
       var bounds = new L.LatLngBounds(origin, destination);
       map.fitBounds(bounds, {padding: [40, 40]});
     }
-  },
+  }.observes("controller.targetPosition.latLng","controller.userPosition.latLng"),
 
   initLine: function (points) {
     var line = this.get("line");
