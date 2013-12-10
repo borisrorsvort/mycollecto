@@ -12,18 +12,6 @@ Mycollecto.PointController = Ember.ObjectController.extend({
     this.set('pickupTime', next);
   }.observes('content.isLoaded'),
 
-
-  setTargetPosition: function () {
-    var x = this.get('latitude');
-    var y = this.get('longitude');
-    var newlatlng = new L.LatLng(x, y);
-    this.get("controllers.points.targetPosition").setProperties({
-      latLng: newlatlng,
-      latitude: x,
-      longitude: y
-    });
-  }.observes('latitude', 'longitude'),
-
   actions: {
 
     goToNextPoint: function () {
