@@ -7,11 +7,6 @@ Mycollecto.PointController = Ember.ObjectController.extend({
   isFirst: null,
   pickupTime: [],
 
-  setPickupTime: function () {
-    var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
-    this.set('pickupTime', next);
-  }.observes('content.isLoaded'),
-
   actions: {
 
     goToNextPoint: function () {
@@ -35,20 +30,25 @@ Mycollecto.PointController = Ember.ObjectController.extend({
     goToPointsList: function () {
       mixpanel.track("View points list");
       this.transitionToRoute('points');
+    },
+
+    findItinirary: function () {
+      var controller   = this;
+      var currentPos   = controller.get('controllers.points.userPosition.latLng');
+      var pointAddress = controller.get('content.formatted_address');
+      window.location  = 'http://maps.apple.com/?daddr=' + pointAddress + '&saddr=' + currentPos.lat + ',' + currentPos.lng;
+      mixpanel.track("Find Itinerary");
+    },
+
+    callCollecto: function () {
+      window.location = "tel:+3228003636";
     }
   },
 
-  findItinirary: function () {
-    var controller   = this;
-    var currentPos   = controller.get('controllers.application.userPosition.latLng');
-    var pointAddress = controller.get('content.formatted_address');
-    window.location  = 'http://maps.apple.com/?daddr=' + pointAddress + '&saddr=' + currentPos.lat + ',' + currentPos.lng;
-    mixpanel.track("Find Itinerary");
-  },
-
-  callCollecto: function () {
-    window.location = "tel:+3228003636";
-  },
+  setPickupTime: function () {
+    var next = this.findNextList(moment().format("HH"), moment().format("mm"), 20);
+    this.set('pickupTime', next);
+  }.observes('content.isLoaded'),
 
   findNextPickupTime: function (h, m) {
     // default value
