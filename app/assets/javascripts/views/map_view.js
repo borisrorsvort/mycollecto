@@ -14,6 +14,8 @@ Mycollecto.MapView = Ember.View.extend({
     var view = this;
     var map = L.map('map').setView([50.850539, 4.351745], 16);
 
+    $('#map').spin();
+
     view.adjustHeight();
 
     $(window).on('resize', function () {
@@ -30,8 +32,8 @@ Mycollecto.MapView = Ember.View.extend({
 
     this.set('map', map);
 
-    $('body').spin(false);
-    $('#map').spin(false);
+    // $('body').spin(false);
+    // $('#map').spin(false);
 
     map.invalidateSize();
     this.setUserMarker();
@@ -40,6 +42,7 @@ Mycollecto.MapView = Ember.View.extend({
 
   userLocated: function () {
     this.setUserMarker();
+    $('#map').spin(false);
   }.observes('controller.userPosition.latLng'),
 
   setUserMarker: function () {

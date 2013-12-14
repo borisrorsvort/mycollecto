@@ -39,8 +39,8 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
           function (data) {
             if (data.length > 0) {
               //reset user position & target in order to avoid multiple loads of path when both are modified
-              controller.set("userPosition.latLng",null);
-              controller.set("targetPosition.latLng",null);
+              controller.set("userPosition.latLng", null);
+              controller.set("targetPosition.latLng", null);
 
               var placeLat = data[0].lat;
               var placeLong = data[0].lon;
@@ -62,6 +62,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
 
             } else {
               mixpanel.track("Search: Couldn find address");
+              $('#map').spin(false);
               alert('We could not find the location');
             }
           },
@@ -119,7 +120,6 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
     this.userLocated();
   },
 
-
   userLocated: function (forceReload) {
     var controller = this;
     var userPosition = this.get('userPosition');
@@ -129,7 +129,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
       controller.set('model', points);
       //do not redirect if we are on a point page
       // if (controller.get('controllers.point.model') === null || forceReload) {
-        controller.transitionToRoute('point', controller.get("content").objectAt(0));
+      controller.transitionToRoute('point', controller.get("content").objectAt(0));
       // }
     });
   }
