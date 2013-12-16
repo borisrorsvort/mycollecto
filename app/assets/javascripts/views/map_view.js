@@ -1,6 +1,6 @@
 /*global Mycollecto, Ember, $, mixpanel, window, L*/
 Mycollecto.MapView = Ember.View.extend({
-  classNames: ['col-xs-12 col-sm-8 map-wrapper'],
+  classNames: ['col-sm-8 map-wrapper'],
   templateName: "map",
   cloudmadeKey: "92e5866dcc9e47179553d1c6ae09d4c9",
 

@@ -1,4 +1,5 @@
 .map-wrapper {
+  padding: 0;
   max-height: 100% - $point-list-scroller-height;
   @media (min-width: $screen-sm) {
     max-height: 100%;
