@@ -1,5 +1,5 @@
 /*global Mycollecto, $, Ember, L, navigator, mixpanel, alert*/
-Mycollecto.PointsController = Ember.ArrayController.extend({
+Mycollecto.PointsController = Ember.ArrayController.extend(Ember.Evented, {
   userPosition: Ember.Object.create(),
   targetPosition: Ember.Object.create(),
   sortProperties: ['distanceFromUser'],
@@ -7,6 +7,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
   mapMarkers: [],
   mapCreated: null,
   needs: ['point'],
+  searchBarOpen: false,
 
   actions: {
     findNewAddressPosition: function (customAddress) {
@@ -56,8 +57,7 @@ Mycollecto.PointsController = Ember.ArrayController.extend({
               controller.userLocated(true);
               $('#map').spin(false);
 
-              $('.searchbar .btn').first().toggleClass('hidden');
-              $('.searchbar input').first().val('').toggleClass('hidden').blur();
+              controller.set('searchBarOpen', false); // Hide searchbar
               mixpanel.track("Search: Address found");
 
             } else {
