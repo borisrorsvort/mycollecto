@@ -78,7 +78,6 @@ Mycollecto.MapView = Ember.View.extend({
     }
   },
 
-
   pointsLoaded: function () {
     var map = this.get("map");
     var controller = this.get("controller");
