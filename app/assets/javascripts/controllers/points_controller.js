@@ -68,10 +68,14 @@ Mycollecto.PointsController = Ember.ArrayController.extend(Ember.Evented, {
           },
           // fail
           function (argument) {
+            controller.set('searchBarOpen', false); // Hide searchbar
             alert('Failed to locate the place');
             mixpanel.track("Search: Failed to locate the place");
           }
         );
+      }
+      else{
+        controller.set('searchBarOpen', false); // Hide searchbar
       }
     }
   },
