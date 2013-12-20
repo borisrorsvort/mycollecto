@@ -5,5 +5,8 @@ Mycollecto.SearchbarInput = Ember.TextField.extend({
     if (e.keyCode === 13) {
       this.get('parentView.controller').send('findNewAddressPosition', this.get('value'));
     }
+  },
+  focusOut:  function (e) {
+    this.get('parentView.controller').send('findNewAddressPosition', this.get('value'));
   }
 });
