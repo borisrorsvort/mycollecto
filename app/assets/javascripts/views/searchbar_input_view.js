@@ -7,6 +7,7 @@ Mycollecto.SearchbarInput = Ember.TextField.extend({
     }
   },
   focusOut:  function (e) {
-    this.get('parentView.controller').send('findNewAddressPosition', this.get('value'));
+    this.set('parentView.controller.searchBarOpen', false);
+    return false;
   }
 });
