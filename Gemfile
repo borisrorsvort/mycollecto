@@ -10,6 +10,7 @@ gem 'ember-source'
 gem 'pg'
 gem 'haml'
 gem 'thin'
+gem 'meta-tags', :require => 'meta_tags'
 # gem 'handlebars_assets'
 
 group :development do

@@ -1,10 +1,7 @@
 !!! 5
 = html_tag :class => "no-js", :lang => "#{I18n.locale}"
 %head
-  %title
-    = "Mycollecto - Trouvez votre arrêt taxi Collecto le plus proche - Vindt de dichtsbijzijnde Collecto taxi haltes"
-  %meta{name: 'description', content: "Application non-officielle pour ne plus devoir cherchez dans la liste des points collecto" }
-  %meta{name: 'keywords', content: 'collecto, collecto taxi, brussels, bruxelles, carte points collectos, points collecto, collecto punts'}
+  = display_meta_tags :site => 'Mycollecto'
   %meta{charset: "utf-8"}/
   %meta{name: "google-site-verification", content: "He-IZgvGomVoNNlv4ufr1tEARLvKeyCAies2To0DQVQ"}
   %meta{content: "Boris Rorsvort", name: "author"}
@@ -25,8 +22,6 @@
   %link{href: "/assets/icons/startup_pages/ipad-748-landscape.jpg", media: "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)", rel: "apple-touch-startup-image"}/
   %link{href: "/assets/icons/startup_pages/ipad-748.jpg", media: "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)", rel: "apple-touch-startup-image"}/
   %link{href: "/assets/icons/startup_pages/iphone-320.jpg", media: "screen and (max-device-width: 320px)", rel: "apple-touch-startup-image"}/
-  = javascript_include_tag "application"
-  = javascript_include_tag "mycollecto"
 
   = csrf_meta_tag
   = stylesheet_link_tag "application"
@@ -38,3 +33,5 @@
 
   /[if lt IE 9]
     %script{:src => "http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"}
+  %body
+    = yield
