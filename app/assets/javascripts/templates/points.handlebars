@@ -1,5 +1,5 @@
-{{#each point in controller}}
-  {{view Mycollecto.PointInListView contentBinding='point'}}
-{{/each}}
-
-
+{{view Mycollecto.SearchBackdropView}}
+<div class="application-wrapper">
+  {{view Mycollecto.MapView}}
+  {{outlet}}
+</div>

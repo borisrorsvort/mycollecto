@@ -6,10 +6,11 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ember-rails'
-gem 'ember-source', '1.0.0.rc7'
+gem 'ember-source'
 gem 'pg'
 gem 'haml'
 gem 'thin'
+gem 'meta-tags', :require => 'meta_tags'
 # gem 'handlebars_assets'
 
 group :development do

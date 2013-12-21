@@ -1,7 +1,9 @@
 @charset "UTF-8";
 
 // Librairies
-@import 'compass';
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/border-radius";
+@import "compass/typography/links/link-colors";
 
 // bootstrap
 // Core variables and mixins
@@ -28,7 +30,7 @@
 @import "twitter/bootstrap/dropdowns";
 @import "twitter/bootstrap/list-group";
 @import "twitter/bootstrap/panels";
-@import "twitter/bootstrap/wells";
+// @import "twitter/bootstrap/wells";
 @import "twitter/bootstrap/close";
 
 // Components: Nav
@@ -37,7 +39,7 @@
 @import "twitter/bootstrap/button-groups";
 
 // Components: Popovers
-@import "twitter/bootstrap/modals";
+// @import "twitter/bootstrap/modals";
 
 // Components: Misc
 // @import "twitter/bootstrap/thumbnails";
@@ -48,7 +50,6 @@
 // Utility classes
 @import "twitter/bootstrap/utilities"; // Has to be last to override when necessary
 @import "twitter/bootstrap/responsive-utilities";
-
 
 @import 'entypo';
 @import 'entypo-fonts';

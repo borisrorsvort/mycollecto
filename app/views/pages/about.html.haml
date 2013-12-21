@@ -1,0 +1,60 @@
+- set_meta_tags :title => 'Trouvez le point tax Collecto le plus proche de chez vous', :description => 'Mycollecto est une application qui vous permet de ne plus devoir cherchez dans la liste des points collecto.'
+.ember-application
+  .page-about
+    %header.about--content.bg-stretch
+      .hidden-xs.col-sm-6.about--iphone
+        = image_tag('backgrounds/iphone.png')
+      .col-xs-12.col-sm-4.about--title
+        %h1 MyCollecto *
+        %h2 Trouvez facilement et gratuitement le point taxi Collecto le plus proche de chez vous
+        %p
+          Plus besoin de téléphoner à un ami pour connaître le numéro et l'adresse exacte du point le plus proche:
+        %br
+        %a{href: 'http://mycollecto.be'}
+        .btn.btn-warning.btn-large
+          http://mycollecto.be
+    %section.sections.container
+      .row
+        .col-md-4.section
+          %h3.section--title MyCollecto
+          %p L'application permet à l'utilisateur de trouver les points taxi Collecto les plus proches d'une position donnée. MyCollecto est utilisable sur tous les supports, du smartphone à l'ordinateur en passant par la tablette. Aucune inscription n’est nécessaire.
+          %h5 Simple et efficace
+          %p Plus besoin de téléphoner à un ami ou cherchez dans la liste des points collecto pour connaître le numéro et l'adresse exacte du point le plus proche. Toutes les informations sont à jour et disponibles directement via MyCollecto.
+          %p La position de l’utilisateur est déterminée soit:
+          %ul
+            %li directement par le navigateur (géolocalisation)
+            %li par l'utilisateur en entrant l'adresse de son choix.
+        .col-md-4.section
+          %h3.section--title Les taxis Collecto
+          %p
+            Collecto est un service de taxis collectifs mis en place par la région bruxelloise depuis septembre 2008 en collaboration avec la
+            %a{href: "http://www.stib.be/", rel: 'no-follow'} STIB
+            et le réseau
+            %a{href: "http://www.bruxellesmobilite.irisnet.be/articles/taxi/comment-ca-marche", rel: 'no-follow'} Taxi vert.
+
+          %p Il permet aux citoyens de réserver un taxi à partir de plus de 200 points répartis dans la capitale. Le taxi ainsi réservé déposera l’utilisateur à n’importe quelle adresse située dans l’enceinte de Bruxelles pour la modique somme de 6 € (5 € pour les abonnés STIB).
+
+
+        .col-md-4.section
+          %h3.section--title Trouver son taxi Collecto
+          %p Lorsqu’il visite le site, l’utilisateur accède directement au point le plus proche de sa position actuelle. S'affiche alors toutes les données nécessaires: numéro du point, adresse, prochain créneaux horaire, ...
+          %p MyCollecto fournit une interface simple et intuitive qui permet d'effectuer rapidement les actions les plus courantes:
+          %ul
+            %li Appeler directement le service pour demander un taxi.
+            %li Trouver le trajet le plus court entre sa position et le point qu'il a choisi.
+            %li Naviguer de points en points ou retourner à un liste plus complète
+            %li Choisir une autre position en entrant l’adresse de son choix.
+
+
+    %section.footer.sections
+      .col-xs-12
+        * Mycollecto est une application non-officielle pour
+        %a{href: "http://www.bruxellesmobilite.irisnet.be/articles/taxi/comment-ca-marche"} Collecto taxi
+        \- Créée par
+        %a{href: "http://rorsvort.com"} Boris Rorsvort
+        ,
+        %a{href: "http://about.me/olivieroger"} Olivier Roger
+        et
+        %a{href: "https://twitter.com/chrisbelpaire"} Christophe Belpaire
+
+

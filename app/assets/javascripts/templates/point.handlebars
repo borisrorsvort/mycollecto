@@ -31,7 +31,7 @@
 
 <div class="hidden-lg">
   <section class="point--box point--actions btn-group btn-group-justified">
-    <a {{action callCollectocallCollecto}} class='btn btn-warning'>
+    <a {{action callCollecto}} class='btn btn-warning'>
       <i class="icon-phone"></i>
       Call Now
     </a>
@@ -79,7 +79,7 @@
   </div>
 </section>
 
-{{#if routeInstructions}}
+{{#if controllers.points.routeInstructions}}
   <section class="point--box">
     <header class='point--box--header'>
       <h5>
@@ -87,7 +87,7 @@
       </h5>
     </header>
     <div class="point--box--body">
-      {{#each routeInstruction in routeInstructions}}
+      {{#each routeInstruction in controllers.points.routeInstructions}}
         <div class='instruction'> {{routeInstruction}}</div>
       {{/each}}
     </div>
