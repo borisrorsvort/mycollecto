@@ -86,9 +86,17 @@
         Walking Directions:
       </h5>
     </header>
-    <div class="point--box--body">
+    <div class="point--box--body media">
       {{#each routeInstruction in controllers.points.routeInstructions}}
-        <div class='instruction'> {{routeInstruction}}</div>
+        <div class="pull-left">
+          <img {{bind-attr src='routeInstruction.iconUrl'}} class='thumbnail'>
+        </div>
+        <p class='instruction media-body'>
+          {{{routeInstruction.narrative}}}
+          {{#if routeInstruction.distance}}
+            - {{kmToMeters routeInstruction.distance}} meters
+          {{/if}}
+        </p>
       {{/each}}
     </div>
   </section>
