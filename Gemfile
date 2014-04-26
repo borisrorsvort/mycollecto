@@ -11,6 +11,7 @@ gem 'pg'
 gem 'haml'
 gem 'thin'
 gem 'meta-tags', :require => 'meta_tags'
+gem 'mapbox-rails'
 # gem 'handlebars_assets'
 
 group :development do

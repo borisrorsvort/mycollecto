@@ -95,6 +95,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mapbox-rails (1.6.1.1)
     meta-tags (1.5.0)
       actionpack
     mime-types (1.25.1)
@@ -169,6 +170,7 @@ DEPENDENCIES
   haml
   jquery-rails
   leaflet-rails
+  mapbox-rails
   meta-tags
   momentjs-rails
   pg

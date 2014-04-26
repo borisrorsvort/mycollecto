@@ -12,7 +12,8 @@ Mycollecto.MapView = Ember.View.extend({
     this._super();
 
     var view = this;
-    var map = L.map('map').setView([50.850539, 4.351745], 16);
+    var map = L.mapbox.map('map', 'borisrorsvort.map-frkowyyy');
+    // var map = L.map('map').setView([50.850539, 4.351745], 16);
 
     $('#map').spin();
 
@@ -22,13 +23,14 @@ Mycollecto.MapView = Ember.View.extend({
       view.adjustHeight();
     });
 
-    L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
-      key: this.get("cloudmadeKey"),
-      detectRetina: true,
-      maxZoom: 18,
-      reuseTiles: true,
-      updateWhenIdle: true
-    }).addTo(map);
+
+    // L.tileLayer('http://{s}.tile.cloudmade.com/{key}/110494/256/{z}/{x}/{y}.png', {
+    //   key: this.get("cloudmadeKey"),
+    //   detectRetina: true,
+    //   maxZoom: 18,
+    //   reuseTiles: true,
+    //   updateWhenIdle: true
+    // }).addTo(map);
 
     this.set('map', map);
 
