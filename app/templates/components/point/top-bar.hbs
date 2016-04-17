@@ -1,0 +1,16 @@
+{{#paper-toolbar}}
+  <div class="md-toolbar-tools">
+    {{#paper-button action=(transition-to "index")}}
+      {{paper-icon "arrow-back"}}
+      Back
+    {{/paper-button}}
+    <span flex></span>
+    {{#paper-button icon-button=true action='phoneCall'}}
+      {{paper-icon "phone"}}
+    {{/paper-button}}
+    {{!-- {{#paper-button icon-button=true action=(transition-to 'booking' model.id)}}
+      {{paper-icon "sms"}}
+    {{/paper-button}} --}}
+    {{point/itinary-button model=model}}
+  </div>
+{{/paper-toolbar}}

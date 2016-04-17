@@ -1,0 +1,11 @@
+{{#if showStreetView}}
+  <iframe class='street-view-container' src={{model.street_view_url}}></iframe>
+{{else}}
+  <p>
+    <img src={{model.picture_url}} class='street-view-container' {{action 'showStreetViewModal'}}/>
+  </p>
+  {{#paper-button raised=true primary=true action='showStreetViewModal'}}
+    {{paper-icon 'nature-people'}}
+    Show street view
+  {{/paper-button}}
+{{/if}}

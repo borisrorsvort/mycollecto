@@ -1,0 +1,36 @@
+{{#leaflet-map lat=mapPosition.lat lng=mapPosition.lng zoom=mapPosition.zoom onMoveend=(action "updateMapPosition")}}
+  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+  {{#marker-cluster-layer}}
+      {{#each points as |marker|}}
+        {{#marker-layer location=marker.location
+                        onClick=(action "centerMap")
+                        icon=(div-icon
+                          html=markerCustomIconHtml
+                          iconSize=(point userCustomIcon.iconSize)
+                          iconAnchor=(point customIcon.iconAnchor)
+                          popupAnchor=(point customIcon.popupAnchor)
+                        )
+        }}
+          <h3 class='marker-layer__title'>
+            {{#link-to 'point' marker}}
+              #{{marker.id}} - {{marker.name_fr}}
+            {{/link-to}}
+          </h3>
+        {{/marker-layer}}
+      {{/each}}
+  {{/marker-cluster-layer}}
+
+  {{#if hasUserLocation}}
+    {{#marker-layer location=location.userLocation
+                    draggable=false
+                    icon=(div-icon
+                      html=userCustomIconHtml
+                      iconSize=(point customIcon.iconSize)
+                      iconAnchor=(point customIcon.iconAnchor)
+                    )
+    }}
+      <h3>You are here</h3>
+    {{/marker-layer}}
+  {{/if}}
+
+{{/leaflet-map}}
