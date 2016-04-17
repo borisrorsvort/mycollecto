@@ -30,7 +30,7 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-eval' *.googleapis.com",
+      'script-src': "'self' 'unsafe-eval' *.googleapis.com *.gstatic.com",
       'font-src': "'self' fonts.gstatic.com",
       'img-src': "'self' *.googleapis.com maps.gstatic.com *.gstatic.com",
       'style-src': "'self' 'unsafe-inline' *.googleapis.com",
