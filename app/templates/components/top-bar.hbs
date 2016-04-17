@@ -1,0 +1,20 @@
+{{#paper-toolbar}}
+  <div class="md-toolbar-tools">
+    <h2>
+      <span>MyCollecto</span>
+    </h2>
+    {{#paper-button icon-button=true action='getPosition'}}
+      {{paper-icon "location-searching"}}
+    {{/paper-button}}
+    <span flex></span>
+    {{#paper-button icon-button=true action='phoneCall'}}
+      {{paper-icon "phone"}}
+    {{/paper-button}}
+    {{!-- {{#paper-button icon-button=true action=(transition-to "search")}}
+      {{paper-icon "search"}}
+    {{/paper-button}} --}}
+    {{#paper-button icon-button=true action=(transition-to "info")}}
+      {{paper-icon "info"}}
+    {{/paper-button}}
+  </div>
+{{/paper-toolbar}}

@@ -1,0 +1,9 @@
+{{#paper-toolbar}}
+  <div class="md-toolbar-tools">
+    {{#paper-button action=(transition-to "index")}}
+      {{paper-icon "arrow-back"}}
+      Back
+    {{/paper-button}}
+  </div>
+{{/paper-toolbar}}
+{{search-box updatePositions=(action 'updatePositions')}}

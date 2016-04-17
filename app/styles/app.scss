@@ -1,0 +1,42 @@
+@import 'ember-paper';
+
+.leaflet-container {
+  width: 100%;
+}
+
+.leaflet-div-icon {
+  border: none;
+  background: none;
+}
+
+.street-view-container {
+  width: 100%;
+  background: #efefef;
+  min-height: 150px;
+  max-width: 600px;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #efefef;
+  margin-top: 10px;
+}
+
+iframe.street-view-container {
+  min-height: 300px;
+}
+
+md-progress-linear[md-mode="indeterminate"] {
+  top: 64px;
+  z-index: 2;
+  position: fixed;
+}
+
+md-progress-linear[md-mode="indeterminate"] .md-container {
+  top:0;
+}
+
+.marker-layer__title a {
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+}

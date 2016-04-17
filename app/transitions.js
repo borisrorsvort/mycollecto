@@ -1,0 +1,26 @@
+export default function() {
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('point'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('search'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('info'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.fromRoute('point'),
+    this.toRoute('booking'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+}

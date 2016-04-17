@@ -1,0 +1,12 @@
+{{#paper-content flex=true scroll-y=true layout-padding=true}}
+<md-autocomplete class="md-autocomplete">
+    {{place-autocomplete-field
+      value=model.address
+      disable=false
+      handlerController=this
+      placeChangedCallback='placeChanged'
+      focusOutCallback='done'
+      types='geocode'
+    }}
+</md-autocomplete>
+{{/paper-content}}
