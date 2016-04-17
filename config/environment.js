@@ -32,9 +32,10 @@ module.exports = function(environment) {
       'default-src': "'none'",
       'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com csi.gstatic.com",
       'font-src': "'self' fonts.gstatic.com",
-      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com",
+      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com data:",
       'style-src': "'self' 'unsafe-inline' *.googleapis.com",
-      'connect-src': "'self' api.mixpanel.com maps.gstatic.com csi.gstatic.com"
+      'connect-src': "'self' api.mixpanel.com maps.gstatic.com csi.gstatic.com",
+      'media-src': "'self'"
     }
   };
 
