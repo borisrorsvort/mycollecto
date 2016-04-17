@@ -34,7 +34,7 @@ module.exports = function(environment) {
       'font-src': "'self' fonts.gstatic.com",
       'img-src': "'self' *.googleapis.com maps.gstatic.com *.gstatic.com",
       'style-src': "'self' 'unsafe-inline' *.googleapis.com",
-      'connect-src': "'self' api.mixpanel.com"
+      'connect-src': "'self' api.mixpanel.com csi.gstatic.com"
     }
   };
 
