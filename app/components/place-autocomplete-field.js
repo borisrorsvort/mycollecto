@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import PlaceAutocompleteComponent from 'ember-place-autocomplete/components/place-autocomplete-field';
 
 const { Component, isEmpty, isPresent, typeOf, isEqual } = Ember;

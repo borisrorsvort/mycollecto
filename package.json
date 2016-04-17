@@ -10,7 +10,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "deploy": "gh-pages-deploy"
   },
   "repository": "",
   "engines": {
@@ -46,7 +47,16 @@
     "ember-resize": "0.0.10",
     "ember-resolver": "^2.0.3",
     "ember-route-action": "0.0.5",
+    "gh-pages-deploy": "^0.4.2",
     "liquid-fire": "0.23.0",
     "loader.js": "^4.0.0"
+  },
+  "gh-pages-deploy": {
+    "staticpath": "dist",
+    "cname": "mycollecto.be",
+    "prep": [
+      "build"
+    ],
+    "noprompt": false
   }
 }

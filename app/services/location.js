@@ -15,8 +15,9 @@ export default Ember.Service.extend({
 
   getPosition () {
     // Center first if last location known
-    if (this.get('userPosition.lat'))
+    if (this.get('userPosition.lat')) {
       this.centerOnUserPosition();
+    }
 
     // Get new location in case its has changed
     this.set('loading', true);
