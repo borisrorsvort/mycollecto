@@ -6,4 +6,6 @@
     {{/paper-button}}
   </div>
 {{/paper-toolbar}}
-{{search-box updatePositions=(action 'updatePositions')}}
+{{#paper-content flex=true scroll-y=true layout-padding=true}}
+  {{places-autocomplete-field updatePositions=(action 'updatePositions')}}
+{{/paper-content}}

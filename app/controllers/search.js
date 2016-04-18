@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
   location: Ember.inject.service(),
   actions: {
     updatePositions (e) {
+      this.set('location.loading', true);
       let lat = e.geometry.location.lat();
       let lng = e.geometry.location.lng();
       this.get('location').updatePositions({latitude: lat, longitude: lng});

@@ -1,4 +1,3 @@
-/*global L:false*/
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -12,6 +11,17 @@ export default Ember.Component.extend({
     iconSize: [48, 48],
     iconAnchor: [0, 48],
     popupAnchor: [24, -48]
+  },
+  didRender () {
+    if (this.get('location.loading') === true) {
+      this.set('location.loading', false);
+    }
+
+    setTimeout(() => {
+      if (this.get('location.userPosition.lat') === null) {
+        this.get('location').getPosition();
+      }
+    }, 1500);
   },
   actions: {
     updateMapPosition (e) {
