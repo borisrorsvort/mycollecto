@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'mycollecto',
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     'place-autocomplete': {
       key: 'AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM'
     },
