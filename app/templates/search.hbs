@@ -12,7 +12,7 @@
     <h3>Recent searhes</h3>
     {{#paper-list}}
       {{#each sortedAdresses as |adress|}}
-        {{#paper-item class="md-3-line" action='updatePositions' param=adress target=this}}
+        {{#paper-item class="md-3-line" action='updatePositions' param=adress.id target=this}}
           {{paper-icon "home"}}
           <div class="md-list-item-text">
             {{adress.formatted_address}}

@@ -10,25 +10,30 @@ export default Ember.Controller.extend({
   },
   actions: {
     updatePositions (e) {
-      let lat = this.adressFromMap(e) ? e.geometry.location.lat() : e.latitude;
-      let lng = this.adressFromMap(e) ? e.geometry.location.lng() : e.longitude;
+      let lat = this.adressFromMap(e) ? e.geometry.location.lat() : this.store.peekRecord('adress', e).get('latitude');
+      let lng = this.adressFromMap(e) ? e.geometry.location.lng() : this.store.peekRecord('adress', e).get('longitude');
       var store = this.store;
 
       this.set('location.loading', true);
       this.get('location').updatePositions({latitude: lat, longitude: lng});
-      this.get('mixpanel').trackEvent('Search complete', {q: e.formatted_address});
 
-      store.query('adress', {filter: { formatted_address: e.formatted_address }}).then(function(query) {
-        if (query.get('content').length === 0) {
-          let newAdress = store.createRecord('adress', {
-            latitude: lat,
-            longitude: lng,
-            formatted_address: e.formatted_address,
-            date: new Date().getTime()
-          });
-          newAdress.save();
-        }
-      });
+      if (this.adressFromMap(e)) {
+        store.query('adress', {filter: { formatted_address: e.formatted_address }}).then(function(query) {
+          if (query.get('content').length === 0) {
+            let newAdress = store.createRecord('adress', {
+              latitude: lat,
+              longitude: lng,
+              formatted_address: e.formatted_address,
+              date: new Date().getTime()
+            });
+            console.log(newAdress);
+            newAdress.save();
+          }
+        });
+        this.get('mixpanel').trackEvent('Search complete', {q: e.formatted_address});
+      } else {
+        this.get('mixpanel').trackEvent('Used recent adress', {q: e.formatted_address});
+      }
 
       this.transitionToRoute('index');
     }
