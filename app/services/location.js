@@ -5,7 +5,7 @@ export default Ember.Service.extend({
   mapPosition: Ember.Object.create({
     lat: 50.850539,
     lng: 4.351745,
-    zoom: 15
+    zoom: 13
   }),
 
   userPosition: Ember.Object.create({ lat: null, lng: null }),
@@ -43,7 +43,7 @@ export default Ember.Service.extend({
   updatePositions (position) {
     var {latitude, longitude} = position;
 
-    this.get('userPosition').setProperties({ lat: latitude, lng: longitude, zoom: 18 });
+    this.get('userPosition').setProperties({ lat: latitude, lng: longitude, zoom: 16 });
     this.centerOnUserPosition();
   },
 
