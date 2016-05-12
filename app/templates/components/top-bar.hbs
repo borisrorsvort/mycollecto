@@ -3,9 +3,6 @@
     <h2>
       <span>MyCollecto</span>
     </h2>
-    {{#paper-button icon-button=true action='getPosition'}}
-      {{paper-icon "location-searching"}}
-    {{/paper-button}}
     <span flex></span>
     {{#paper-button icon-button=true action='phoneCall'}}
       {{paper-icon "phone"}}
@@ -18,3 +15,7 @@
     {{/paper-button}}
   </div>
 {{/paper-toolbar}}
+
+{{#paper-button icon-button=true action='getPosition' primary=true raised=true class='btn--find-location'}}
+  {{paper-icon "location-searching"}}
+{{/paper-button}}

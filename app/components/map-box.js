@@ -18,7 +18,8 @@ export default Ember.Component.extend({
     }
 
     setTimeout(() => {
-      if (this.get('location.userPosition.lat') === null) {
+      if (Ember.isEmpty(this.get('location.userPosition.lat'))) {
+        console.log('from map-box');
         this.get('location').getPosition();
       }
     }, 1500);

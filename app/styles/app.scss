@@ -1,4 +1,4 @@
-$primary: "brown";
+$primary: "blue";
 
 @import 'ember-paper';
 
@@ -41,4 +41,15 @@ md-progress-linear[md-mode="indeterminate"] .md-container {
   text-decoration: none;
   display: block;
   padding: 10px;
+}
+
+.btn--find-location {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
+.leaflet-control-attribution {
+  float: left !important;
 }

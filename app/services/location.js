@@ -19,18 +19,23 @@ export default Ember.Service.extend({
       this.centerOnUserPosition();
     }
 
+    if (this.get('loading') === true) {
+      return false;
+    }
+
     // Get new location in case its has changed
-    this.set('loading', true);
     return new Ember.RSVP.Promise((success, error) => {
       if (navigator.geolocation) {
+        this.set('loading', true);
         navigator.geolocation.getCurrentPosition(success, error);
       } else {
-        error( new Error("Geolocation is not supported by this browser.") );
+        alert("Geolocation is not supported by this browser");
       }
     }).then((position) => {
+      console.log(position);
       this.updatePositions(position.coords);
     }).catch(() => {
-      new Error("Geolocation must be enabled in order to locate you.");
+      alert("Geolocation must be enabled in order to locate you");
     }).finally(() => {
       this.set('loading', false);
     });
