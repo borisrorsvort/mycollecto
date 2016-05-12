@@ -14,11 +14,6 @@ export default Ember.Service.extend({
   }),
 
   getPosition () {
-    // Center first if last location known
-    if (this.get('userPosition.lat')) {
-      this.centerOnUserPosition();
-    }
-
     if (this.get('loading') === true) {
       return false;
     }
@@ -27,13 +22,15 @@ export default Ember.Service.extend({
     return new Ember.RSVP.Promise((success, error) => {
       if (navigator.geolocation) {
         this.set('loading', true);
+        console.log('searching');
         navigator.geolocation.getCurrentPosition(success, error);
       } else {
         alert("Geolocation is not supported by this browser");
       }
     }).then((position) => {
-      console.log(position);
+      console.log(position.coords.latitude);
       this.updatePositions(position.coords);
+      this.centerMap(position.coords);
     }).catch(() => {
       alert("Geolocation must be enabled in order to locate you");
     }).finally(() => {
@@ -41,15 +38,14 @@ export default Ember.Service.extend({
     });
   },
 
-  centerOnUserPosition () {
-    this.get('mapPosition').setProperties(this.get('userPosition'));
+  centerMap (position) {
+    var {latitude, longitude} = position;
+    this.get('mapPosition').setProperties({ lat: latitude, lng: longitude, zoom: 21 });
   },
 
   updatePositions (position) {
     var {latitude, longitude} = position;
-
-    this.get('userPosition').setProperties({ lat: latitude, lng: longitude, zoom: 16 });
-    this.centerOnUserPosition();
+    this.get('userPosition').setProperties({ lat: latitude, lng: longitude, zoom: 21 });
   },
 
   getDirection (model) {

@@ -12,18 +12,6 @@ export default Ember.Component.extend({
     iconAnchor: [0, 48],
     popupAnchor: [24, -48]
   },
-  didRender () {
-    if (this.get('location.loading') === true) {
-      this.set('location.loading', false);
-    }
-
-    setTimeout(() => {
-      if (Ember.isEmpty(this.get('location.userPosition.lat'))) {
-        console.log('from map-box');
-        this.get('location').getPosition();
-      }
-    }, 1500);
-  },
   actions: {
     updateMapPosition (e) {
       const {lat, lng} = e.target.getCenter(),

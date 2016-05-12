@@ -26,7 +26,6 @@ export default Ember.Controller.extend({
               formatted_address: e.formatted_address,
               date: new Date().getTime()
             });
-            console.log(newAdress);
             newAdress.save();
           }
         });
