@@ -46,6 +46,8 @@ export default Ember.Service.extend({
   updatePositions (position) {
     var {latitude, longitude} = position;
     this.get('userPosition').setProperties({ lat: latitude, lng: longitude, zoom: 21 });
+    this.centerMap(position);
+    this.set('loading', false);
   },
 
   getDirection (model) {
