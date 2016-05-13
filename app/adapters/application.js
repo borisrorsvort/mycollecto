@@ -2,5 +2,8 @@ import DS from 'ember-data';
 import ENV from '../config/environment';
 
 export default DS.RESTAdapter.extend({
-  host: ENV.apiUrl
+  host: ENV.apiUrl,
+  shouldBackgroundReloadAll: function () {
+    return false;
+  }
 });
