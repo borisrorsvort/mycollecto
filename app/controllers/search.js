@@ -31,10 +31,13 @@ export default Ember.Controller.extend({
         });
         this.get('mixpanel').trackEvent('Search complete', {q: e.formatted_address});
       } else {
-        this.get('mixpanel').trackEvent('Used recent adress', {q: e.formatted_address});
+        Ember.$('input').blur();
+        this.get('mixpanel').trackEvent('Used recent adress');
       }
 
-      this.transitionToRoute('index');
+      setTimeout(() => {
+        this.transitionToRoute('index');
+      }, 200);
     }
   }
 });
