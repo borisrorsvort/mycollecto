@@ -7,8 +7,10 @@ export default Ember.Component.extend({
   actions: {
     getPosition () {
       this.get('location').getPosition();
+      this.get('mixpanel').trackEvent('Cliked geolocation');
     },
     phoneCall () {
+      this.get('mixpanel').trackEvent('Called service');
       window.location = 'tel:+3228003636';
     }
   }
