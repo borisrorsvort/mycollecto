@@ -7,6 +7,15 @@ export default LeafletMapComponent.extend(ResizeAware, {
     this.resize();
   },
 
+  didCreateLayer() {
+    this._super(...arguments);
+    // Adding geolocation map control
+    this.L.control.locate({
+      icon: 'paper-icon md-font material-icons md-default-theme room',
+      iconLoading: 'paper-icon md-font material-icons md-default-theme autorenew md-spin',
+    }).addTo(this._layer);
+  },
+
   debouncedDidResize () {
     this.resize();
   },

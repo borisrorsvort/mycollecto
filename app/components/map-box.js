@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   },
   actions: {
     updateMapPosition (e) {
+      console.log('updateMapPosition');
       const {lat, lng} = e.target.getCenter(),
             zoom = e.target.getZoom();
 
@@ -22,6 +23,12 @@ export default Ember.Component.extend({
         lng: lng,
         zoom: zoom
       });
+    },
+
+    updatePositions (e) {
+      this.get('mixpanel').trackEvent('Cliked geolocation');
+      var {lat, lng} = e.latlng;
+      this.get('location.userPosition').setProperties({ lat: lat, lng: lng });
     },
 
     centerMap (e) {

@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 
   actions: {
     showStreetViewModal () {
+      this.get('mixpanel').trackEvent('Show street view');
       this.set('showStreetView', !this.get('showStreetView'));
     }
   }

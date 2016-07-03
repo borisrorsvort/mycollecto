@@ -13,31 +13,6 @@ export default Ember.Service.extend({
     return [this.get("userPosition.lat"), this.get("userPosition.lng")];
   }),
 
-  getPosition () {
-    if (this.get('loading') === true) {
-      return false;
-    }
-
-    // Get new location in case its has changed
-    return new Ember.RSVP.Promise((success, error) => {
-      if (navigator.geolocation) {
-        this.set('loading', true);
-        console.log('searching');
-        navigator.geolocation.getCurrentPosition(success, error);
-      } else {
-        alert("Geolocation is not supported by this browser");
-      }
-    }).then((position) => {
-      console.log(position.coords.latitude);
-      this.updatePositions(position.coords);
-      this.centerMap(position.coords);
-    }).catch(() => {
-      alert("Geolocation must be enabled in order to locate you");
-    }).finally(() => {
-      this.set('loading', false);
-    });
-  },
-
   centerMap (position) {
     var {latitude, longitude} = position;
     this.get('mapPosition').setProperties({ lat: latitude, lng: longitude, zoom: 21 });

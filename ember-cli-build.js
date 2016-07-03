@@ -15,6 +15,9 @@ module.exports = function(defaults) {
     }
   });
 
+  app.import('bower_components/leaflet.locatecontrol/src/L.Control.Locate.js');
+  app.import('bower_components/leaflet.locatecontrol/src/L.Control.Locate.scss');
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
