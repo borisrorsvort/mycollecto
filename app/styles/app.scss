@@ -2,6 +2,14 @@ $primary: "blue";
 
 @import 'ember-paper';
 
+.liquid-container,
+.liquid-child,
+body > .ember-view,
+md-content.md-default-theme {
+  height: 100%;
+  overflow: visible;
+}
+
 .leaflet-container {
   width: 100%;
 }

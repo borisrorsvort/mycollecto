@@ -6,9 +6,6 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'hash',
-    'place-autocomplete': {
-      key: 'AIzaSyBOmERV2C7zNuCtm4pSSoMfkGE8Rf-3wNM'
-    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

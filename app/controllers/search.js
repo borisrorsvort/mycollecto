@@ -6,24 +6,24 @@ export default Ember.Controller.extend({
   hasSortedAdresses: Ember.computed.notEmpty('sortedAdresses'),
   location: Ember.inject.service(),
   adressFromMap: function (e) {
-    return e.geometry !== undefined;
+    return e.suggestion !== undefined;
   },
   actions: {
     updatePositions (e) {
-      let lat = this.adressFromMap(e) ? e.geometry.location.lat() : this.store.peekRecord('adress', e).get('latitude');
-      let lng = this.adressFromMap(e) ? e.geometry.location.lng() : this.store.peekRecord('adress', e).get('longitude');
+      let lat = this.adressFromMap(e) ? e.suggestion.latlng.lat : this.store.peekRecord('adress', e).get('latitude');
+      let lng = this.adressFromMap(e) ? e.suggestion.latlng.lng : this.store.peekRecord('adress', e).get('longitude');
       var store = this.store;
 
       this.set('location.loading', true);
       this.get('location').updatePositions({latitude: lat, longitude: lng});
 
       if (this.adressFromMap(e)) {
-        store.query('adress', {filter: { formatted_address: e.formatted_address }}).then(function(query) {
+        store.query('adress', {filter: { formatted_address: e.suggestion.value }}).then(function(query) {
           if (query.get('content').length === 0) {
             let newAdress = store.createRecord('adress', {
               latitude: lat,
               longitude: lng,
-              formatted_address: e.formatted_address,
+              formatted_address: e.suggestion.value,
               date: new Date().getTime()
             });
             newAdress.save();

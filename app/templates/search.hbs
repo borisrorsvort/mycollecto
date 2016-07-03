@@ -7,7 +7,9 @@
   </div>
 {{/paper-toolbar}}
 {{#paper-content flex=true scroll-y=true layout-padding=true}}
-  {{places-autocomplete-field updatePositions=(action 'updatePositions')}}
+  <md-input-container class="md-default-theme">
+    {{places-autocomplete-field updatePositions=(action 'updatePositions')}}
+  </md-input-container>
   {{#if hasSortedAdresses}}
     <h3>Recent searhes</h3>
     {{#paper-list}}
